@@ -109,9 +109,9 @@ namespace Simulacion
                         historias[idUsuarioAnt] = historia;
                         historia = new List<int>();
                     }
+                    idUsuarioAnt = idUsuario;
+                    historia.Add(idProblema);
                 }
-                idUsuarioAnt = idUsuario;
-                historia.Add(idProblema);
                 if (idUsuarioAnt != -1)
                 {
                     historias[idUsuarioAnt] = historia;

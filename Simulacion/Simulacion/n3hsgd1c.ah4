@@ -60,9 +60,8 @@ namespace Simulacion
             sqlConnection.Close();
             return returnValue;
         }
-        public Dictionary<int, List<int>> historiasUsuarios()
+        public void historiasUsuarios()
         {
-            Dictionary<int, List<int>> historias = new Dictionary<int, List<int>>();
             
             SqlConnection sqlConnection = new SqlConnection(KarelotitlanConnectionString);
             SqlCommand cmd = new SqlCommand();
@@ -95,31 +94,14 @@ namespace Simulacion
             sqlConnection.Open();
 
             result = cmd.ExecuteReader();
-            int idUsuarioAnt = -1;
-            List<int> historia = new List<int>();
+
             while (result.Read())
             {
-                IDataReader data = (IDataReader)result;
-                int idUsuario = data.GetInt32(0);
-                int idProblema = data.GetInt32(2);
-                if (idUsuario != idUsuarioAnt)
-                {
-                    if (idUsuarioAnt != -1)
-                    {
-                        historias[idUsuarioAnt] = historia;
-                        historia = new List<int>();
-                    }
-                }
-                idUsuarioAnt = idUsuario;
-                historia.Add(idProblema);
-                if (idUsuarioAnt != -1)
-                {
-                    historias[idUsuarioAnt] = historia;
-                }
+               IDataReader data = (IDataReader)result;
+               returnValue.Add(data.GetString(0));
             }
 
             sqlConnection.Close();
-            return historias;
         }
     }
 }
