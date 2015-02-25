@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
@@ -10,7 +11,12 @@ namespace Simulacion
 {
     class KarelotitlanDB
     {
-        private string KarelotitlanConnectionString = "Data Source=CICPC;Initial Catalog=Karelotitlan;Integrated Security=True";
+        private string KarelotitlanConnectionString;
+        public KarelotitlanDB()
+        {
+            var connection = System.Configuration.ConfigurationManager.ConnectionStrings["Simulacion.Properties.Settings.KarelotitlanConnectionString"].ConnectionString;
+            KarelotitlanConnectionString = connection;
+        }
         public SqlDataReader executeQuery(string query)
         {
             SqlConnection sqlConnection = new SqlConnection(KarelotitlanConnectionString);
