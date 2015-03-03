@@ -35,6 +35,14 @@ namespace Simulacion
         {
             return idATema[id].nombre;
         }
+        public string getDescripcion(int id)
+        {
+            return idATema[id].descripcion;
+        }
+        public string getDescripcion(string nombre)
+        {
+            return nombreATema[nombre].descripcion;
+        }
         public int getIdTema(string nombre)
         {
             return nombreATema[nombre].idTema;

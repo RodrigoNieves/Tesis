@@ -150,5 +150,34 @@ namespace Simulacion
 
             return temas;
         }
+        public List<Dificultad> dificultades()
+        {
+            List<Dificultad> dificultades = new List<Dificultad>();
+
+            SqlConnection sqlConnection = new SqlConnection(KarelotitlanConnectionString);
+            SqlCommand cmd = new SqlCommand();
+            SqlDataReader result;
+
+            cmd.CommandText = "SELECT * FROM Karelotitlan.dbo.Nivel;";
+            cmd.CommandType = CommandType.Text;
+            cmd.Connection = sqlConnection;
+
+            sqlConnection.Open();
+
+            result = cmd.ExecuteReader();
+            while (result.Read())
+            {
+                Dificultad nuevo = new Dificultad();
+                nuevo.idDificultad = (int)result["idNivel"];
+                nuevo.nombre = (string)result["nombre"];
+                nuevo.descripcion = (string)result["descripcion"];
+                dificultades.Add(nuevo);
+            }
+
+            sqlConnection.Close();
+
+
+            return dificultades;
+        }
     }
 }
