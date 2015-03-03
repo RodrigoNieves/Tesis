@@ -57,8 +57,11 @@
       <DependentUpon>KarelotitlanDataSet.xsd</DependentUpon>
     </Compile>
     <Compile Include="KarelotitlanDB.cs" />
+    <Compile Include="Problema.cs" />
+    <Compile Include="ProblemaTema.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Tema.cs" />
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>

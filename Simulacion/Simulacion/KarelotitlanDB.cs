@@ -121,5 +121,34 @@ namespace Simulacion
             sqlConnection.Close();
             return historias;
         }
+        public List<Tema> temas()
+        {
+            List<Tema> temas = new List<Tema>();
+
+            SqlConnection sqlConnection = new SqlConnection(KarelotitlanConnectionString);
+            SqlCommand cmd = new SqlCommand();
+            SqlDataReader result;
+
+            cmd.CommandText = "SELECT * FROM Karelotitlan.dbo.Clasificacion;";
+            cmd.CommandType = CommandType.Text;
+            cmd.Connection = sqlConnection;
+
+            sqlConnection.Open();
+
+            result = cmd.ExecuteReader();
+            while (result.Read())
+            {
+                Tema nuevo = new Tema();
+                nuevo.idTema = (int)result["clave"];
+                nuevo.nombre = (string)result["nombre"];
+                nuevo.descripcion = (string)result["descripcion"];
+                temas.Add(nuevo);
+            }
+
+            sqlConnection.Close();
+
+
+            return temas;
+        }
     }
 }
