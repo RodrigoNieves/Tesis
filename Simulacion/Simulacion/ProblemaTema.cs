@@ -14,6 +14,8 @@ namespace Simulacion
         private ProblemaTema() {
             KarelotitlanDB karelotitlan = new KarelotitlanDB();
             var temas = karelotitlan.temas();
+            idATema = new Dictionary<int, Tema>();
+            nombreATema = new Dictionary<string, Tema>();
             foreach (var tema in temas)
             {
                 idATema[tema.idTema] = tema;

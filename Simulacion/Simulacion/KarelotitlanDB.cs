@@ -179,5 +179,41 @@ namespace Simulacion
 
             return dificultades;
         }
+        public List<Problema> problemas()
+        {
+            List<Problema> problemas = new List<Problema>();
+
+            SqlConnection sqlConnection = new SqlConnection(KarelotitlanConnectionString);
+            SqlCommand cmd = new SqlCommand();
+            SqlDataReader result;
+
+            cmd.CommandText = @"SELECT  clave, 
+	                                    nombre,
+	                                    origen,
+	                                    clasificacion,
+	                                    (SELECT problemaDificultad.dificultad FROM Karelotitlan.dbo.problemaDificultad WHERE problemaDificultad.problema = Problema.clave )  as DificultadN
+	                                FROM Karelotitlan.dbo.Problema;";
+            cmd.CommandType = CommandType.Text;
+            cmd.Connection = sqlConnection;
+
+            sqlConnection.Open();
+
+            result = cmd.ExecuteReader();
+            while (result.Read())
+            {
+                Problema nuevo = new Problema();
+                nuevo.idProblema = (int)result["clave"];
+                nuevo.nombre = (string)result["nombre"];
+                nuevo.origen = (string)result["origen"];
+                nuevo.idTema = (int)result["clasificacion"];
+                nuevo.dificultad = (int)result["DificultadN"];
+                problemas.Add(nuevo);
+            }
+
+            sqlConnection.Close();
+
+
+            return problemas;
+        }
     }
 }

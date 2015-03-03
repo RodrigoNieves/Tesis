@@ -15,6 +15,8 @@ namespace Simulacion
         {
             KarelotitlanDB karelotitlan = new KarelotitlanDB();
             var dificultades = karelotitlan.dificultades();
+            idADificultad = new Dictionary<int, Dificultad>();
+            nombreADificultad = new Dictionary<string, Dificultad>();
             foreach (var dificultad in dificultades)
             {
                 idADificultad[dificultad.idDificultad] = dificultad;

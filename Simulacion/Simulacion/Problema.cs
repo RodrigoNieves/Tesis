@@ -10,6 +10,7 @@ namespace Simulacion
     {
         int _idProblema;
         string _nombre;
+        string _origen;
         int _idTema;
         int _dificultad;
         public int idProblema
@@ -82,6 +83,17 @@ namespace Simulacion
             get
             {
                 return ProblemaDificultad.Instance.getDescripcion(_dificultad);
+            }
+        }
+        public string origen
+        {
+            get
+            {
+                return _origen;
+            }
+            set
+            {
+                _origen = value;
             }
         }
     }

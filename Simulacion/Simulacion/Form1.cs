@@ -42,9 +42,27 @@ namespace Simulacion
                 txtLog.AppendText("\r\n");
             }
         }
+        private void testProblemas()
+        {
+            KarelotitlanDB katelotitlan = new KarelotitlanDB();
+            var problemas = katelotitlan.problemas();
+            foreach(var problema in problemas){
+                string info = "idProblema: " + problema.idProblema.ToString() + ", " +
+                               "Problema: " + problema.nombre + ", " +
+                               "idTema: " + problema.idTema.ToString() + ", " +
+                               "Tema: " + problema.nombreTema + ", " +
+                               "Descripcion tema: " + problema.descripcionTema + ", " +
+                               "Dificultad: " + problema.dificultad.ToString() + ", " +
+                               "Nombre Dificultad: " + problema.nombreDificultad + ", " +
+                               "Descripcion Dificultad: " + problema.descripcionDificultad + ", " +
+                               "Origen: " + problema.origen;
+                txtLog.AppendText(info);
+                txtLog.AppendText("\r\n");
+            }
+        }
         private void button1_Click(object sender, EventArgs e)
         {
-            testHistorias();
+            testProblemas();
         }
     }
 }
