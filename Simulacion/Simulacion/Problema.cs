@@ -63,5 +63,26 @@ namespace Simulacion
                 return ProblemaTema.Instance.getNombreTema(_idTema);
             }
         }
+        public string descripcionTema
+        {
+            get
+            {
+                return ProblemaTema.Instance.getDescripcion(_idTema);
+            }
+        }
+        public string nombreDificultad
+        {
+            get
+            {
+                return ProblemaDificultad.Instance.getNombreDificultad(_dificultad);
+            }
+        }
+        public string descripcionDificultad
+        {
+            get
+            {
+                return ProblemaDificultad.Instance.getDescripcion(_dificultad);
+            }
+        }
     }
 }
