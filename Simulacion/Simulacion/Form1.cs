@@ -60,6 +60,11 @@ namespace Simulacion
                 txtLog.AppendText("\r\n");
             }
         }
+        private void testSimulador()
+        {
+            Simulador simulador = new Simulador();
+            simulador.iniciaModelo();
+        }
         private void button1_Click(object sender, EventArgs e)
         {
             testProblemas();
