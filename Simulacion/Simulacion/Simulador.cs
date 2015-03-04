@@ -13,6 +13,7 @@ namespace Simulacion
         Dictionary<int, Dictionary<int, List<int>>> historiasDificultad; // [Tema][IdUsuario]
         Dictionary<int, Dictionary<int, List<int>>> nivelUsurios;        // [Tema][IdUsuario]
         Dictionary<int, Problema> problemas;
+        Dictionary<int, Dictionary<int, Dictionary<int, int>>> conteo;   // [Tema][Nivel][Problema]
         bool incluyeCero = true;
         List<Tema> temas;
         int rango = 3;  // tamanio de ventana de analisis para determinar el nivel de usuario
@@ -88,6 +89,38 @@ namespace Simulacion
                         }
                         nivelUsuario = Math.Max(nivelUsuario, calculaNivel(ventana));
                         nivelUsurios[tema.idTema][usuario.Key].Add(nivelUsuario);
+                    }
+                }
+            }
+            conteo = new Dictionary<int, Dictionary<int, Dictionary<int, int>>>();
+            foreach (var usuario in historias)
+            {
+                foreach (var tema in temas)
+                {
+                    var nivel = nivelUsurios[tema.idTema][usuario.Key].GetEnumerator();
+                    foreach (var problema in usuario.Value)
+                    {
+                        if (tema.idTema == problemas[problema].idTema)
+                        {
+                            int idUsuario = usuario.Key;
+                            int idTema = problemas[problema].idTema;
+                            int nivelAct = nivel.Current;
+                            nivel.MoveNext();
+
+                            if (conteo[idTema] == null)
+                            {
+                                conteo[idTema] = new Dictionary<int, Dictionary<int, int>>();
+                            }
+                            if (conteo[idTema][nivelAct] == null)
+                            {
+                                conteo[idTema][nivelAct] = new Dictionary<int, int>();
+                            }
+                            if (conteo[idTema][nivelAct][problema] == null)
+                            {
+                                conteo[idTema][nivelAct][problema] = 0;
+                            }
+                            conteo[idTema][nivelAct][problema]++;
+                        }
                     }
                 }
             }
