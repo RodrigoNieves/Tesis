@@ -13,7 +13,7 @@ namespace Simulacion
         Dictionary<int, Dictionary<int, List<int>>> historiasDificultad; // [Tema][IdUsuario]
         Dictionary<int, Dictionary<int, List<int>>> nivelUsurios;        // [Tema][IdUsuario]
         Dictionary<int, Problema> problemas;
-        Dictionary<int, Dictionary<int, Dictionary<int, int>>> conteo;   // [Tema][Nivel][Problema]
+        Dictionary<int, Dictionary<int, int>> conteo;                   // [Nivel][Problema]
         bool incluyeCero = true;
         List<Tema> temas;
         int rango = 3;  // tamanio de ventana de analisis para determinar el nivel de usuario
@@ -92,7 +92,7 @@ namespace Simulacion
                     }
                 }
             }
-            conteo = new Dictionary<int, Dictionary<int, Dictionary<int, int>>>();
+            conteo = new Dictionary<int, Dictionary<int, int>>();
             foreach (var usuario in historias)
             {
                 foreach (var tema in temas)
@@ -100,26 +100,20 @@ namespace Simulacion
                     var nivel = nivelUsurios[tema.idTema][usuario.Key].GetEnumerator();
                     foreach (var problema in usuario.Value)
                     {
+                        int nivelAct = nivel.Current;
+                        nivel.MoveNext();
                         if (tema.idTema == problemas[problema].idTema)
                         {
                             int idUsuario = usuario.Key;
-                            int idTema = problemas[problema].idTema;
-                            int nivelAct = nivel.Current;
-                            nivel.MoveNext();
-
-                            if (conteo[idTema] == null)
+                            if (conteo[nivelAct] == null)
                             {
-                                conteo[idTema] = new Dictionary<int, Dictionary<int, int>>();
+                                conteo[nivelAct] = new Dictionary<int, int>();
                             }
-                            if (conteo[idTema][nivelAct] == null)
+                            if (conteo[nivelAct][problema] == null)
                             {
-                                conteo[idTema][nivelAct] = new Dictionary<int, int>();
+                                conteo[nivelAct][problema] = 0;
                             }
-                            if (conteo[idTema][nivelAct][problema] == null)
-                            {
-                                conteo[idTema][nivelAct][problema] = 0;
-                            }
-                            conteo[idTema][nivelAct][problema]++;
+                            conteo[nivelAct][problema]++;
                         }
                     }
                 }
