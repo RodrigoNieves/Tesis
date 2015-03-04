@@ -13,7 +13,7 @@ namespace Simulacion
         Dictionary<int, Dictionary<int, List<int>>> historiasDificultad; // [Tema][IdUsuario]
         Dictionary<int, Dictionary<int, List<int>>> nivelUsurios;        // [Tema][IdUsuario]
         Dictionary<int, Problema> problemas;
-        Dictionary<int, Dictionary<int, int>> conteo;                   // [Nivel][Problema]
+        Dictionary<int, Dictionary<int, int>> conteo;                   // [Problema][Nivel]
         bool incluyeCero = true;
         List<Tema> temas;
         int rango = 3;  // tamanio de ventana de analisis para determinar el nivel de usuario
@@ -105,15 +105,15 @@ namespace Simulacion
                         if (tema.idTema == problemas[problema].idTema)
                         {
                             int idUsuario = usuario.Key;
-                            if (conteo[nivelAct] == null)
+                            if (conteo[problema] == null)
                             {
-                                conteo[nivelAct] = new Dictionary<int, int>();
+                                conteo[problema] = new Dictionary<int, int>();
                             }
-                            if (conteo[nivelAct][problema] == null)
+                            if (conteo[problema][nivelAct] == null)
                             {
-                                conteo[nivelAct][problema] = 0;
+                                conteo[problema][nivelAct] = 0;
                             }
-                            conteo[nivelAct][problema]++;
+                            conteo[problema][nivelAct]++;
                         }
                     }
                 }
