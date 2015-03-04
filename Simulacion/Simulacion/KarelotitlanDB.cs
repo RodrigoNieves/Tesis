@@ -121,6 +121,47 @@ namespace Simulacion
             sqlConnection.Close();
             return historias;
         }
+        public Dictionary<int, List<int>> historiasUsuariosIncluido0()
+        {
+            Dictionary<int, List<int>> historias = new Dictionary<int, List<int>>();
+
+            SqlConnection sqlConnection = new SqlConnection(KarelotitlanConnectionString);
+            SqlCommand cmd = new SqlCommand();
+            SqlDataReader result;
+
+            cmd.CommandText = "SELECT usuario, problema FROM Karelotitlan.dbo.UsuarioProblema order by usuario";
+            cmd.CommandType = CommandType.Text;
+            cmd.Connection = sqlConnection;
+
+            sqlConnection.Open();
+
+            result = cmd.ExecuteReader();
+            int idUsuarioAnt = -1;
+            List<int> historia = new List<int>();
+            while (result.Read())
+            {
+                IDataReader data = (IDataReader)result;
+                int idUsuario = data.GetInt32(0);
+                int idProblema = data.GetInt32(1);
+                if (idUsuario != idUsuarioAnt)
+                {
+                    if (idUsuarioAnt != -1)
+                    {
+                        historias[idUsuarioAnt] = historia;
+                        historia = new List<int>();
+                    }
+                }
+                idUsuarioAnt = idUsuario;
+                historia.Add(idProblema);
+                if (idUsuarioAnt != -1)
+                {
+                    historias[idUsuarioAnt] = historia;
+                }
+            }
+
+            sqlConnection.Close();
+            return historias;
+        }
         public List<Tema> temas()
         {
             List<Tema> temas = new List<Tema>();

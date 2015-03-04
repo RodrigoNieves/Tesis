@@ -1,0 +1,1 @@
+SELECT * FROM Karelotitlan.DBO.UsuarioProblema WHERE problema = 12880

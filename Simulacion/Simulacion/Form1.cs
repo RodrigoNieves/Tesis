@@ -46,7 +46,8 @@ namespace Simulacion
         {
             KarelotitlanDB katelotitlan = new KarelotitlanDB();
             var problemas = katelotitlan.problemas();
-            foreach(var problema in problemas){
+            foreach (var problema in problemas)
+            {
                 string info = "idProblema: " + problema.idProblema.ToString() + ", " +
                                "Problema: " + problema.nombre + ", " +
                                "idTema: " + problema.idTema.ToString() + ", " +
@@ -64,10 +65,12 @@ namespace Simulacion
         {
             Simulador simulador = new Simulador();
             simulador.iniciaModelo();
+            txtLog.AppendText(simulador.testIniciaModelo());
+            Clipboard.SetText(txtLog.Text);
         }
         private void button1_Click(object sender, EventArgs e)
         {
-            testProblemas();
+            testSimulador();
         }
     }
 }

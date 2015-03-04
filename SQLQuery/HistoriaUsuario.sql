@@ -23,3 +23,9 @@ SELECT usuario,
 		FROM Karelotitlan.dbo.UsuarioProblema
 	WHERE puntos = 100 and hora != 0) as submitions
 	order by usuario, DateTime
+
+	/*
+		Parece que los ceros estan en forma random
+	*/
+
+	SELECT usuario, hora, problema FROM Karelotitlan.dbo.UsuarioProblema order by usuario
