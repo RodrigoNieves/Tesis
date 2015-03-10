@@ -129,7 +129,7 @@ namespace Simulacion
             SqlCommand cmd = new SqlCommand();
             SqlDataReader result;
 
-            cmd.CommandText = "SELECT usuario, problema FROM Karelotitlan.dbo.UsuarioProblema order by usuario";
+            cmd.CommandText = "SELECT usuario, problema FROM Karelotitlan.dbo.UsuarioProblema  WHERE puntos = 100 order by usuario";
             cmd.CommandType = CommandType.Text;
             cmd.Connection = sqlConnection;
 

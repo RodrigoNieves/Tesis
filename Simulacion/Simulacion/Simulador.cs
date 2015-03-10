@@ -9,17 +9,22 @@ namespace Simulacion
 {
     class Simulador
     {
-        Dictionary<int, List<int>> historias;
-        Dictionary<int, Dictionary<int, List<int>>> historiasDificultad; // [Tema][IdUsuario]
-        Dictionary<int, Dictionary<int, List<int>>> nivelUsurios;        // [Tema][IdUsuario]
-        Dictionary<int, Problema> problemas;
-        Dictionary<int, Dictionary<int, int>> conteo;                   // [Problema][Nivel]
-        Dictionary<int, Dictionary<int, double>> pResolver;             // [Problema][Nivel]
         bool incluyeCero = true;
-        List<Tema> temas;
-        List<Dificultad> dificultades;
         int rango = 3;  // tamanio de ventana de analisis para determinar el nivel de usuario
         int min_sup = 2; // minimo numero de problemas para considerar que esta en ese nivel
+        Dictionary<int, Problema> problemas;
+        List<Tema> temas;
+        List<Dificultad> dificultades;
+        Dictionary<int, List<int>> historias;
+        Dictionary<int, Dictionary<int, List<int>>> historiasDificultad; // [Tema][IdUsuario]
+        Dictionary<int, Dictionary<int, List<int>>> nivelUsuarios;        // [Tema][IdUsuario]
+        Dictionary<int, double> pNivelMayorIgual;                       //[x] probabilidad de que nivel sea mayor o igal que x
+        Dictionary<int, double> pResolverProblema;                      //[problema] probabilidad que el usuario haya resuelto problema
+        Dictionary<int, Dictionary<int, double>> pInterseccion;         // [Problema][Nivel] probabilidad que se resuelva el problema y se tenga nivel de al menos nivel
+       
+        Dictionary<int, Dictionary<int, double>> pResolver;             // [Problema][Nivel] Probabilida de resolver Problema dado que se es nivel Nivel
+        Dictionary<int, Dictionary<int, double>> pNivel;                // [Problema][Nivel] 
+        
         private int calculaNivel(Queue<int> ventana)
         {
             if (ventana.Count < min_sup) return 0;
@@ -48,18 +53,18 @@ namespace Simulacion
             temas = karelotitlan.temas();
             dificultades = karelotitlan.dificultades();
             historiasDificultad = new Dictionary<int, Dictionary<int, List<int>>>();
-            nivelUsurios = new Dictionary<int, Dictionary<int, List<int>>>();
+            nivelUsuarios = new Dictionary<int, Dictionary<int, List<int>>>();
             foreach (var tema in temas)
             {
                 historiasDificultad[tema.idTema] = new Dictionary<int, List<int>>();
-                nivelUsurios[tema.idTema] = new Dictionary<int, List<int>>();
+                nivelUsuarios[tema.idTema] = new Dictionary<int, List<int>>();
             }
             foreach (KeyValuePair<int, List<int>> usuario in historias)
             {
                 foreach (var tema in temas)
                 {
                     historiasDificultad[tema.idTema][usuario.Key] = new List<int>();
-                    nivelUsurios[tema.idTema][usuario.Key] = new List<int>();
+                    nivelUsuarios[tema.idTema][usuario.Key] = new List<int>();
                 }
                 foreach (var idProblema in usuario.Value)
                 {
@@ -91,62 +96,107 @@ namespace Simulacion
                             ventana.Dequeue();
                         }
                         nivelUsuario = Math.Max(nivelUsuario, calculaNivel(ventana));
-                        nivelUsurios[tema.idTema][usuario.Key].Add(nivelUsuario);
+                        nivelUsuarios[tema.idTema][usuario.Key].Add(nivelUsuario);
                     }
                 }
             }
-            conteo = new Dictionary<int, Dictionary<int, int>>();
+            iniciaProbabilidadNivel();
+            iniciaProbabilidadResolverProblema();
+            iniciaProbabilidadInterseccion();
+
+            pResolver = new Dictionary<int, Dictionary<int, double>>();
+            pNivel = new Dictionary<int, Dictionary<int, double>>();
+            foreach (var problema in problemas)
+            {
+                pResolver[problema.Key] = new Dictionary<int, double>();
+                pNivel[problema.Key] = new Dictionary<int, double>();
+                foreach (var nivel in dificultades)
+                {
+                    pResolver[problema.Key][nivel.idDificultad] = pInterseccion[problema.Key][nivel.idDificultad] * pResolverProblema[problema.Key] / pNivelMayorIgual[nivel.idDificultad];
+                    pNivel[problema.Key][nivel.idDificultad] = pInterseccion[problema.Key][nivel.idDificultad] * pNivelMayorIgual[nivel.idDificultad] / pResolverProblema[problema.Key];
+                }  
+            }
+            
+        }
+
+        private void iniciaProbabilidadInterseccion()
+        {
+            Dictionary<int, Dictionary<int, int>> conteo = new Dictionary<int, Dictionary<int, int>>(); // problema Nivel
+            foreach (var problema in problemas)
+            {
+                conteo[problema.Key] = new Dictionary<int, int>();
+                foreach (var dificultad in dificultades)
+                {
+                    conteo[problema.Key][dificultad.idDificultad] = 0;
+                }
+            }
             foreach (var usuario in historias)
             {
                 foreach (var tema in temas)
                 {
-                    var nivel = nivelUsurios[tema.idTema][usuario.Key].GetEnumerator();
+                    var nivel = nivelUsuarios[tema.idTema][usuario.Key].GetEnumerator();
                     foreach (var problema in usuario.Value)
                     {
                         int nivelAct = nivel.Current;
-                        nivel.MoveNext();
-                        if (tema.idTema == problemas[problema].idTema)
+                        foreach (var dificultad in dificultades)
                         {
-                            int idUsuario = usuario.Key;
-
-                            if (!conteo.ContainsKey(problema))
+                            if (dificultad.idDificultad >= nivelAct)
                             {
-                                conteo[problema] = new Dictionary<int, int>();
+                                conteo[problema][dificultad.idDificultad]++;
                             }
-                            if (!conteo[problema].ContainsKey(nivelAct))
-                            {
-                                conteo[problema][nivelAct] = 0;
-                            }
-                            conteo[problema][nivelAct]++;
                         }
+                        nivel.MoveNext();
                     }
                 }
             }
-            pResolver = new Dictionary<int, Dictionary<int, double>>();
+            pInterseccion = new Dictionary<int, Dictionary<int, double>>();
             foreach (var problema in problemas)
             {
-                int total = 0;
-                int maximo = 1;
+                pInterseccion[problema.Key] = new Dictionary<int, double>();
                 foreach (var nivel in dificultades)
                 {
-                    if (!conteo[problema.Key].ContainsKey(nivel.idDificultad))
-                    {
-                        conteo[problema.Key][nivel.idDificultad] = 0;
-                    }
-                    total += conteo[problema.Key][nivel.idDificultad];
-                    conteo[problema.Key][nivel.idDificultad] = total;
-                    if (total > maximo)
-                    {
-                        maximo = total;
-                    }
-                }
-                pResolver[problema.Key] = new Dictionary<int, double>();
-                foreach (var nivel in dificultades)
-                {
-                    pResolver[problema.Key][nivel.idDificultad] = conteo[problema.Key][nivel.idDificultad] / (double)maximo;
+                    pInterseccion[problema.Key][nivel.idDificultad] = (double)conteo[problema.Key][nivel.idDificultad] / (double)historias.Count;
                 }
             }
-            
+        }
+
+        private void iniciaProbabilidadResolverProblema()
+        {
+            Dictionary<int, int> resolvieron; // [Problema] cuantos resolvieron el problema X
+            resolvieron = new Dictionary<int, int>();
+            foreach (var problema in problemas)
+            {
+                resolvieron[problema.Value.idProblema] = 0;
+            }
+            foreach (var usuario in historias)
+            {
+                foreach (var problema in usuario.Value)
+                {
+                    resolvieron[problema]++;
+                }
+            }
+            pResolverProblema = new Dictionary<int, double>();
+            foreach (var problema in problemas)
+            {
+                pResolverProblema[problema.Key] = (double)resolvieron[problema.Key] / (double)historias.Count;
+            }
+        }
+        private void iniciaProbabilidadNivel()
+        {
+            pNivelMayorIgual = new Dictionary<int, double>();
+            List<int> valNivel = new List<int>();
+            foreach (var nivel in dificultades)
+            {
+                valNivel.Add(nivel.idDificultad);
+            }
+            valNivel.Sort();
+            int total = valNivel.Count;
+            int mayores = valNivel.Count;
+            foreach (var nivel in valNivel)
+            {
+                pNivelMayorIgual[nivel] = (double)mayores / (double)total;
+                mayores--;
+            }
         }
         public string testIniciaModelo()
         {
@@ -169,7 +219,7 @@ namespace Simulacion
                     }
                     result.Append("\r\n");
                     result.Append("\"nivel usuario: " + tema.idTema + "\",");
-                    foreach (var nivelUsuario in nivelUsurios[tema.idTema][usuario.Key])
+                    foreach (var nivelUsuario in nivelUsuarios[tema.idTema][usuario.Key])
                     {
                         result.Append(nivelUsuario.ToString()+ ",");
                     }
@@ -186,6 +236,18 @@ namespace Simulacion
                 }
 
                 result.Append("\r\n");    
+            }
+            result.Append("\r\n");
+            result.Append("\r\n");
+            foreach (var problema in problemas)
+            {
+                result.Append(problema.Key.ToString() + ",");
+                foreach (var tema in pNivel[problema.Key])
+                {
+                    result.Append(tema.Key.ToString() + "," + tema.Value.ToString() + ",");
+                }
+
+                result.Append("\r\n");
             }
             return result.ToString();
         }
