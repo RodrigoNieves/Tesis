@@ -61,16 +61,36 @@ namespace Simulacion
                 txtLog.AppendText("\r\n");
             }
         }
-        private void testSimulador()
+        private void testInicialSimulador()
         {
             Simulador simulador = new Simulador();
             simulador.iniciaModelo();
             txtLog.AppendText(simulador.testIniciaModelo());
             Clipboard.SetText(txtLog.Text);
         }
+        private int[] ListaDeProblemas()
+        {
+            KarelotitlanDB karelotitlan = new KarelotitlanDB();
+            var problemas = karelotitlan.problemas();
+            List<int> ids = new List<int>();
+            foreach (var problema in problemas)
+            {
+                ids.Add(problema.idProblema);
+            }
+            return ids.ToArray();
+        }
+        private void testSimulacion()
+        {
+            Simulador simulador = new Simulador();
+            simulador.iniciaModelo();
+            simulador.recomendador = new RRandom(ListaDeProblemas());
+            simulador.Simula();
+            txtLog.AppendText(simulador.testSimula());
+            Clipboard.SetText("hola"+txtLog.Text);
+        }
         private void button1_Click(object sender, EventArgs e)
         {
-            testSimulador();
+            testSimulacion();
         }
     }
 }

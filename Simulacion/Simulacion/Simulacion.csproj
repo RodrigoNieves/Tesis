@@ -63,8 +63,12 @@
     <Compile Include="ProblemaTema.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Recomendador.cs" />
+    <Compile Include="RRandom.cs" />
+    <Compile Include="SelectorRandom.cs" />
     <Compile Include="Simulador.cs" />
     <Compile Include="Tema.cs" />
+    <Compile Include="Usuario.cs" />
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>

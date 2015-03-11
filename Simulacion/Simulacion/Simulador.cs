@@ -9,6 +9,7 @@ namespace Simulacion
 {
     class Simulador
     {
+        Random rnd;
         bool incluyeCero = true;
         int rango = 3;  // tamanio de ventana de analisis para determinar el nivel de usuario
         int min_sup = 2; // minimo numero de problemas para considerar que esta en ese nivel
@@ -25,8 +26,52 @@ namespace Simulacion
         Dictionary<int, Dictionary<int, double>> pInterseccion;         // [Problema][Nivel] probabilidad que se resuelva el problema y se tenga nivel de al menos nivel
 
 
-        Dictionary<int, Dictionary<int, double>> pResolver;             // [Problema][Nivel] Probabilida de resolver Problema dado que se es nivel Nivel
-        Dictionary<int, Dictionary<int, double>> pNivel;                // [Problema][Nivel] 
+        Dictionary<int, Dictionary<int, double>> pResolver;             // [Problema][Nivel] Probabilidad de resolver Problema dado que se es nivel Nivel o menor
+        Dictionary<int, Dictionary<int, double>> pNivel;                // [Problema][Nivel] Probabilidad de pasar al siguiente nivel dado que se resolvio el problema 
+        Usuario[] usuarios;
+        Recomendador _recomendador;                                      // Recomendador 
+        public Recomendador recomendador
+        {
+            get
+            {
+                return _recomendador;
+            }
+            set
+            {
+                _recomendador = value;
+            }
+        }
+        int _nUsuarios = 100;
+        public int nUsuarios
+        {
+            get
+            {
+                return _nUsuarios;
+            }
+            set
+            {
+                _nUsuarios = value;
+            }
+        }
+        int _nCiclos = 30;
+        public int nCiclos
+        {
+            get
+            {
+                return _nCiclos;
+            }
+            set
+            {
+                _nCiclos = value;
+            }
+        }
+
+        StringBuilder log;
+
+        public Simulador()
+        {
+            rnd = new Random(123456);
+        }
 
         private int calculaNivel(Queue<int> ventana)
         {
@@ -36,6 +81,7 @@ namespace Simulacion
             int dif = ventana.Count - min_sup;
             return ordenada.ElementAt(dif);
         }
+
         public void iniciaModelo()
         {
             KarelotitlanDB karelotitlan = new KarelotitlanDB();
@@ -172,6 +218,7 @@ namespace Simulacion
                 }
             }
         }
+
         private void probabilidaExtra()
         {
             pResolver = new Dictionary<int, Dictionary<int, double>>();
@@ -187,6 +234,7 @@ namespace Simulacion
                 }
             }
         }
+
         private void iniciaProbabilidadInterseccion()
         {
             Dictionary<int, Dictionary<int, int>> conteo = new Dictionary<int, Dictionary<int, int>>(); // problema Nivel
@@ -234,6 +282,7 @@ namespace Simulacion
                 }
             }
         }
+
         private void iniciaProbabilidadResolverProblema()
         {
             resuelto = new Dictionary<int, int>();
@@ -254,6 +303,7 @@ namespace Simulacion
                 pResolverProblema[problema.Key] = (double)resuelto[problema.Key] / (double)historias.Count;
             }
         }
+
         private void iniciaProbabilidadNivel()
         {
             pNivelMayorIgual = new Dictionary<int, double>();
@@ -271,6 +321,7 @@ namespace Simulacion
                 mayores--;
             }
         }
+
         public string testIniciaModelo()
         {
             StringBuilder result = new StringBuilder();
@@ -323,6 +374,90 @@ namespace Simulacion
                 result.Append("\r\n");
             }
             return result.ToString();
+        }
+
+        private bool pasa(Usuario user, int idProblema)
+        {
+            double pPasa = pResolver[idProblema][user.habilidadEn(problemas[idProblema].idTema)];
+            double p = rnd.NextDouble();
+            return p <= pPasa;
+        }
+        private bool subeNivel(Usuario user, int idProblema)
+        {
+            double subeNivel = pNivel[idProblema][user.habilidadEn(problemas[idProblema].idTema)];
+            double p = rnd.NextDouble();
+            return p <= subeNivel;
+        }
+        public void Simula()
+        {
+            log = new StringBuilder();
+            usuarios = new Usuario[nUsuarios];
+            for (int i = 0; i < nUsuarios; i++)
+            {
+                usuarios[i] = new Usuario(i,2.0, 0.5, 0.25, 1.25);
+                usuarios[i].temas = temas;
+            }
+            recomendador.iniciaRecomendador();
+            for (int iteracion = 0; iteracion < nCiclos; iteracion++)
+            {
+                log.Append("Iteracion: " + iteracion.ToString() + "\r\n");
+                foreach (var user in usuarios)
+                {
+                    log.Append(user.ToString());
+                }
+                recomendador.realizaAnalisis();
+                SelectorRandom sr = new SelectorRandom(nUsuarios);
+                for (int i = 0; i < nUsuarios; i++)
+                {
+                    sr.agrega(i, (int)Math.Floor(usuarios[i].motivacion));
+                }
+                while (!sr.empty())
+                {
+                    int pUsuario = sr.saca();
+                    int recomendacion = recomendador.recomendacion(usuarios[pUsuario].idUsuario);
+                    log.Append(pUsuario);
+                    log.Append(",");
+                    log.Append(recomendacion.ToString());
+                    log.Append(",");
+                    //Registrar recomendacion
+                    //TODO: hacer un random Unico
+                    if (pasa(usuarios[pUsuario], recomendacion))
+                    {
+                        log.Append("paso");
+                        log.Append(",");
+                        usuarios[pUsuario].resolvio(problemas[recomendacion]);
+                        if (subeNivel(usuarios[pUsuario], recomendacion))
+                        {
+                            usuarios[pUsuario].subeNivel(problemas[recomendacion].idTema);
+                            log.Append("Subio");
+                            log.Append(",");
+                        }
+                        else
+                        {
+                            log.Append("no subio");
+                            log.Append(",");
+                        }
+                    }
+                    else
+                    {
+                        log.Append("no paso");
+                        log.Append(",");
+                        usuarios[pUsuario].fallo(problemas[recomendacion]);
+                        log.Append("no subio,");
+                    }
+                    log.Append("\r\n");
+                }
+                log.Append("\r\n");
+                for (int i = 0; i < nUsuarios; i++)
+                {
+                    usuarios[i].tickTiempo();
+                }
+            }
+        }
+
+        public string testSimula()
+        {
+            return log.ToString();
         }
     }
 }
