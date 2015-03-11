@@ -18,13 +18,16 @@ namespace Simulacion
         Dictionary<int, List<int>> historias;
         Dictionary<int, Dictionary<int, List<int>>> historiasDificultad; // [Tema][IdUsuario]
         Dictionary<int, Dictionary<int, List<int>>> nivelUsuarios;        // [Tema][IdUsuario]
+        Dictionary<int, Dictionary<int, int>> countPN;                  //[Problema][Nivel] Conteo de cuantas personas resolvieron el Problema p y tenian el Nivel n
         Dictionary<int, double> pNivelMayorIgual;                       //[x] probabilidad de que nivel sea mayor o igal que x
+        Dictionary<int, int> resuelto;                                  //[p] conteo de cuantos usuarios resolvieron en algun momento el problema p
         Dictionary<int, double> pResolverProblema;                      //[problema] probabilidad que el usuario haya resuelto problema
         Dictionary<int, Dictionary<int, double>> pInterseccion;         // [Problema][Nivel] probabilidad que se resuelva el problema y se tenga nivel de al menos nivel
-       
+
+
         Dictionary<int, Dictionary<int, double>> pResolver;             // [Problema][Nivel] Probabilida de resolver Problema dado que se es nivel Nivel
         Dictionary<int, Dictionary<int, double>> pNivel;                // [Problema][Nivel] 
-        
+
         private int calculaNivel(Queue<int> ventana)
         {
             if (ventana.Count < min_sup) return 0;
@@ -103,7 +106,74 @@ namespace Simulacion
             iniciaProbabilidadNivel();
             iniciaProbabilidadResolverProblema();
             iniciaProbabilidadInterseccion();
+            iniciaProbabilidaResolverProblema();
+            iniciaProbabilidaNivel();
+        }
 
+        private void iniciaProbabilidaNivel()
+        {
+            Dictionary<int, Dictionary<int, int>> acumulado = new Dictionary<int, Dictionary<int, int>>();
+            Stack<Dificultad> orden = new Stack<Dificultad>(dificultades);
+            foreach (var problema in problemas)
+            {
+                acumulado[problema.Key] = new Dictionary<int, int>();
+                int total = 0;
+                foreach (var nivel in orden)
+                {
+                    total += countPN[problema.Key][nivel.idDificultad];
+                    acumulado[problema.Key][nivel.idDificultad] = total;
+                }
+            }
+            pNivel = new Dictionary<int, Dictionary<int, double>>();
+            foreach (var problema in problemas)
+            {
+                pNivel[problema.Key] = new Dictionary<int, double>();
+                foreach (var nivel in dificultades)
+                {
+                    pNivel[problema.Key][nivel.idDificultad] = (double)acumulado[problema.Key][nivel.idDificultad] / (double)resuelto[problema.Key];
+                }
+            }
+        }
+
+        private void iniciaProbabilidaResolverProblema()
+        {
+            Dictionary<int, Dictionary<int, int>> acumulado = new Dictionary<int, Dictionary<int, int>>();
+            List<Dificultad> orden = new List<Dificultad>(dificultades);
+            int idMayorDificultad = -100;
+            foreach (var nivel in orden)
+            {
+                if (idMayorDificultad < nivel.idDificultad)
+                {
+                    idMayorDificultad = nivel.idDificultad;
+                }
+            }
+            foreach (var problema in problemas)
+            {
+                acumulado[problema.Key] = new Dictionary<int, int>();
+                int total = 0;
+                foreach (var nivel in orden)
+                {
+                    total += countPN[problema.Key][nivel.idDificultad];
+                    acumulado[problema.Key][nivel.idDificultad] = total;
+                }
+            }
+            pResolver = new Dictionary<int, Dictionary<int, double>>();
+            foreach (var problema in problemas)
+            {
+                pResolver[problema.Key] = new Dictionary<int, double>();
+                foreach (var nivel in dificultades)
+                {
+                    pResolver[problema.Key][nivel.idDificultad] = (double)acumulado[problema.Key][nivel.idDificultad] / (double)historias.Count;
+                }
+                // hacer que alguien del maximo nivel siempre prodra resolver el problema
+                foreach (var nivel in dificultades)
+                {
+                    pResolver[problema.Key][nivel.idDificultad] /= pResolver[problema.Key][idMayorDificultad];
+                }
+            }
+        }
+        private void probabilidaExtra()
+        {
             pResolver = new Dictionary<int, Dictionary<int, double>>();
             pNivel = new Dictionary<int, Dictionary<int, double>>();
             foreach (var problema in problemas)
@@ -114,20 +184,21 @@ namespace Simulacion
                 {
                     pResolver[problema.Key][nivel.idDificultad] = pInterseccion[problema.Key][nivel.idDificultad] * pResolverProblema[problema.Key] / pNivelMayorIgual[nivel.idDificultad];
                     pNivel[problema.Key][nivel.idDificultad] = pInterseccion[problema.Key][nivel.idDificultad] * pNivelMayorIgual[nivel.idDificultad] / pResolverProblema[problema.Key];
-                }  
+                }
             }
-            
         }
-
         private void iniciaProbabilidadInterseccion()
         {
             Dictionary<int, Dictionary<int, int>> conteo = new Dictionary<int, Dictionary<int, int>>(); // problema Nivel
+            countPN = new Dictionary<int, Dictionary<int, int>>();
             foreach (var problema in problemas)
             {
                 conteo[problema.Key] = new Dictionary<int, int>();
+                countPN[problema.Key] = new Dictionary<int, int>();
                 foreach (var dificultad in dificultades)
                 {
                     conteo[problema.Key][dificultad.idDificultad] = 0;
+                    countPN[problema.Key][dificultad.idDificultad] = 0;
                 }
             }
             foreach (var usuario in historias)
@@ -137,12 +208,16 @@ namespace Simulacion
                     var nivel = nivelUsuarios[tema.idTema][usuario.Key].GetEnumerator();
                     foreach (var problema in usuario.Value)
                     {
-                        int nivelAct = nivel.Current;
-                        foreach (var dificultad in dificultades)
+                        if (tema.idTema == problemas[problema].idTema)
                         {
-                            if (dificultad.idDificultad >= nivelAct)
+                            int nivelAct = nivel.Current;
+                            countPN[problema][nivelAct]++;
+                            foreach (var dificultad in dificultades)
                             {
-                                conteo[problema][dificultad.idDificultad]++;
+                                if (dificultad.idDificultad >= nivelAct)
+                                {
+                                    conteo[problema][dificultad.idDificultad]++;
+                                }
                             }
                         }
                         nivel.MoveNext();
@@ -159,26 +234,24 @@ namespace Simulacion
                 }
             }
         }
-
         private void iniciaProbabilidadResolverProblema()
         {
-            Dictionary<int, int> resolvieron; // [Problema] cuantos resolvieron el problema X
-            resolvieron = new Dictionary<int, int>();
+            resuelto = new Dictionary<int, int>();
             foreach (var problema in problemas)
             {
-                resolvieron[problema.Value.idProblema] = 0;
+                resuelto[problema.Value.idProblema] = 0;
             }
             foreach (var usuario in historias)
             {
                 foreach (var problema in usuario.Value)
                 {
-                    resolvieron[problema]++;
+                    resuelto[problema]++;
                 }
             }
             pResolverProblema = new Dictionary<int, double>();
             foreach (var problema in problemas)
             {
-                pResolverProblema[problema.Key] = (double)resolvieron[problema.Key] / (double)historias.Count;
+                pResolverProblema[problema.Key] = (double)resuelto[problema.Key] / (double)historias.Count;
             }
         }
         private void iniciaProbabilidadNivel()
@@ -221,7 +294,7 @@ namespace Simulacion
                     result.Append("\"nivel usuario: " + tema.idTema + "\",");
                     foreach (var nivelUsuario in nivelUsuarios[tema.idTema][usuario.Key])
                     {
-                        result.Append(nivelUsuario.ToString()+ ",");
+                        result.Append(nivelUsuario.ToString() + ",");
                     }
                     result.Append("\r\n");
                 }
@@ -235,7 +308,7 @@ namespace Simulacion
                     result.Append(tema.Key.ToString() + "," + tema.Value.ToString() + ",");
                 }
 
-                result.Append("\r\n");    
+                result.Append("\r\n");
             }
             result.Append("\r\n");
             result.Append("\r\n");
