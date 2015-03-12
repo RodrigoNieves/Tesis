@@ -70,7 +70,7 @@ namespace Simulacion
             }
             else
             {
-                incremento += _aPositiva * Math.Exp(-1 * _aPositiva * _resueltos) * (-1 * 1 * (6 + difNivel) * _fFacilida);
+                incremento += _aPositiva * Math.Exp(-1 * _aPositiva * _resueltos) * Math.Exp(difNivel * _fFacilida);
             }
             _resueltos++;
         }
