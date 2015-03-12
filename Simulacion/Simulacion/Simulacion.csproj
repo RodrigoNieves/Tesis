@@ -66,6 +66,7 @@
     <Compile Include="Recomendador.cs" />
     <Compile Include="RRandom.cs" />
     <Compile Include="SelectorRandom.cs" />
+    <Compile Include="SimulacionDB.cs" />
     <Compile Include="Simulador.cs" />
     <Compile Include="Tema.cs" />
     <Compile Include="Usuario.cs" />

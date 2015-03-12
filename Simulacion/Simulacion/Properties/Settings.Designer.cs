@@ -43,5 +43,14 @@ namespace Simulacion.Properties {
                 return ((string)(this["SimulacionConnectionString"]));
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("../../../../SQLQuery/BDSimulacion/")]
+        public string PathSimulacionScript {
+            get {
+                return ((string)(this["PathSimulacionScript"]));
+            }
+        }
     }
 }

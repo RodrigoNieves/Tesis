@@ -18,5 +18,8 @@
 &lt;/SerializableConnectionString&gt;</DesignTimeValue>
       <Value Profile="(Default)">Data Source=CICPC;Initial Catalog=SimulacionKarelotitlan;Integrated Security=True</Value>
     </Setting>
+    <Setting Name="PathSimulacionScript" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">../../../../SQLQuery/BDSimulacion/</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

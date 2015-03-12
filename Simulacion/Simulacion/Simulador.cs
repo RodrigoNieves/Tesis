@@ -390,6 +390,10 @@ namespace Simulacion
         }
         public void Simula()
         {
+            SimulacionDB simuladorDB = new SimulacionDB();
+            simuladorDB.limpiaBase();
+            simuladorDB.llenaUsuarios();
+            simuladorDB.llenaUsuariosProbelmas();
             log = new StringBuilder();
             usuarios = new Usuario[nUsuarios];
             for (int i = 0; i < nUsuarios; i++)
