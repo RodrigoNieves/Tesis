@@ -33,6 +33,19 @@ namespace Simulacion
             sqlConnection.Close();
 
         }
+        public void agregaAlgoritmo(Algoritmo nuevo)
+        {
+            SqlConnection sqlConnection = new SqlConnection(SimulacionConnectionString);
+            SqlCommand cmd = new SqlCommand();
+            cmd.CommandText = "INSERT INTO SimulacionKarelotitlan.dbo.Algoritmo VALUES(" + 
+                nuevo.id.ToString() + ",'" + 
+                nuevo.nombre.ToString() + "','" + 
+                nuevo.descripcion.ToString() + "')";
+            cmd.Connection = sqlConnection;
+            sqlConnection.Open();
+            cmd.ExecuteNonQuery();
+            sqlConnection.Close();
+        }
         public void limpiaBase()
         {
             ejecutaScript(pathScripts + "02 Tabla UsuarioProblemas.sql");
@@ -45,6 +58,30 @@ namespace Simulacion
         public void llenaUsuariosProbelmas()
         {
             ejecutaScript(pathScripts + "05 Datos UsuariosProblema.sql");
+        }
+        public List<Algoritmo> algoritmos()
+        {
+            List<Algoritmo> algoritmos = new List<Algoritmo>();
+
+            SqlConnection sqlConnection = new SqlConnection(SimulacionConnectionString);
+            SqlCommand cmd = new SqlCommand();
+            SqlDataReader result;
+
+            cmd.CommandText = "SELECT * FROM SimulacionKarelotitlan.dbo.Algoritmo";
+            cmd.Connection = sqlConnection;
+
+            sqlConnection.Open();
+
+            result = cmd.ExecuteReader();
+            while (result.Read())
+            {
+                int id = (int)result["AlgoritmoID"];
+                string nombre = (string)result["nombre"];
+                string descripcion = (string)result["descripcion"];
+                Algoritmo nuevo = new Algoritmo(id, nombre, descripcion);
+                algoritmos.Add(nuevo);
+            }
+            return algoritmos;
         }
     }
 }

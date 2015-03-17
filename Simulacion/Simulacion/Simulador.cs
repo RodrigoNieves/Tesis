@@ -384,17 +384,23 @@ namespace Simulacion
         }
         private bool subeNivel(Usuario user, int idProblema)
         {
-            double subeNivel = pNivel[idProblema][user.habilidadEn(problemas[idProblema].idTema)];
+            if (user.habilidadEn(problemas[idProblema].idTema) > 5 ||
+                user.habilidadEn(problemas[idProblema].idTema) == -1)
+            {
+                return false;
+            }
+            double subeNivel = pNivel[idProblema][user.habilidadEn(problemas[idProblema].idTema)+1];
             double p = rnd.NextDouble();
             return p <= subeNivel;
         }
         public void Simula()
         {
             SimulacionDB simuladorDB = new SimulacionDB();
-            simuladorDB.limpiaBase();
-            simuladorDB.llenaUsuarios();
-            simuladorDB.llenaUsuariosProbelmas();
-            log = new StringBuilder();
+            //simuladorDB.limpiaBase();
+            //simuladorDB.llenaUsuarios();
+            //simuladorDB.llenaUsuariosProbelmas();
+            // int idAlgo = Algoritmos.Instance.getId(recomendador.GetType().Name);
+            
             usuarios = new Usuario[nUsuarios];
             for (int i = 0; i < nUsuarios; i++)
             {
