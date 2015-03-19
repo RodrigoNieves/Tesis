@@ -408,8 +408,9 @@ namespace Simulacion
             usuarios = new Dictionary<int, Usuario>();
             for (int i = 0; i < nUsuarios; i++)
             {
-                usuarios[i] = new Usuario(rsimulacion.id,2.0, 0.5, 0.25, 1.25);
-                usuarios[i].temas = temas;
+                Usuario nuevo = new Usuario(rsimulacion.id,2.0, 0.5, 0.25, 1.25);
+                usuarios[nuevo.idUsuario] = nuevo;
+                usuarios[nuevo.idUsuario].temas = temas;
             }
             recomendador.iniciaRecomendador();
             for (int iteracion = 0; iteracion < nCiclos; iteracion++)

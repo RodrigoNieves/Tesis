@@ -52,6 +52,7 @@ namespace Simulacion
             //TODO: remplantear limpiar Base de datos
             //ejecutaScript(pathScripts + "02 Tabla UsuarioProblemas.sql");
             //ejecutaScript(pathScripts + "03 Datos Simulacion.sql");
+            quitaUsuariosFictiocios();
         }
         public void llenaUsuarios()
         {
@@ -144,6 +145,16 @@ namespace Simulacion
             int idUsuarioSimulacion = decimal.ToInt32(temp);
             sqlConnection.Close();
             return idUsuarioSimulacion;
+        }
+        public void quitaUsuariosFictiocios()
+        {
+            SqlConnection sqlConnection = new SqlConnection(SimulacionConnectionString);
+            SqlCommand cmd = new SqlCommand();
+            cmd.CommandText = @"DELETE FROM SimulacionKarelotitlan.dbo.Usuario
+                                WHERE clave > 14983";
+            sqlConnection.Open();
+            cmd.ExecuteNonQuery();
+            sqlConnection.Close();
         }
     }
 }
