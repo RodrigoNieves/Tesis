@@ -66,6 +66,7 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Recomendador.cs" />
+    <Compile Include="RegistroSimulacion.cs" />
     <Compile Include="RRandom.cs" />
     <Compile Include="SelectorRandom.cs" />
     <Compile Include="SimulacionDB.cs" />

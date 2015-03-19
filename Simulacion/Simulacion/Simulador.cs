@@ -395,12 +395,14 @@ namespace Simulacion
         }
         public void Simula()
         {
+            RegistroSimulacion rsimulacion = new RegistroSimulacion();
+            rsimulacion.inicia();
             SimulacionDB simuladorDB = new SimulacionDB();
             //simuladorDB.limpiaBase();
             //simuladorDB.llenaUsuarios();
             //simuladorDB.llenaUsuariosProbelmas();
             // int idAlgo = Algoritmos.Instance.getId(recomendador.GetType().Name);
-
+            log = new StringBuilder();
             usuarios = new Dictionary<int, Usuario>();
             for (int i = 0; i < nUsuarios; i++)
             {
@@ -462,6 +464,7 @@ namespace Simulacion
                 {
                     usuarios[i].tickTiempo();
                 }
+                rsimulacion.termina();
             }
         }
 

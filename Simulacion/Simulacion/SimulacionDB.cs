@@ -10,6 +10,7 @@ namespace Simulacion
 {
     class SimulacionDB
     {
+        // TODO: Aplicar patron Singleton en DB
         private string SimulacionConnectionString;
         private string pathScripts;
         public SimulacionDB()
@@ -82,6 +83,32 @@ namespace Simulacion
                 algoritmos.Add(nuevo);
             }
             return algoritmos;
+        }
+        public int iniciaSimulacion()
+        {
+            SqlConnection sqlConnection = new SqlConnection(SimulacionConnectionString);
+            SqlCommand cmd = new SqlCommand();
+            cmd.CommandText = @"INSERT INTO SimulacionKarelotitlan.dbo.Simulacion (inicio)
+                                    VALUES(SYSDATETIME ())
+                                    SELECT SCOPE_IDENTITY()";
+            cmd.Connection = sqlConnection;
+            sqlConnection.Open();
+            decimal cosa = (decimal)cmd.ExecuteScalar();
+            int idSimulacion = decimal.ToInt32(cosa);
+            sqlConnection.Close();
+            return idSimulacion;
+        }
+        public void finalizaSimulacion(int id)
+        {
+            SqlConnection sqlConnection = new SqlConnection(SimulacionConnectionString);
+            SqlCommand cmd = new SqlCommand();
+            cmd.CommandText = @"UPDATE SimulacionKarelotitlan.dbo.Simulacion
+                                SET fin = SYSDATETIME ()
+                                WHERE Simulacion.id = "+id.ToString();
+            cmd.Connection = sqlConnection;
+            sqlConnection.Open();
+            cmd.ExecuteNonQuery();
+            sqlConnection.Close();
         }
     }
 }
