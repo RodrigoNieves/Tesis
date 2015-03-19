@@ -1,0 +1,1 @@
+select top 10 * from SimulacionKarelotitlan.dbo.Usuario order by clave desc

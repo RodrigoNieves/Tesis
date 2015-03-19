@@ -9,6 +9,14 @@ namespace Simulacion
     class RegistroSimulacion
     {
         int _id;
+        int _idRecomendador;
+        public Recomendador recomendador
+        {
+            set
+            {
+                _idRecomendador = Algoritmos.Instance.getId(value.GetType().Name);
+            }
+        }
         public RegistroSimulacion()
         {
             _id = -1;

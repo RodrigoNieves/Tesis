@@ -397,16 +397,18 @@ namespace Simulacion
         {
             RegistroSimulacion rsimulacion = new RegistroSimulacion();
             rsimulacion.inicia();
+            rsimulacion.recomendador = recomendador;
+            
             SimulacionDB simuladorDB = new SimulacionDB();
-            //simuladorDB.limpiaBase();
-            //simuladorDB.llenaUsuarios();
+            simuladorDB.limpiaBase();
+            simuladorDB.llenaUsuarios();
             //simuladorDB.llenaUsuariosProbelmas();
-            // int idAlgo = Algoritmos.Instance.getId(recomendador.GetType().Name);
+            
             log = new StringBuilder();
             usuarios = new Dictionary<int, Usuario>();
             for (int i = 0; i < nUsuarios; i++)
             {
-                usuarios[i] = new Usuario(i,2.0, 0.5, 0.25, 1.25);
+                usuarios[i] = new Usuario(rsimulacion.id,2.0, 0.5, 0.25, 1.25);
                 usuarios[i].temas = temas;
             }
             recomendador.iniciaRecomendador();

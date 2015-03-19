@@ -49,8 +49,9 @@ namespace Simulacion
         }
         public void limpiaBase()
         {
-            ejecutaScript(pathScripts + "02 Tabla UsuarioProblemas.sql");
-            ejecutaScript(pathScripts + "03 Datos Simulacion.sql");
+            //TODO: remplantear limpiar Base de datos
+            //ejecutaScript(pathScripts + "02 Tabla UsuarioProblemas.sql");
+            //ejecutaScript(pathScripts + "03 Datos Simulacion.sql");
         }
         public void llenaUsuarios()
         {
@@ -76,7 +77,7 @@ namespace Simulacion
             result = cmd.ExecuteReader();
             while (result.Read())
             {
-                int id = (int)result["AlgoritmoID"];
+                int id = (int)result["id"];
                 string nombre = (string)result["nombre"];
                 string descripcion = (string)result["descripcion"];
                 Algoritmo nuevo = new Algoritmo(id, nombre, descripcion);
@@ -93,8 +94,8 @@ namespace Simulacion
                                     SELECT SCOPE_IDENTITY()";
             cmd.Connection = sqlConnection;
             sqlConnection.Open();
-            decimal cosa = (decimal)cmd.ExecuteScalar();
-            int idSimulacion = decimal.ToInt32(cosa);
+            decimal temp = (decimal)cmd.ExecuteScalar();
+            int idSimulacion = decimal.ToInt32(temp);
             sqlConnection.Close();
             return idSimulacion;
         }
@@ -109,6 +110,40 @@ namespace Simulacion
             sqlConnection.Open();
             cmd.ExecuteNonQuery();
             sqlConnection.Close();
+        }
+        public int creaUsuarioFicticion()
+        {
+            SqlConnection sqlConnection = new SqlConnection(SimulacionConnectionString);
+            SqlCommand cmd = new SqlCommand();
+            cmd.CommandText = @"INSERT INTO SimulacionKarelotitlan.dbo.Usuario (nombreReal,nombreUsuario,password,correo,estado,sexo,pregunta,respuesta,lang,omi,recibirEmail,asesor)
+                                VALUES('Ficticio','Ficticio',0,'Fictiocio@noimporta.com',32,0,1,'1',1,5,0,1)
+                                SELECT SCOPE_IDENTITY()";
+            cmd.Connection = sqlConnection;
+            sqlConnection.Open();
+            decimal temp = (decimal)cmd.ExecuteScalar();
+            int idUsuario = decimal.ToInt32(temp);
+            sqlConnection.Close();
+            return idUsuario;
+        }
+        public int creaUsuarioSimulacion(int idUsuario, int idSimulacion, double motivacion, double aPositiva, double aNegativa, double fFacilidad)
+        {
+            SqlConnection sqlConnection = new SqlConnection(SimulacionConnectionString);
+            SqlCommand cmd = new SqlCommand();
+            cmd.CommandText = "INSERT INTO SimulacionKarelotitlan.dbo.UsuarioSimulacion (idUsuario, idSimulacion, motivacionInicial, aPositiva, aNegativa, fFacilidad)" +
+                            "VALUES(" +
+                            idUsuario.ToString() + "," +
+                            idSimulacion.ToString() + "," +
+                            motivacion.ToString() + "," +
+                            aPositiva.ToString() + "," +
+                            aNegativa.ToString() + "," +
+                            fFacilidad.ToString() + ")" +
+                            "SELECT SCOPE_IDENTITY()";
+            cmd.Connection = sqlConnection;
+            sqlConnection.Open();
+            decimal temp = (decimal)cmd.ExecuteScalar();
+            int idUsuarioSimulacion = decimal.ToInt32(temp);
+            sqlConnection.Close();
+            return idUsuarioSimulacion;
         }
     }
 }

@@ -16,9 +16,10 @@ namespace Simulacion
         double incremento;
         int _resueltos;
         int _fallos;
-        int _idUsuario;
         bool _ficticio;
 
+        int _idUsuario;
+        int _idUsuarioSimulacion;
         public double motivacion
         {
             get
@@ -33,7 +34,7 @@ namespace Simulacion
                 return _ficticio;
             }
         }
-        public Usuario(int idUsuario,double motivacionInicial,double aPositiva, double aNegativa,double fFacilidad)
+        public Usuario(int idSimulacion, double motivacionInicial, double aPositiva, double aNegativa, double fFacilidad)
         {
             _motivacion = motivacionInicial;
             _aPositiva = aPositiva;
@@ -41,7 +42,15 @@ namespace Simulacion
             _fFacilida = fFacilidad;
             _resueltos = 0;
             _fallos = 0;
-            _idUsuario = idUsuario;
+            // TODO: Obtener ID de nuevo usuario creado
+            SimulacionDB simulacion = new SimulacionDB();
+            _idUsuario = simulacion.creaUsuarioFicticion();
+            _idUsuarioSimulacion = simulacion.creaUsuarioSimulacion(_idUsuario,
+                idSimulacion,
+                motivacionInicial,
+                aPositiva,
+                aNegativa,
+                fFacilidad);
         }
         public List<Tema> temas
         {
