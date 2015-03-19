@@ -1,5 +1,9 @@
 USE [SimulacionKarelotitlan]
  
+ALTER TABLE [dbo].[UsuarioSimulacion] DROP CONSTRAINT [FK_UsuarioSimulacion_Usuario]
+ 
+ALTER TABLE [dbo].[UsuarioSimulacion] DROP CONSTRAINT [FK_UsuarioSimulacion_Simulacion]
+ 
 ALTER TABLE [dbo].[UsuarioProblema] DROP CONSTRAINT [FK_UsuarioProblema_Usuario]
  
 ALTER TABLE [dbo].[UsuarioProblema] DROP CONSTRAINT [FK_UsuarioProblema_Problema]
@@ -8,7 +12,9 @@ ALTER TABLE [dbo].[Usuario] DROP CONSTRAINT [FK_Usuario_OMI]
  
 ALTER TABLE [dbo].[Usuario] DROP CONSTRAINT [FK_Usuario_Estado]
  
-ALTER TABLE [dbo].[Recomendacion] DROP CONSTRAINT [FK_Recomendacion_Usuario]
+ALTER TABLE [dbo].[Recomendacion] DROP CONSTRAINT [FK_Recomendacion_UsuarioSimulacion]
+ 
+ALTER TABLE [dbo].[Recomendacion] DROP CONSTRAINT [FK_Recomendacion_Simulacion]
  
 ALTER TABLE [dbo].[Recomendacion] DROP CONSTRAINT [FK_Recomendacion_Problema]
  
@@ -18,52 +24,60 @@ ALTER TABLE [dbo].[Problema] DROP CONSTRAINT [FK_Problema_Clasificacion]
  
 ALTER TABLE [dbo].[Evento] DROP CONSTRAINT [FK_Evento_TipoEvento]
  
-/****** Object:  Table [dbo].[UsuarioProblema]    Script Date: 17/03/2015 01:19:26 p.m. ******/
+ALTER TABLE [dbo].[Evento] DROP CONSTRAINT [FK_Evento_Simulacion]
+ 
+/****** Object:  Table [dbo].[UsuarioSimulacion]    Script Date: 19/03/2015 12:20:24 p.m. ******/
+DROP TABLE [dbo].[UsuarioSimulacion]
+ 
+/****** Object:  Table [dbo].[UsuarioProblema]    Script Date: 19/03/2015 12:20:24 p.m. ******/
 DROP TABLE [dbo].[UsuarioProblema]
  
-/****** Object:  Table [dbo].[Usuario]    Script Date: 17/03/2015 01:19:26 p.m. ******/
+/****** Object:  Table [dbo].[Usuario]    Script Date: 19/03/2015 12:20:24 p.m. ******/
 DROP TABLE [dbo].[Usuario]
  
-/****** Object:  Table [dbo].[TipoEvento]    Script Date: 17/03/2015 01:19:26 p.m. ******/
+/****** Object:  Table [dbo].[TipoEvento]    Script Date: 19/03/2015 12:20:24 p.m. ******/
 DROP TABLE [dbo].[TipoEvento]
  
-/****** Object:  Table [dbo].[Recomendacion]    Script Date: 17/03/2015 01:19:26 p.m. ******/
+/****** Object:  Table [dbo].[Simulacion]    Script Date: 19/03/2015 12:20:24 p.m. ******/
+DROP TABLE [dbo].[Simulacion]
+ 
+/****** Object:  Table [dbo].[Recomendacion]    Script Date: 19/03/2015 12:20:24 p.m. ******/
 DROP TABLE [dbo].[Recomendacion]
  
-/****** Object:  Table [dbo].[problemaDificultad]    Script Date: 17/03/2015 01:19:26 p.m. ******/
+/****** Object:  Table [dbo].[problemaDificultad]    Script Date: 19/03/2015 12:20:24 p.m. ******/
 DROP TABLE [dbo].[problemaDificultad]
  
-/****** Object:  Table [dbo].[Problema]    Script Date: 17/03/2015 01:19:26 p.m. ******/
+/****** Object:  Table [dbo].[Problema]    Script Date: 19/03/2015 12:20:24 p.m. ******/
 DROP TABLE [dbo].[Problema]
  
-/****** Object:  Table [dbo].[OMI]    Script Date: 17/03/2015 01:19:26 p.m. ******/
+/****** Object:  Table [dbo].[OMI]    Script Date: 19/03/2015 12:20:24 p.m. ******/
 DROP TABLE [dbo].[OMI]
  
-/****** Object:  Table [dbo].[Nivel]    Script Date: 17/03/2015 01:19:26 p.m. ******/
+/****** Object:  Table [dbo].[Nivel]    Script Date: 19/03/2015 12:20:24 p.m. ******/
 DROP TABLE [dbo].[Nivel]
  
-/****** Object:  Table [dbo].[Evento]    Script Date: 17/03/2015 01:19:26 p.m. ******/
+/****** Object:  Table [dbo].[Evento]    Script Date: 19/03/2015 12:20:24 p.m. ******/
 DROP TABLE [dbo].[Evento]
  
-/****** Object:  Table [dbo].[Estado]    Script Date: 17/03/2015 01:19:26 p.m. ******/
+/****** Object:  Table [dbo].[Estado]    Script Date: 19/03/2015 12:20:24 p.m. ******/
 DROP TABLE [dbo].[Estado]
  
-/****** Object:  Table [dbo].[Clasificacion]    Script Date: 17/03/2015 01:19:26 p.m. ******/
+/****** Object:  Table [dbo].[Clasificacion]    Script Date: 19/03/2015 12:20:24 p.m. ******/
 DROP TABLE [dbo].[Clasificacion]
  
-/****** Object:  Table [dbo].[Algoritmo]    Script Date: 17/03/2015 01:19:26 p.m. ******/
+/****** Object:  Table [dbo].[Algoritmo]    Script Date: 19/03/2015 12:20:24 p.m. ******/
 DROP TABLE [dbo].[Algoritmo]
  
 USE [master]
  
-/****** Object:  Database [SimulacionKarelotitlan]    Script Date: 17/03/2015 01:19:26 p.m. ******/
+/****** Object:  Database [SimulacionKarelotitlan]    Script Date: 19/03/2015 12:20:24 p.m. ******/
 DROP DATABASE [SimulacionKarelotitlan]
  
-/****** Object:  Database [SimulacionKarelotitlan]    Script Date: 17/03/2015 01:19:26 p.m. ******/
+/****** Object:  Database [SimulacionKarelotitlan]    Script Date: 19/03/2015 12:20:24 p.m. ******/
 CREATE DATABASE [SimulacionKarelotitlan]
  CONTAINMENT = NONE
  ON  PRIMARY 
-( NAME = N'SimulacionKarelotitlan', FILENAME = N'C:\Program Files\Microsoft SQL Server\MSSQL11.MSSQLSERVER\MSSQL\DATA\SimulacionKarelotitlan.mdf' , SIZE = 7168KB , MAXSIZE = UNLIMITED, FILEGROWTH = 1024KB )
+( NAME = N'SimulacionKarelotitlan', FILENAME = N'C:\Program Files\Microsoft SQL Server\MSSQL11.MSSQLSERVER\MSSQL\DATA\SimulacionKarelotitlan.mdf' , SIZE = 8192KB , MAXSIZE = UNLIMITED, FILEGROWTH = 1024KB )
  LOG ON 
 ( NAME = N'SimulacionKarelotitlan_log', FILENAME = N'C:\Program Files\Microsoft SQL Server\MSSQL11.MSSQLSERVER\MSSQL\DATA\SimulacionKarelotitlan_log.ldf' , SIZE = 32448KB , MAXSIZE = 2048GB , FILEGROWTH = 10%)
  
@@ -134,7 +148,7 @@ ALTER DATABASE [SimulacionKarelotitlan] SET TARGET_RECOVERY_TIME = 0 SECONDS
  
 USE [SimulacionKarelotitlan]
  
-/****** Object:  Table [dbo].[Algoritmo]    Script Date: 17/03/2015 01:19:27 p.m. ******/
+/****** Object:  Table [dbo].[Algoritmo]    Script Date: 19/03/2015 12:20:24 p.m. ******/
 SET ANSI_NULLS ON
  
 SET QUOTED_IDENTIFIER ON
@@ -142,19 +156,19 @@ SET QUOTED_IDENTIFIER ON
 SET ANSI_PADDING ON
  
 CREATE TABLE [dbo].[Algoritmo](
-	[AlgoritmoID] [int] NOT NULL,
+	[id] [int] NOT NULL,
 	[nombre] [varchar](100) NOT NULL,
 	[descripcion] [text] NULL,
  CONSTRAINT [PK_Algoritmo] PRIMARY KEY CLUSTERED 
 (
-	[AlgoritmoID] ASC
+	[id] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 
  
 SET ANSI_PADDING OFF
  
-/****** Object:  Table [dbo].[Clasificacion]    Script Date: 17/03/2015 01:19:27 p.m. ******/
+/****** Object:  Table [dbo].[Clasificacion]    Script Date: 19/03/2015 12:20:25 p.m. ******/
 SET ANSI_NULLS ON
  
 SET QUOTED_IDENTIFIER ON
@@ -176,7 +190,7 @@ CREATE TABLE [dbo].[Clasificacion](
  
 SET ANSI_PADDING OFF
  
-/****** Object:  Table [dbo].[Estado]    Script Date: 17/03/2015 01:19:27 p.m. ******/
+/****** Object:  Table [dbo].[Estado]    Script Date: 19/03/2015 12:20:25 p.m. ******/
 SET ANSI_NULLS ON
  
 SET QUOTED_IDENTIFIER ON
@@ -195,19 +209,25 @@ CREATE TABLE [dbo].[Estado](
  
 SET ANSI_PADDING OFF
  
-/****** Object:  Table [dbo].[Evento]    Script Date: 17/03/2015 01:19:27 p.m. ******/
+/****** Object:  Table [dbo].[Evento]    Script Date: 19/03/2015 12:20:25 p.m. ******/
 SET ANSI_NULLS ON
  
 SET QUOTED_IDENTIFIER ON
  
 CREATE TABLE [dbo].[Evento](
+	[id] [int] IDENTITY(1,1) NOT NULL,
+	[idSimulacion] [int] NOT NULL,
 	[tipoEvento] [int] NOT NULL,
-	[timestamp] [timestamp] NOT NULL,
-	[infoExtra] [text] NULL
+	[timestamp] [datetime2](7) NOT NULL,
+	[comentario] [text] NULL,
+ CONSTRAINT [PK_Evento] PRIMARY KEY CLUSTERED 
+(
+	[id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 
  
-/****** Object:  Table [dbo].[Nivel]    Script Date: 17/03/2015 01:19:27 p.m. ******/
+/****** Object:  Table [dbo].[Nivel]    Script Date: 19/03/2015 12:20:25 p.m. ******/
 SET ANSI_NULLS ON
  
 SET QUOTED_IDENTIFIER ON
@@ -223,7 +243,7 @@ CREATE TABLE [dbo].[Nivel](
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 
  
-/****** Object:  Table [dbo].[OMI]    Script Date: 17/03/2015 01:19:27 p.m. ******/
+/****** Object:  Table [dbo].[OMI]    Script Date: 19/03/2015 12:20:25 p.m. ******/
 SET ANSI_NULLS ON
  
 SET QUOTED_IDENTIFIER ON
@@ -242,7 +262,7 @@ CREATE TABLE [dbo].[OMI](
  
 SET ANSI_PADDING OFF
  
-/****** Object:  Table [dbo].[Problema]    Script Date: 17/03/2015 01:19:27 p.m. ******/
+/****** Object:  Table [dbo].[Problema]    Script Date: 19/03/2015 12:20:25 p.m. ******/
 SET ANSI_NULLS ON
  
 SET QUOTED_IDENTIFIER ON
@@ -267,7 +287,7 @@ CREATE TABLE [dbo].[Problema](
  
 SET ANSI_PADDING OFF
  
-/****** Object:  Table [dbo].[problemaDificultad]    Script Date: 17/03/2015 01:19:27 p.m. ******/
+/****** Object:  Table [dbo].[problemaDificultad]    Script Date: 19/03/2015 12:20:25 p.m. ******/
 SET ANSI_NULLS ON
  
 SET QUOTED_IDENTIFIER ON
@@ -278,21 +298,45 @@ CREATE TABLE [dbo].[problemaDificultad](
 ) ON [PRIMARY]
 
  
-/****** Object:  Table [dbo].[Recomendacion]    Script Date: 17/03/2015 01:19:27 p.m. ******/
+/****** Object:  Table [dbo].[Recomendacion]    Script Date: 19/03/2015 12:20:25 p.m. ******/
 SET ANSI_NULLS ON
  
 SET QUOTED_IDENTIFIER ON
  
 CREATE TABLE [dbo].[Recomendacion](
-	[algoritmo] [int] NOT NULL,
-	[usuario] [int] NOT NULL,
-	[problema] [int] NOT NULL,
-	[resolvio] [tinyint] NOT NULL,
-	[timestamp] [timestamp] NOT NULL
+	[id] [int] IDENTITY(1,1) NOT NULL,
+	[idAlgoritmo] [int] NOT NULL,
+	[idSimulacion] [int] NOT NULL,
+	[idUsuarioSimulacion] [int] NOT NULL,
+	[idProblema] [int] NOT NULL,
+	[resolvio] [bit] NOT NULL,
+	[subioNivel] [bit] NOT NULL,
+	[timestamp] [datetime2](7) NOT NULL,
+ CONSTRAINT [PK_Recomendacion] PRIMARY KEY CLUSTERED 
+(
+	[id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 
  
-/****** Object:  Table [dbo].[TipoEvento]    Script Date: 17/03/2015 01:19:27 p.m. ******/
+/****** Object:  Table [dbo].[Simulacion]    Script Date: 19/03/2015 12:20:25 p.m. ******/
+SET ANSI_NULLS ON
+ 
+SET QUOTED_IDENTIFIER ON
+ 
+CREATE TABLE [dbo].[Simulacion](
+	[id] [int] IDENTITY(1,1) NOT NULL,
+	[inicio] [datetime2](7) NOT NULL,
+	[fin] [datetime2](7) NULL,
+	[comentario] [text] NULL,
+ CONSTRAINT [PK_Simulacion] PRIMARY KEY CLUSTERED 
+(
+	[id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+
+ 
+/****** Object:  Table [dbo].[TipoEvento]    Script Date: 19/03/2015 12:20:25 p.m. ******/
 SET ANSI_NULLS ON
  
 SET QUOTED_IDENTIFIER ON
@@ -308,7 +352,7 @@ CREATE TABLE [dbo].[TipoEvento](
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 
  
-/****** Object:  Table [dbo].[Usuario]    Script Date: 17/03/2015 01:19:27 p.m. ******/
+/****** Object:  Table [dbo].[Usuario]    Script Date: 19/03/2015 12:20:25 p.m. ******/
 SET ANSI_NULLS ON
  
 SET QUOTED_IDENTIFIER ON
@@ -339,7 +383,7 @@ CREATE TABLE [dbo].[Usuario](
  
 SET ANSI_PADDING OFF
  
-/****** Object:  Table [dbo].[UsuarioProblema]    Script Date: 17/03/2015 01:19:27 p.m. ******/
+/****** Object:  Table [dbo].[UsuarioProblema]    Script Date: 19/03/2015 12:20:25 p.m. ******/
 SET ANSI_NULLS ON
  
 SET QUOTED_IDENTIFIER ON
@@ -358,6 +402,32 @@ CREATE TABLE [dbo].[UsuarioProblema](
 ) ON [PRIMARY]
 
  
+/****** Object:  Table [dbo].[UsuarioSimulacion]    Script Date: 19/03/2015 12:20:25 p.m. ******/
+SET ANSI_NULLS ON
+ 
+SET QUOTED_IDENTIFIER ON
+ 
+CREATE TABLE [dbo].[UsuarioSimulacion](
+	[id] [int] IDENTITY(1,1) NOT NULL,
+	[idUsuario] [int] NOT NULL,
+	[idSimulacion] [int] NOT NULL,
+	[motivacionInicial] [float] NOT NULL,
+	[aPositiva] [float] NOT NULL,
+	[aNegativa] [float] NOT NULL,
+	[fFacilidad] [float] NOT NULL,
+	[comentario] [text] NULL,
+ CONSTRAINT [PK_UsuarioSimulacion] PRIMARY KEY CLUSTERED 
+(
+	[id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+
+ 
+ALTER TABLE [dbo].[Evento]  WITH CHECK ADD  CONSTRAINT [FK_Evento_Simulacion] FOREIGN KEY([idSimulacion])
+REFERENCES [dbo].[Simulacion] ([id])
+ 
+ALTER TABLE [dbo].[Evento] CHECK CONSTRAINT [FK_Evento_Simulacion]
+ 
 ALTER TABLE [dbo].[Evento]  WITH CHECK ADD  CONSTRAINT [FK_Evento_TipoEvento] FOREIGN KEY([tipoEvento])
 REFERENCES [dbo].[TipoEvento] ([id])
  
@@ -368,20 +438,25 @@ REFERENCES [dbo].[Clasificacion] ([clave])
  
 ALTER TABLE [dbo].[Problema] CHECK CONSTRAINT [FK_Problema_Clasificacion]
  
-ALTER TABLE [dbo].[Recomendacion]  WITH CHECK ADD  CONSTRAINT [FK_Recomendacion_Algoritmo] FOREIGN KEY([algoritmo])
-REFERENCES [dbo].[Algoritmo] ([AlgoritmoID])
+ALTER TABLE [dbo].[Recomendacion]  WITH CHECK ADD  CONSTRAINT [FK_Recomendacion_Algoritmo] FOREIGN KEY([idAlgoritmo])
+REFERENCES [dbo].[Algoritmo] ([id])
  
 ALTER TABLE [dbo].[Recomendacion] CHECK CONSTRAINT [FK_Recomendacion_Algoritmo]
  
-ALTER TABLE [dbo].[Recomendacion]  WITH CHECK ADD  CONSTRAINT [FK_Recomendacion_Problema] FOREIGN KEY([problema])
+ALTER TABLE [dbo].[Recomendacion]  WITH CHECK ADD  CONSTRAINT [FK_Recomendacion_Problema] FOREIGN KEY([idProblema])
 REFERENCES [dbo].[Problema] ([clave])
  
 ALTER TABLE [dbo].[Recomendacion] CHECK CONSTRAINT [FK_Recomendacion_Problema]
  
-ALTER TABLE [dbo].[Recomendacion]  WITH CHECK ADD  CONSTRAINT [FK_Recomendacion_Usuario] FOREIGN KEY([usuario])
-REFERENCES [dbo].[Usuario] ([clave])
+ALTER TABLE [dbo].[Recomendacion]  WITH CHECK ADD  CONSTRAINT [FK_Recomendacion_Simulacion] FOREIGN KEY([idSimulacion])
+REFERENCES [dbo].[Simulacion] ([id])
  
-ALTER TABLE [dbo].[Recomendacion] CHECK CONSTRAINT [FK_Recomendacion_Usuario]
+ALTER TABLE [dbo].[Recomendacion] CHECK CONSTRAINT [FK_Recomendacion_Simulacion]
+ 
+ALTER TABLE [dbo].[Recomendacion]  WITH CHECK ADD  CONSTRAINT [FK_Recomendacion_UsuarioSimulacion] FOREIGN KEY([idUsuarioSimulacion])
+REFERENCES [dbo].[UsuarioSimulacion] ([id])
+ 
+ALTER TABLE [dbo].[Recomendacion] CHECK CONSTRAINT [FK_Recomendacion_UsuarioSimulacion]
  
 ALTER TABLE [dbo].[Usuario]  WITH CHECK ADD  CONSTRAINT [FK_Usuario_Estado] FOREIGN KEY([estado])
 REFERENCES [dbo].[Estado] ([clave])
@@ -402,6 +477,16 @@ ALTER TABLE [dbo].[UsuarioProblema]  WITH CHECK ADD  CONSTRAINT [FK_UsuarioProbl
 REFERENCES [dbo].[Usuario] ([clave])
  
 ALTER TABLE [dbo].[UsuarioProblema] CHECK CONSTRAINT [FK_UsuarioProblema_Usuario]
+ 
+ALTER TABLE [dbo].[UsuarioSimulacion]  WITH CHECK ADD  CONSTRAINT [FK_UsuarioSimulacion_Simulacion] FOREIGN KEY([idSimulacion])
+REFERENCES [dbo].[Simulacion] ([id])
+ 
+ALTER TABLE [dbo].[UsuarioSimulacion] CHECK CONSTRAINT [FK_UsuarioSimulacion_Simulacion]
+ 
+ALTER TABLE [dbo].[UsuarioSimulacion]  WITH NOCHECK ADD  CONSTRAINT [FK_UsuarioSimulacion_Usuario] FOREIGN KEY([idUsuario])
+REFERENCES [dbo].[Usuario] ([clave])
+ 
+ALTER TABLE [dbo].[UsuarioSimulacion] CHECK CONSTRAINT [FK_UsuarioSimulacion_Usuario]
  
 USE [master]
  
