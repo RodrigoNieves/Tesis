@@ -44,5 +44,26 @@ namespace Simulacion
                 simulacion.finalizaSimulacion(_id);
             }
         }
+        public void registraRecomendacion(Usuario user, int idPorblema, bool resolvio, bool subioNivel)
+        {
+            SimulacionDB simulacion = new SimulacionDB();
+            int res = 0;
+            if (resolvio)
+            {
+                res = 1;
+            }
+            int paso = 0;
+            if (subioNivel)
+            {
+                paso = 1;
+            }
+            simulacion.registraRecomendacion(
+                _idRecomendador, 
+                _id, 
+                user.idUsuarioSimulacion, 
+                idPorblema, 
+                res, 
+                paso);
+        }
     }
 }

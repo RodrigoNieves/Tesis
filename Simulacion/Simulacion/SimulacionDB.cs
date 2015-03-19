@@ -152,6 +152,24 @@ namespace Simulacion
             SqlCommand cmd = new SqlCommand();
             cmd.CommandText = @"DELETE FROM SimulacionKarelotitlan.dbo.Usuario
                                 WHERE clave > 14983";
+            cmd.Connection = sqlConnection;
+            sqlConnection.Open();
+            cmd.ExecuteNonQuery();
+            sqlConnection.Close();
+        }
+        public void registraRecomendacion(int idAlgoritmos, int idSimulacion, int idUsuarioSimulacion, int idProblema,int resolvio, int subioNivel)
+        {
+            SqlConnection sqlConnection = new SqlConnection(SimulacionConnectionString);
+            SqlCommand cmd = new SqlCommand();
+            cmd.CommandText = "INSERT INTO SimulacionKarelotitlan.dbo.Recomendacion(idAlgoritmo,idSimulacion,idUsuarioSimulacion,idProblema,resolvio,subioNivel,timestamp) " +
+                                "VALUES(" +
+                                idAlgoritmos.ToString() + "," +
+                                idSimulacion.ToString() + "," +
+                                idUsuarioSimulacion.ToString() + "," +
+                                idProblema.ToString() + "," +
+                                resolvio.ToString() + "," +
+                                subioNivel.ToString() + ",SYSDATETIME())";
+            cmd.Connection = sqlConnection;
             sqlConnection.Open();
             cmd.ExecuteNonQuery();
             sqlConnection.Close();

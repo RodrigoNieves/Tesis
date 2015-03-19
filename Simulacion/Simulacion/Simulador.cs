@@ -422,8 +422,9 @@ namespace Simulacion
                 }
                 recomendador.realizaAnalisis();
                 SelectorRandom sr = new SelectorRandom(nUsuarios);
-                for (int i = 0; i < nUsuarios; i++)
+                foreach (var user in usuarios)
                 {
+                    int i = user.Key;
                     sr.agrega(i, (int)Math.Floor(usuarios[i].motivacion));
                 }
                 while (!sr.empty())
@@ -443,12 +444,14 @@ namespace Simulacion
                         usuarios[pUsuario].resolvio(problemas[recomendacion]);
                         if (subeNivel(usuarios[pUsuario], recomendacion))
                         {
+                            rsimulacion.registraRecomendacion(usuarios[pUsuario], recomendacion, true, true);
                             usuarios[pUsuario].subeNivel(problemas[recomendacion].idTema);
                             log.Append("Subio");
                             log.Append(",");
                         }
                         else
                         {
+                            rsimulacion.registraRecomendacion(usuarios[pUsuario], recomendacion, true, false);
                             log.Append("no subio");
                             log.Append(",");
                         }
@@ -457,14 +460,16 @@ namespace Simulacion
                     {
                         log.Append("no paso");
                         log.Append(",");
+                        rsimulacion.registraRecomendacion(usuarios[pUsuario], recomendacion, true, false);
                         usuarios[pUsuario].fallo(problemas[recomendacion]);
                         log.Append("no subio,");
                     }
                     log.Append("\r\n");
                 }
                 log.Append("\r\n");
-                for (int i = 0; i < nUsuarios; i++)
+                foreach(var user in usuarios)
                 {
+                    int i = user.Key;
                     usuarios[i].tickTiempo();
                 }
                 rsimulacion.termina();

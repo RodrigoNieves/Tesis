@@ -70,6 +70,13 @@ namespace Simulacion
                 return _idUsuario;
             }
         }
+        public int idUsuarioSimulacion
+        {
+            get
+            {
+                return _idUsuarioSimulacion;
+            }
+        }
         public int habilidadEn(int idTema)
         {
             return _habilidades[idTema];
