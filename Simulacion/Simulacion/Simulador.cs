@@ -28,7 +28,7 @@ namespace Simulacion
 
         Dictionary<int, Dictionary<int, double>> pResolver;             // [Problema][Nivel] Probabilidad de resolver Problema dado que se es nivel Nivel o menor
         Dictionary<int, Dictionary<int, double>> pNivel;                // [Problema][Nivel] Probabilidad de pasar al siguiente nivel dado que se resolvio el problema 
-        Usuario[] usuarios;
+        Dictionary<int, Usuario> usuarios;
         Recomendador _recomendador;                                      // Recomendador 
         public Recomendador recomendador
         {
@@ -400,8 +400,8 @@ namespace Simulacion
             //simuladorDB.llenaUsuarios();
             //simuladorDB.llenaUsuariosProbelmas();
             // int idAlgo = Algoritmos.Instance.getId(recomendador.GetType().Name);
-            
-            usuarios = new Usuario[nUsuarios];
+
+            usuarios = new Dictionary<int, Usuario>();
             for (int i = 0; i < nUsuarios; i++)
             {
                 usuarios[i] = new Usuario(i,2.0, 0.5, 0.25, 1.25);

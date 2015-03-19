@@ -17,12 +17,20 @@ namespace Simulacion
         int _resueltos;
         int _fallos;
         int _idUsuario;
+        bool _ficticio;
 
         public double motivacion
         {
             get
             {
                 return _motivacion;
+            }
+        }
+        public bool ficticio
+        {
+            get
+            {
+                return _ficticio;
             }
         }
         public Usuario(int idUsuario,double motivacionInicial,double aPositiva, double aNegativa,double fFacilidad)
@@ -103,7 +111,6 @@ namespace Simulacion
         {
             subeNivel(tema.idTema);
         }
-
         public override string ToString()
         {
             StringBuilder sb = new StringBuilder();
@@ -121,5 +128,6 @@ namespace Simulacion
             sb.Append("\r\n");
             return sb.ToString();
         }
+
     }
 }
