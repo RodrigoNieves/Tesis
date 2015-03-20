@@ -401,7 +401,7 @@ namespace Simulacion
             
             SimulacionDB simuladorDB = new SimulacionDB();
             simuladorDB.limpiaBase();
-            simuladorDB.llenaUsuarios();
+            //simuladorDB.llenaUsuarios();
             //simuladorDB.llenaUsuariosProbelmas();
             
             log = new StringBuilder();
