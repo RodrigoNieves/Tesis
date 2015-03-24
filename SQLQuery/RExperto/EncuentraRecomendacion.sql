@@ -1,0 +1,1 @@
+SELECT * FROM SimulacionKarelotitlan.dbo.ExpertoRecomendacion WHERE ExpertoRecomendacion.usuario = 1 and ExpertoRecomendacion.problema = 1

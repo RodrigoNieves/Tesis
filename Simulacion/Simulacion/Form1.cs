@@ -88,9 +88,18 @@ namespace Simulacion
             txtLog.AppendText(simulador.testSimula());
             Clipboard.SetText("hola"+txtLog.Text);
         }
+        private void testExperto()
+        {
+            Simulador simulador = new Simulador();
+            simulador.iniciaModelo();
+            simulador.recomendador = new RExperto();
+            simulador.Simula();
+            txtLog.AppendText(simulador.testSimula());
+            Clipboard.SetText(txtLog.Text);
+        }
         private void button1_Click(object sender, EventArgs e)
         {
-            testSimulacion();
+            testExperto();
         }
     }
 }
