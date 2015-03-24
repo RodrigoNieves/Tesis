@@ -196,6 +196,12 @@ namespace Simulacion
             sqlConnection.Open();
             SqlDataReader data = cmd.ExecuteReader();
             bool crear = !data.HasRows;
+            if (data.HasRows)
+            {
+                data.Read();
+                int oldPuntos = (int)data["puntos"];
+                if (oldPuntos > puntos) puntos = oldPuntos;
+            }
             sqlConnection.Close();
 
             string hora = DateTime.Now.Year.ToString() +
