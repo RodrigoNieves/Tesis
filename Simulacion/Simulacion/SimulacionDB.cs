@@ -52,6 +52,7 @@ namespace Simulacion
             //TODO: remplantear limpiar Base de datos
             //ejecutaScript(pathScripts + "02 Tabla UsuarioProblemas.sql");
             //ejecutaScript(pathScripts + "03 Datos Simulacion.sql");
+            limpiaUsuariosProblema();
             quitaUsuariosFictiocios();
         }
         public void llenaUsuarios()
@@ -169,6 +170,50 @@ namespace Simulacion
                                 idProblema.ToString() + "," +
                                 resolvio.ToString() + "," +
                                 subioNivel.ToString() + ",SYSDATETIME())";
+            cmd.Connection = sqlConnection;
+            sqlConnection.Open();
+            cmd.ExecuteNonQuery();
+            sqlConnection.Close();
+        }
+        public void limpiaUsuariosProblema()
+        {
+            SqlConnection sqlConnection = new SqlConnection(SimulacionConnectionString);
+            SqlCommand cmd = new SqlCommand();
+            cmd.CommandText = @"DELETE FROM SimulacionKarelotitlan.dbo.UsuarioProblema
+                                WHERE UsuarioProblema.usuario > 14983";
+            cmd.Connection = sqlConnection;
+            sqlConnection.Open();
+            cmd.ExecuteNonQuery();
+            sqlConnection.Close();
+        }
+        public void registraResultado(int idUsuario, int idPorblema, int puntos)
+        {
+
+            SqlConnection sqlConnection = new SqlConnection(SimulacionConnectionString);
+            SqlCommand cmd = new SqlCommand();
+            cmd.CommandText = string.Format("SELECT * FROM SimulacionKarelotitlan.dbo.UsuarioProblema WHERE UsuarioProblema.usuario = {0} and UsuarioProblema.problema = {1}", idUsuario,idPorblema);
+            cmd.Connection = sqlConnection;
+            sqlConnection.Open();
+            SqlDataReader data = cmd.ExecuteReader();
+            bool crear = !data.HasRows;
+            sqlConnection.Close();
+
+            string hora = DateTime.Now.Year.ToString() +
+                          DateTime.Now.Month.ToString() +
+                          DateTime.Now.Day.ToString() +
+                          DateTime.Now.Hour.ToString() +
+                          DateTime.Now.Minute.ToString();
+
+            sqlConnection = new SqlConnection(SimulacionConnectionString);
+            cmd = new SqlCommand();
+            if (crear)
+            {
+                cmd.CommandText = string.Format("INSERT INTO SimulacionKarelotitlan.DBO.UsuarioProblema (usuario,problema,primero,puntos,hora) VALUES({0},{1},{2},{2},{3})",idUsuario,idPorblema,puntos,hora);
+            }
+            else
+            {
+                cmd.CommandText = string.Format("UPDATE SimulacionKarelotitlan.DBO.UsuarioProblema SET puntos = {0} WHERE UsuarioProblema.usuario = {1} and UsuarioProblema.problema = {2}",puntos,idUsuario,idPorblema);
+            }
             cmd.Connection = sqlConnection;
             sqlConnection.Open();
             cmd.ExecuteNonQuery();

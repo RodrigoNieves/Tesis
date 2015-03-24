@@ -64,6 +64,12 @@ namespace Simulacion
                 idPorblema, 
                 res, 
                 paso);
+            if(resolvio){
+                simulacion.registraResultado(user.idUsuario, idPorblema, 100);
+            }else{
+                simulacion.registraResultado(user.idUsuario, idPorblema, 0);
+            }
+            
         }
     }
 }

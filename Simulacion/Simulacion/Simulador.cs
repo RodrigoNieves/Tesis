@@ -460,7 +460,7 @@ namespace Simulacion
                     {
                         log.Append("no paso");
                         log.Append(",");
-                        rsimulacion.registraRecomendacion(usuarios[pUsuario], recomendacion, true, false);
+                        rsimulacion.registraRecomendacion(usuarios[pUsuario], recomendacion, false, false);
                         usuarios[pUsuario].fallo(problemas[recomendacion]);
                         log.Append("no subio,");
                     }
