@@ -127,18 +127,19 @@ namespace Simulacion
             sqlConnection.Close();
             return idUsuario;
         }
-        public int creaUsuarioSimulacion(int idUsuario, int idSimulacion, double motivacion, double aPositiva, double aNegativa, double fFacilidad)
+        public int creaUsuarioSimulacion(int idUsuario, int idSimulacion, double motivacion, double aPositiva, double aNegativa, double fFacilidad,double sinRecomendacion)
         {
             SqlConnection sqlConnection = new SqlConnection(SimulacionConnectionString);
             SqlCommand cmd = new SqlCommand();
-            cmd.CommandText = "INSERT INTO SimulacionKarelotitlan.dbo.UsuarioSimulacion (idUsuario, idSimulacion, motivacionInicial, aPositiva, aNegativa, fFacilidad)" +
+            cmd.CommandText = "INSERT INTO SimulacionKarelotitlan.dbo.UsuarioSimulacion (idUsuario, idSimulacion, motivacionInicial, aPositiva, aNegativa, fFacilidad, sinRecomendacion)" +
                             "VALUES(" +
                             idUsuario.ToString() + "," +
                             idSimulacion.ToString() + "," +
                             motivacion.ToString() + "," +
                             aPositiva.ToString() + "," +
                             aNegativa.ToString() + "," +
-                            fFacilidad.ToString() + ")" +
+                            fFacilidad.ToString() + "," +
+                            sinRecomendacion.ToString() + ")" +
                             "SELECT SCOPE_IDENTITY()";
             cmd.Connection = sqlConnection;
             sqlConnection.Open();
@@ -224,6 +225,37 @@ namespace Simulacion
             sqlConnection.Open();
             cmd.ExecuteNonQuery();
             sqlConnection.Close();
+        }
+
+        public bool resolvioTodo(int idUsuario)
+        {
+            int nProblemas = -1;
+            int nResueltos = -2;
+            SqlConnection sqlConnection = new SqlConnection(SimulacionConnectionString);
+            SqlCommand cmd = new SqlCommand();
+            cmd.CommandText = string.Format("select count(*) from SimulacionKarelotitlan.dbo.UsuarioProblema where UsuarioProblema.usuario = {0} and UsuarioProblema.puntos = 100", idUsuario);
+            cmd.Connection = sqlConnection;
+            sqlConnection.Open();
+            SqlDataReader data = cmd.ExecuteReader();
+            if (data.Read())
+            {
+                nResueltos = (int)data[0];
+            }
+            sqlConnection.Close();
+
+            sqlConnection = new SqlConnection(SimulacionConnectionString);
+            cmd = new SqlCommand();
+            cmd.CommandText = "select count(*) from SimulacionKarelotitlan.dbo.Problema";
+            cmd.Connection = sqlConnection;
+            sqlConnection.Open();
+            data = cmd.ExecuteReader();
+            if (data.Read())
+            {
+                nProblemas = (int)data[0];
+            }
+            sqlConnection.Close(); 
+
+            return nProblemas == nResueltos;
         }
     }
 }

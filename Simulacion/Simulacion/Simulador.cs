@@ -408,7 +408,7 @@ namespace Simulacion
             usuarios = new Dictionary<int, Usuario>();
             for (int i = 0; i < nUsuarios; i++)
             {
-                Usuario nuevo = new Usuario(rsimulacion.id,2.0, 0.5, 0.25, 1.25);
+                Usuario nuevo = new Usuario(rsimulacion.id, 2.0, 0.5, 0.25, 1.25, 1.0);
                 usuarios[nuevo.idUsuario] = nuevo;
                 usuarios[nuevo.idUsuario].temas = temas;
             }
@@ -418,7 +418,7 @@ namespace Simulacion
                 log.Append("Iteracion: " + iteracion.ToString() + "\r\n");
                 foreach (var user in usuarios)
                 {
-                    log.Append(user.ToString());
+                    log.Append(user.Value.ToString());
                 }
                 recomendador.realizaAnalisis();
                 SelectorRandom sr = new SelectorRandom(nUsuarios);
@@ -437,32 +437,47 @@ namespace Simulacion
                     log.Append(",");
                     //Registrar recomendacion
                     //TODO: hacer un random Unico
-                    if (pasa(usuarios[pUsuario], recomendacion))
+                    if (recomendacion < 0)
                     {
-                        log.Append("paso");
-                        log.Append(",");
-                        usuarios[pUsuario].resolvio(problemas[recomendacion]);
-                        if (subeNivel(usuarios[pUsuario], recomendacion))
+                        // el recomendador no pudo generar recomendacion
+                        if (usuarios[pUsuario].resolvioTodo())
                         {
-                            rsimulacion.registraRecomendacion(usuarios[pUsuario], recomendacion, true, true);
-                            usuarios[pUsuario].subeNivel(problemas[recomendacion].idTema);
-                            log.Append("Subio");
-                            log.Append(",");
+                            log.Append("Resolvio Todo");
                         }
                         else
                         {
-                            rsimulacion.registraRecomendacion(usuarios[pUsuario], recomendacion, true, false);
-                            log.Append("no subio");
-                            log.Append(",");
+                            log.Append("Recomendador no tiene recomendaciones");
                         }
                     }
                     else
                     {
-                        log.Append("no paso");
-                        log.Append(",");
-                        rsimulacion.registraRecomendacion(usuarios[pUsuario], recomendacion, false, false);
-                        usuarios[pUsuario].fallo(problemas[recomendacion]);
-                        log.Append("no subio,");
+                        if (pasa(usuarios[pUsuario], recomendacion))
+                        {
+                            log.Append("paso");
+                            log.Append(",");
+                            usuarios[pUsuario].resolvio(problemas[recomendacion]);
+                            if (subeNivel(usuarios[pUsuario], recomendacion))
+                            {
+                                rsimulacion.registraRecomendacion(usuarios[pUsuario], recomendacion, true, true);
+                                usuarios[pUsuario].subeNivel(problemas[recomendacion].idTema);
+                                log.Append("Subio");
+                                log.Append(",");
+                            }
+                            else
+                            {
+                                rsimulacion.registraRecomendacion(usuarios[pUsuario], recomendacion, true, false);
+                                log.Append("no subio");
+                                log.Append(",");
+                            }
+                        }
+                        else
+                        {
+                            log.Append("no paso");
+                            log.Append(",");
+                            rsimulacion.registraRecomendacion(usuarios[pUsuario], recomendacion, false, false);
+                            usuarios[pUsuario].fallo(problemas[recomendacion]);
+                            log.Append("no subio,");
+                        }
                     }
                     log.Append("\r\n");
                 }

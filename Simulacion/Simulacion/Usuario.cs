@@ -13,10 +13,12 @@ namespace Simulacion
         double _aPositiva;
         double _aNegativa;
         double _fFacilida;
+        double _sinRecomendacion;
         double incremento;
         int _resueltos;
         int _fallos;
         bool _ficticio;
+        bool _terminado = false;
 
         int _idUsuario;
         int _idUsuarioSimulacion;
@@ -34,12 +36,14 @@ namespace Simulacion
                 return _ficticio;
             }
         }
-        public Usuario(int idSimulacion, double motivacionInicial, double aPositiva, double aNegativa, double fFacilidad)
+        public Usuario(int idSimulacion, double motivacionInicial, double aPositiva, double aNegativa, double fFacilidad,double sinRecomendacion)
         {
+            _ficticio = true;
             _motivacion = motivacionInicial;
             _aPositiva = aPositiva;
             _aNegativa = aNegativa;
             _fFacilida = fFacilidad;
+            _sinRecomendacion = sinRecomendacion;
             _resueltos = 0;
             _fallos = 0;
             // TODO: Obtener ID de nuevo usuario creado
@@ -50,7 +54,8 @@ namespace Simulacion
                 motivacionInicial,
                 aPositiva,
                 aNegativa,
-                fFacilidad);
+                fFacilidad,
+                sinRecomendacion);
         }
         public List<Tema> temas
         {
@@ -103,14 +108,22 @@ namespace Simulacion
             incremento -= _aNegativa * Math.Exp(-1 * _aNegativa * _fallos);
             _fallos++; 
         }
+        public void sinRecomendacion()
+        {
+            incremento -= _sinRecomendacion;
+        }
         public void tickTiempo()
         {
-            _motivacion += incremento;
-            incremento = 0.0;
-            _resueltos = 0;
-            _fallos = 0;
-            if (_motivacion < 1.0)
+            if (!_terminado)
             {
+                _motivacion += incremento;
+                incremento = 0.0;
+                _resueltos = 0;
+                _fallos = 0;
+            }
+            if ((!_terminado) && _motivacion < 1.0)
+            {
+                _terminado = true;
                 // El usuario ha abandonado
                 var llaves = new List<int>(_habilidades.Keys);
                 foreach (var idHabilidad in llaves)
@@ -126,6 +139,23 @@ namespace Simulacion
         public void subeNivel(Tema tema)
         {
             subeNivel(tema.idTema);
+        }
+        public bool resolvioTodo()
+        {
+            SimulacionDB simulacion = new SimulacionDB();
+            bool _resolvioTodo = simulacion.resolvioTodo(_idUsuario);
+            if (!_terminado && _resolvioTodo)
+            {
+                //el usuario ha terminado todo
+                _motivacion = 0.0;
+                _terminado = true;
+                var llaves = new List<int>(_habilidades.Keys);
+                foreach (var idHabilidad in llaves)
+                {
+                    _habilidades[idHabilidad] = 6;
+                }
+            }
+            return _resolvioTodo;
         }
         public override string ToString()
         {
@@ -144,6 +174,6 @@ namespace Simulacion
             sb.Append("\r\n");
             return sb.ToString();
         }
-
+        
     }
 }
