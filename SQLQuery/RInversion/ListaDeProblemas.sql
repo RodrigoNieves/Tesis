@@ -1,0 +1,1 @@
+SELECT usuario, hora, problema FROM SimulacionKarelotitlan.dbo.UsuarioProblema order by usuario
