@@ -37,6 +37,14 @@ namespace Simulacion
             sqlConnection.Open();
             cmd.ExecuteNonQuery();
             sqlConnection.Close();
+
+            sqlConnection = new SqlConnection(connectionString);
+            cmd = new SqlCommand();
+            cmd.CommandText = "DELETE FROM SimulacionKarelotitlan.dbo.ExpertoRecomendacion";
+            cmd.Connection = sqlConnection;
+            sqlConnection.Open();
+            cmd.ExecuteNonQuery();
+            sqlConnection.Close();
         }
         public Dictionary<int, List<int>> historiasUsuarios()
         {
@@ -100,7 +108,7 @@ namespace Simulacion
             return historias;
         }
 
-        internal void guardaAnalisis(int[] usuarios, int[,] inversiones, int[,] iguales, int[,] complemento)
+        public void guardaAnalisis(int[] usuarios, int[,] inversiones, int[,] iguales, int[,] complemento)
         {
             limpiaTablas();
             StringBuilder command = new StringBuilder();
@@ -134,6 +142,95 @@ namespace Simulacion
             sqlConnection.Open();
             cmd.ExecuteNonQuery();
             sqlConnection.Close();
+        }
+        public List<int> usuariosSimilares(int usuario, int nTop)
+        {
+            List<int> resultado = new List<int>();
+
+            SqlConnection sqlConnection = new SqlConnection(connectionString);
+            SqlCommand cmd = new SqlCommand();
+            SqlDataReader result;
+
+            cmd.CommandText = string.Format("SELECT TOP {0} *,(126-sqrt(2*inversiones))*iguales*complemento AS score FROM SimulacionKarelotitlan.dbo.Inversion WHERE u1 = {1} ORDER BY score DESC", nTop, usuario);
+            cmd.CommandType = CommandType.Text;
+            cmd.Connection = sqlConnection;
+
+            sqlConnection.Open();
+
+            result = cmd.ExecuteReader();
+            while(result.Read()){
+                int u2 = (int)result["u2"];
+                resultado.Add(u2);
+            }
+            sqlConnection.Close();
+            return resultado;
+        }
+        public void registraRecomendacion(int idUsuarion, int idProblema, int tiempo)
+        {
+            SqlConnection sqlConnection = new SqlConnection(connectionString);
+            SqlCommand cmd = new SqlCommand();
+            cmd.CommandText = string.Format("SELECT * FROM SimulacionKarelotitlan.dbo.ExpertoRecomendacion WHERE ExpertoRecomendacion.usuario = {0} and ExpertoRecomendacion.problema = {1}", idUsuarion, idProblema);
+            cmd.Connection = sqlConnection;
+            sqlConnection.Open();
+            SqlDataReader data = cmd.ExecuteReader();
+            bool crear = !data.HasRows;
+            if (data.HasRows)
+            {
+                data.Read();
+                int oldTiempo = (int)data["tiempo"];
+                if (oldTiempo < tiempo) tiempo = oldTiempo;
+            }
+            sqlConnection.Close();
+
+            sqlConnection = new SqlConnection(connectionString);
+            cmd = new SqlCommand();
+            if (crear)
+            {
+                cmd.CommandText = string.Format("INSERT INTO SimulacionKarelotitlan.dbo.ExpertoRecomendacion (usuario,problema,tiempo) VALUES ({0},{1},{2})", idUsuarion, idProblema, tiempo);
+            }
+            else
+            {
+                cmd.CommandText = string.Format("UPDATE SimulacionKarelotitlan.dbo.ExpertoRecomendacion SET ExpertoRecomendacion.tiempo = {2} WHERE ExpertoRecomendacion.usuario = {0} AND ExpertoRecomendacion.problema = {1}", idUsuarion, idProblema, tiempo);
+            }
+            cmd.Connection = sqlConnection;
+            sqlConnection.Open();
+            cmd.ExecuteNonQuery();
+            sqlConnection.Close();
+        }
+        public List<int> viables(int usuario, int tiempo, List<int> candidatos)
+        {
+            List<int> result = new List<int>();
+            StringBuilder candidatosString = new StringBuilder();
+            bool first = true;
+            foreach (var candidato in candidatos)
+            {
+                if (!first) candidatosString.Append(",");
+                candidatosString.Append(candidato.ToString());
+                first = false;
+            }
+
+            SqlConnection sqlConnection = new SqlConnection(connectionString);
+            SqlCommand cmd = new SqlCommand();
+            SqlDataReader sqlReader;
+
+            cmd.CommandText = string.Format(@"SELECT * FROM SimulacionKarelotitlan.dbo.Problema 
+                                                WHERE Problema.clave in ({0}) and
+	                                                  Problema.clave not in (SELECT UsuarioProblema.problema FROM SimulacionKarelotitlan.dbo.UsuarioProblema WHERE UsuarioProblema.usuario = {1} and UsuarioProblema.puntos = 100) and 
+	                                                  Problema.clave not in (SELECT ExpertoRecomendacion.problema FROM SimulacionKarelotitlan.dbo.ExpertoRecomendacion WHERE ExpertoRecomendacion.usuario = {1} and ExpertoRecomendacion.tiempo < {2})", candidatosString.ToString(), usuario.ToString(), tiempo.ToString());
+            cmd.CommandType = CommandType.Text;
+            cmd.Connection = sqlConnection;
+
+            sqlConnection.Open();
+
+            sqlReader = cmd.ExecuteReader();
+
+            while (sqlReader.Read())
+            {
+                int clave = (int)sqlReader["clave"];
+                result.Add(clave);
+            }
+
+            return result;
         }
     }
 }

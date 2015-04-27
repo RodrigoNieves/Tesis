@@ -9,11 +9,17 @@ namespace Simulacion
     class RInversion : Recomendador
     {
         InversionDB db;
+        int nTopUsuarios = 5;
+        int tiempo = 0;
+        int fueraPor = 10;
         int[] usuarios;
         int[,] inversiones;
         int[,] iguales;
         int[,] complemento;
+        
         Dictionary<int, List<int>> historias;
+        Dictionary<int, List<int>> historiasOrdenadas;
+        Dictionary<int, Dictionary<int, bool>> usuarioResolvioP;
         public RInversion()
         {
             db = InversionDB.Instance;
@@ -104,11 +110,24 @@ namespace Simulacion
         }
         void Recomendador.iniciaRecomendador()
         {
-            
+            db.limpiaTablas();
         }
         void Recomendador.realizaAnalisis()
         {
+            tiempo++;
             historias = db.historiasUsuarios();
+            historiasOrdenadas = new Dictionary<int, List<int>>();
+            usuarioResolvioP = new Dictionary<int, Dictionary<int, bool>>();
+            foreach (var historia in historias)
+            {
+                historiasOrdenadas[historia.Key] = new List<int>(historia.Value);
+                historiasOrdenadas[historia.Key].Sort();
+                usuarioResolvioP[historia.Key] = new Dictionary<int, bool>();
+                foreach (var problema in historia.Value)
+                {
+                    usuarioResolvioP[historia.Key][problema] = true;
+                }
+            }
             List<int> usuariosId = new List<int>(historias.Keys);
             usuarios = usuariosId.ToArray();
             inversiones = new int[usuarios.Length, usuarios.Length];
@@ -125,9 +144,165 @@ namespace Simulacion
             }
             db.guardaAnalisis(usuarios, inversiones, iguales, complemento);
         }
+        private int sinRecomendacion(int usuario)
+        {
+            return -1;
+        }
+        /// <summary>
+        /// Este metodo da como resultado la interseccion de dos conjuntos,
+        /// es necesario que los dos conjuntos esten ordenados
+        /// </summary>
+        /// <param name="a">conjunto ordenado</param>
+        /// <param name="b">conjunto ordenado</param>
+        /// <returns>interseccion conjunto ordenado</returns>
+        private List<int> interseccion(List<int> a, List<int> b)
+        {
+            List<int> result = new List<int>();
+            var eA = a.GetEnumerator();
+            var eB = b.GetEnumerator();
+            eA.MoveNext();
+            int pa = 0;
+            eB.MoveNext();
+            int pb = 0;
+            while (pa < a.Count && pb < b.Count)
+            {
+                if (eA.Current == eB.Current)
+                {
+                    result.Add(eA.Current);
+                    eA.MoveNext();
+                    pa++;
+                    eB.MoveNext();
+                    pb++;
+                }
+                else if (eA.Current < eB.Current)
+                {
+                    eA.MoveNext();
+                    pa++;
+                }
+                else
+                {
+                    eB.MoveNext();
+                    pb++;
+                }
+            }
+            return result;
+        }
+        /// <summary>
+        /// Este metodo da como resultado la union de dos conjuntos,
+        /// es necesario que los dos conjuntos esten ordenados
+        /// </summary>
+        /// <param name="a">conjunto ordenado</param>
+        /// <param name="b">conjunto ordenado</param>
+        /// <returns>union de los dos conjuntos</returns>
+        private List<int> union(List<int> a, List<int> b)
+        {
+            List<int> result = new List<int>();
+            var eA = a.GetEnumerator();
+            var eB = b.GetEnumerator();
+            eA.MoveNext();
+            int pa = 0;
+            eB.MoveNext();
+            int pb = 0;
+            while (pa < a.Count && pb < b.Count)
+            {
+                if (eA.Current == eB.Current)
+                {
+                    result.Add(eA.Current);
+                    eA.MoveNext();
+                    pa++;
+                    eB.MoveNext();
+                    pb++;
+                }
+                else if (eA.Current < eB.Current)
+                {
+                    result.Add(eA.Current);
+                    eA.MoveNext();
+                    pa++;
+                }
+                else
+                {
+                    result.Add(eB.Current);
+                    eB.MoveNext();
+                    pb++;
+                }
+            }
+            while (pa < a.Count)
+            {
+                result.Add(eA.Current);
+                eA.MoveNext();
+                pa++;
+            }
+            while (pb < b.Count)
+            {
+                result.Add(eB.Current);
+                eB.MoveNext();
+                pb++;
+            }
+            return result;
+        }
+        private List<int> pProblemas(int usuario, List<int> similares)
+        {
+            List<int> resultado = new List<int>();
+            List<int> parcial;
+            foreach (var elem in similares)
+            {
+                parcial = interseccion(historiasOrdenadas[usuario], historiasOrdenadas[elem]);
+                resultado = union(resultado,parcial);
+            }
+            return resultado;
+        }
+        private int masFrecuente(List<int> usuariosSimilares, List<int> problemasCandidatos)
+        {
+            int idProblema = -1;
+            int frecuencia = 0;
+            foreach (var problema in problemasCandidatos)
+            {
+                int cont = 0;
+                foreach (var usuario in usuariosSimilares)
+                {
+                    if (usuarioResolvioP[usuario].ContainsKey(problema) && usuarioResolvioP[usuario][problema])
+                    {
+                        cont++;
+                    }
+                }
+                if (cont > frecuencia)
+                {
+                    frecuencia = cont;
+                    idProblema = problema;
+                }
+            }
+            return idProblema;
+        }
         int Recomendador.recomendacion(int usuario)
         {
-            return 0;
+            List<int> similares = db.usuariosSimilares(usuario, nTopUsuarios);
+            if (similares.Count <= 0)
+            {
+                // No se encontraron Usuarios Similares
+                int rec = sinRecomendacion(usuario);
+                db.registraRecomendacion(usuario,rec,tiempo);
+                return rec;
+            }
+            List<int> posiblesProblemas;
+            posiblesProblemas = pProblemas(usuario, similares);
+            if (posiblesProblemas.Count <= 0)
+            {
+                // No hay problmeas para Recommendar
+                int rec = sinRecomendacion(usuario);
+                db.registraRecomendacion(usuario, rec, tiempo);
+                return rec;
+            }
+            List<int> candidatos = db.viables(usuario, tiempo - fueraPor, posiblesProblemas);
+            if (candidatos.Count <= 0)
+            {
+                // No hay problemas que se puedan recommendar
+                int rec = sinRecomendacion(usuario);
+                db.registraRecomendacion(usuario, rec, tiempo);
+                return rec;
+            }
+            int res = masFrecuente(similares, candidatos);
+            db.registraRecomendacion(usuario, res, tiempo);
+            return res;
         }
     }
 }
