@@ -97,9 +97,18 @@ namespace Simulacion
             txtLog.AppendText(simulador.testSimula());
             Clipboard.SetText(txtLog.Text);
         }
+        private void testInversion()
+        {
+            Simulador simulador = new Simulador();
+            simulador.iniciaModelo();
+            simulador.recomendador = new RInversion();
+            simulador.Simula();
+            txtLog.AppendText(simulador.testSimula());
+            Clipboard.SetText(txtLog.Text);
+        }
         private void button1_Click(object sender, EventArgs e)
         {
-            testExperto();
+            testInversion();
         }
     }
 }
