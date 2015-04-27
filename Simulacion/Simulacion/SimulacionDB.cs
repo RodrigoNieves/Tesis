@@ -226,7 +226,6 @@ namespace Simulacion
             cmd.ExecuteNonQuery();
             sqlConnection.Close();
         }
-
         public bool resolvioTodo(int idUsuario)
         {
             int nProblemas = -1;

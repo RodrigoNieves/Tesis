@@ -16,6 +16,7 @@ namespace Simulacion
         int[,] inversiones;
         int[,] iguales;
         int[,] complemento;
+        double[,] score;
         
         Dictionary<int, List<int>> historias;
         Dictionary<int, List<int>> historiasOrdenadas;
@@ -144,6 +145,7 @@ namespace Simulacion
                     inversiones[i, j] = cuentaInversiones(historias[usuarios[i]], historias[usuarios[j]]);
                     iguales[i, j] = nIguales;
                     complemento[i, j] = nComplemento;
+                    score[i, j] = (126.0 - Math.Sqrt(2.0 * inversiones[i, j])) * iguales[i, j] * complemento[i, j];
                 }
             }
             db.guardaAnalisis(usuarios, inversiones, iguales, complemento);
