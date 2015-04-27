@@ -29,6 +29,10 @@ namespace Simulacion
         private int nInversiones;
         private List<int> ordena(List<int> a)
         {
+            if (a.Count <= 1)
+            {
+                return a;
+            }
             List<int> izq = new List<int>();
             List<int> der = new List<int>();
             int n = a.Count;

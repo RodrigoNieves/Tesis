@@ -111,37 +111,43 @@ namespace Simulacion
         public void guardaAnalisis(int[] usuarios, int[,] inversiones, int[,] iguales, int[,] complemento)
         {
             limpiaTablas();
-            StringBuilder command = new StringBuilder();
-            command.Append("INSERT INTO SimulacionKarelotitlan.DBO.Inversion (u1,u2,inversiones,iguales,complemento) VALUES  ");
             for (int i = 0; i < usuarios.Length; i++)
             {
-                for (int j = 0; j < usuarios.Length; j++)
+                int salto = 100;
+                for (int jtemp = 0; jtemp < usuarios.Length; jtemp += salto)
                 {
-                    if (i != 0 || j != 0)
+                    StringBuilder command = new StringBuilder();
+                    command.Append("INSERT INTO SimulacionKarelotitlan.DBO.Inversion (u1,u2,inversiones,iguales,complemento) VALUES  ");
+
+                    for (int j = jtemp;j<jtemp+salto && j < usuarios.Length; j++)
                     {
+                        if ((j%salto) != 0)
+                        {
+                            command.Append(",");
+                        }
+                        command.Append("(");
+                        command.Append(usuarios[i].ToString());
                         command.Append(",");
+                        command.Append(usuarios[j].ToString());
+                        command.Append(",");
+                        command.Append(inversiones[i, j].ToString());
+                        command.Append(",");
+                        command.Append(iguales[i, j].ToString());
+                        command.Append(",");
+                        command.Append(complemento[i, j].ToString());
+                        command.Append(")");
                     }
-                    command.Append("(");
-                    command.Append(usuarios[i].ToString());
-                    command.Append(",");
-                    command.Append(usuarios[j].ToString());
-                    command.Append(",");
-                    command.Append(inversiones[i, j].ToString());
-                    command.Append(",");
-                    command.Append(iguales[i, j].ToString());
-                    command.Append(",");
-                    command.Append(complemento[i, j].ToString());
-                    command.Append(")");
+
+                    command.Append(";");
+                    SqlConnection sqlConnection = new SqlConnection(connectionString);
+                    SqlCommand cmd = new SqlCommand();
+                    cmd.CommandText = command.ToString();
+                    cmd.Connection = sqlConnection;
+                    sqlConnection.Open();
+                    cmd.ExecuteNonQuery();
+                    sqlConnection.Close();
                 }
             }
-            command.Append(";");
-            SqlConnection sqlConnection = new SqlConnection(connectionString);
-            SqlCommand cmd = new SqlCommand();
-            cmd.CommandText = command.ToString();
-            cmd.Connection = sqlConnection;
-            sqlConnection.Open();
-            cmd.ExecuteNonQuery();
-            sqlConnection.Close();
         }
         public List<int> usuariosSimilares(int usuario, int nTop)
         {
