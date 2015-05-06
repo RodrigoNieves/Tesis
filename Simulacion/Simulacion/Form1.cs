@@ -106,6 +106,37 @@ namespace Simulacion
             txtLog.AppendText(simulador.testSimula());
             Clipboard.SetText(txtLog.Text);
         }
+        private void testPriorityQueue()
+        {
+            StringBuilder log = new StringBuilder();
+            Random rn = new Random(123);
+            PriotiryQueue<int> pq = new PriotiryQueue<int>(invertida:false);
+            PriotiryQueue<int> pqInvertida = new PriotiryQueue<int>(invertida: true);
+            for (int i = 0; i < 10; i++)
+            {
+                int r = rn.Next()%100;
+                log.Append(r.ToString());
+                log.Append(",");
+                pq.push(r);
+                pqInvertida.push(r);
+            }
+            log.Append("\r\n");
+            while (!pq.empty)
+            {
+                log.Append(pq.top().ToString());
+                pq.pop();
+                log.Append(",");
+            }
+            log.Append("\r\n");
+            while (!pqInvertida.empty)
+            {
+                log.Append(pqInvertida.top().ToString());
+                pqInvertida.pop();
+                log.Append(",");
+            }
+            log.Append("\r\n");
+            txtLog.AppendText(log.ToString());
+        }
         private void button1_Click(object sender, EventArgs e)
         {
             testInversion();

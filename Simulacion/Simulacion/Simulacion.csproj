@@ -48,6 +48,7 @@
     <Compile Include="Algoritmo.cs" />
     <Compile Include="Algoritmos.cs" />
     <Compile Include="InversionDB.cs" />
+    <Compile Include="PriotiryQueue.cs" />
     <Compile Include="RInversion.cs" />
     <Compile Include="Dificultad.cs" />
     <Compile Include="ExpertoDB.cs" />
