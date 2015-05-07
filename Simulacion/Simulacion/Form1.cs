@@ -101,7 +101,8 @@ namespace Simulacion
         {
             Simulador simulador = new Simulador();
             simulador.iniciaModelo();
-            simulador.recomendador = new RInversion();
+            RRandom coldStart = new RRandom(ListaDeProblemas());
+            simulador.recomendador = new RInversion(rEnColdStart: coldStart);
             simulador.Simula();
             txtLog.AppendText(simulador.testSimula());
             Clipboard.SetText(txtLog.Text);

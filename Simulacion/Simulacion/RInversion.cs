@@ -8,6 +8,7 @@ namespace Simulacion
 {
     class RInversion : Recomendador
     {
+        Recomendador coldStart;
         InversionDB db;
         int nTopUsuarios = 5;
         int tiempo = 0;
@@ -21,9 +22,10 @@ namespace Simulacion
         Dictionary<int, List<int>> historias;
         Dictionary<int, List<int>> historiasOrdenadas;
         Dictionary<int, Dictionary<int, bool>> usuarioResolvioP;
-        public RInversion()
+        public RInversion(Recomendador rEnColdStart=null)
         {
             db = InversionDB.Instance;
+            coldStart = rEnColdStart;
         }
         private int nIguales;
         private int nComplemento;
@@ -116,9 +118,11 @@ namespace Simulacion
         void Recomendador.iniciaRecomendador()
         {
             db.limpiaTablas();
+            coldStart.iniciaRecomendador();
         }
         void Recomendador.realizaAnalisis()
         {
+            coldStart.realizaAnalisis();
             tiempo++;
             historias = db.historiasUsuarios();
             historiasOrdenadas = new Dictionary<int, List<int>>();
@@ -153,7 +157,8 @@ namespace Simulacion
         }
         private int sinRecomendacion(int usuario)
         {
-            return -1;
+            //En caso de no tener recomendacion se va a otro recomendador.
+            return coldStart.recomendacion(usuario);
         }
         /// <summary>
         /// Este metodo da como resultado la interseccion de dos conjuntos,
