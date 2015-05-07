@@ -24,8 +24,16 @@ namespace Simulacion
             n++;
             int p = n;
             int padre = p/2;
-            bool puedeSubir = (monti[padre].CompareTo(elemento) < 0 && mayor) ||
+            bool puedeSubir;
+            if (p > 1)
+            {
+                puedeSubir =  (monti[padre].CompareTo(elemento) < 0 && mayor) ||
                               (monti[padre].CompareTo(elemento) > 0 && !mayor);
+            }
+            else
+            {
+                puedeSubir = false;
+            }  
             while (p > 1 && puedeSubir)
             {
                 monti[p] = monti[padre];

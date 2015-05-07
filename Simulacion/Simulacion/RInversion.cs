@@ -138,6 +138,7 @@ namespace Simulacion
             inversiones = new int[usuarios.Length, usuarios.Length];
             iguales = new int[usuarios.Length, usuarios.Length];
             complemento = new int[usuarios.Length, usuarios.Length];
+            score = new double[usuarios.Length, usuarios.Length];
             for (int i = 0; i < usuarios.Length; i++)
             {
                 for (int j = 0; j < usuarios.Length; j++)
