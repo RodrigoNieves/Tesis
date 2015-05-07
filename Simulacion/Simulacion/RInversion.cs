@@ -148,7 +148,7 @@ namespace Simulacion
                     score[i, j] = (126.0 - Math.Sqrt(2.0 * inversiones[i, j])) * iguales[i, j] * complemento[i, j];
                 }
             }
-            db.guardaAnalisis(usuarios, inversiones, iguales, complemento);
+            db.guardaAnalisis(usuarios, inversiones, iguales, complemento, score);
         }
         private int sinRecomendacion(int usuario)
         {

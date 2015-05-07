@@ -114,5 +114,12 @@ namespace Simulacion
                 return n <= 0;
             }
         }
+        public int count
+        {
+            get
+            {
+                return n;
+            }
+        }
     }
 }

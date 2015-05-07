@@ -108,11 +108,61 @@ namespace Simulacion
             return historias;
         }
 
-        public void guardaAnalisis(int[] usuarios, int[,] inversiones, int[,] iguales, int[,] complemento)
+        public void guardaAnalisis(int[] usuarios, int[,] inversiones, int[,] iguales, int[,] complemento, double[,] scroe)
         {
+            int top = 10; // guarda los mejores top
             limpiaTablas();
             for (int i = 0; i < usuarios.Length; i++)
             {
+                PriotiryQueue<AnalisisUsuarioInversion> pq = new PriotiryQueue<AnalisisUsuarioInversion>(invertida: true);
+                for (int j = 0; j < usuarios.Length; j++)
+                {
+                    AnalisisUsuarioInversion nuevo = new AnalisisUsuarioInversion();
+                    nuevo.u1 = usuarios[i];
+                    nuevo.u2 = usuarios[j];
+                    nuevo.inversiones = inversiones[i, j];
+                    nuevo.iguales = iguales[i, j];
+                    nuevo.complemento = complemento[i, j];
+                    nuevo.score = scroe[i, j];
+                    pq.push(nuevo);
+                    if (pq.count > top)
+                    {
+                        pq.pop();
+                    }
+                }
+                StringBuilder command = new StringBuilder();
+                command.Append("INSERT INTO SimulacionKarelotitlan.DBO.Inversion (u1,u2,inversiones,iguales,complemento) VALUES  ");
+                int count = 0;
+                while(!pq.empty){
+                    var elem = pq.pop();
+                    if (count != 0)
+                    {
+                        command.Append(",");
+                    }
+                    command.Append("(");
+                    command.Append(elem.u1.ToString());
+                    command.Append(",");
+                    command.Append(elem.u2.ToString());
+                    command.Append(",");
+                    command.Append(elem.inversiones.ToString());
+                    command.Append(",");
+                    command.Append(elem.iguales.ToString());
+                    command.Append(",");
+                    command.Append(elem.complemento.ToString());
+                    command.Append(")");
+                    count++;
+                }
+
+                command.Append(";");
+                SqlConnection sqlConnection = new SqlConnection(connectionString);
+                SqlCommand cmd = new SqlCommand();
+                cmd.CommandText = command.ToString();
+                cmd.Connection = sqlConnection;
+                sqlConnection.Open();
+                cmd.ExecuteNonQuery();
+                sqlConnection.Close();
+
+                /* Comentando la version que guarda todos los resultados.
                 int salto = 100;
                 for (int jtemp = 0; jtemp < usuarios.Length; jtemp += salto)
                 {
@@ -146,7 +196,9 @@ namespace Simulacion
                     sqlConnection.Open();
                     cmd.ExecuteNonQuery();
                     sqlConnection.Close();
-                }
+                }*/
+
+
             }
         }
         public List<int> usuariosSimilares(int usuario, int nTop)
