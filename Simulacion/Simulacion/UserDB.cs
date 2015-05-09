@@ -28,13 +28,25 @@ namespace Simulacion
                 return instance;
             }
         }
-        public void limpiaTablas()
+        public void limpiaExpertoRecomendacion()
         {
             SqlConnection sqlConnection;
             SqlCommand cmd;
             sqlConnection = new SqlConnection(connectionString);
             cmd = new SqlCommand();
             cmd.CommandText = "DELETE FROM SimulacionKarelotitlan.dbo.ExpertoRecomendacion";
+            cmd.Connection = sqlConnection;
+            sqlConnection.Open();
+            cmd.ExecuteNonQuery();
+            sqlConnection.Close();
+        }
+        public void limpiaUsuarioRecomendacion()
+        {
+            SqlConnection sqlConnection;
+            SqlCommand cmd;
+            sqlConnection = new SqlConnection(connectionString);
+            cmd = new SqlCommand();
+            cmd.CommandText = "DELETE FROM SimulacionKarelotitlan.dbo.UsuarioRecomendacion";
             cmd.Connection = sqlConnection;
             sqlConnection.Open();
             cmd.ExecuteNonQuery();
@@ -75,6 +87,58 @@ namespace Simulacion
             }
             sqlConnection.Close();
             return result;
+        }
+
+        public void guardaSimilitudes(int[] usuarios, double[,] similitud)
+        {
+            int top = 10;//guarda los mejores top
+            limpiaUsuarioRecomendacion();
+            for (int i = 0; i < usuarios.Length; i++)
+            {
+                PriotiryQueue<CorrelacionUsuario> pq = new PriotiryQueue<CorrelacionUsuario>(invertida:true);
+                for (int j = 0; j < usuarios.Length; j++)
+                {
+                    if (i != j)
+                    {
+                        CorrelacionUsuario nuevo = new CorrelacionUsuario();
+                        nuevo.u1 = usuarios[i];
+                        nuevo.u2 = usuarios[j];
+                        nuevo.correlacion = similitud[i, j];
+                        pq.push(nuevo);
+                        if (pq.count > top)
+                        {
+                            pq.pop();
+                        }
+                    }
+                }
+                StringBuilder command = new StringBuilder();
+                command.Append("INSERT INTO SimulacionKarelotitlan.DBO.UsuarioRecomendacion (u1,u2,correlacion) VALUES  ");
+                int cout = 0;
+                while (!pq.empty)
+                {
+                    var elem = pq.pop();
+                    if (cout != 0)
+                    {
+                        command.Append(",");
+                    }
+                    command.Append("(");
+                    command.Append(elem.u1.ToString());
+                    command.Append(",");
+                    command.Append(elem.u2.ToString());
+                    command.Append(",");
+                    command.Append(elem.correlacion.ToString());
+                    command.Append(")");
+                    cout++;
+                }
+                command.Append(";");
+                SqlConnection sqlConnection = new SqlConnection(connectionString);
+                SqlCommand cmd = new SqlCommand();
+                cmd.CommandText = command.ToString();
+                cmd.Connection = sqlConnection;
+                sqlConnection.Open();
+                cmd.ExecuteNonQuery();
+                sqlConnection.Close();
+            }
         }
     }
 }

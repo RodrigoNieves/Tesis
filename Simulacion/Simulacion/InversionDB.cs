@@ -28,7 +28,7 @@ namespace Simulacion
                 return instance;
             }
         }
-        public void limpiaTablas()
+        public void limpiaInversion()
         {
             SqlConnection sqlConnection = new SqlConnection(connectionString);
             SqlCommand cmd = new SqlCommand();
@@ -37,7 +37,11 @@ namespace Simulacion
             sqlConnection.Open();
             cmd.ExecuteNonQuery();
             sqlConnection.Close();
-
+        }
+        public void limpiaExpertoRecomendacion()
+        {
+            SqlConnection sqlConnection;
+            SqlCommand cmd;
             sqlConnection = new SqlConnection(connectionString);
             cmd = new SqlCommand();
             cmd.CommandText = "DELETE FROM SimulacionKarelotitlan.dbo.ExpertoRecomendacion";
@@ -111,7 +115,7 @@ namespace Simulacion
         public void guardaAnalisis(int[] usuarios, int[,] inversiones, int[,] iguales, int[,] complemento, double[,] scroe)
         {
             int top = 10; // guarda los mejores top
-            limpiaTablas();
+            limpiaInversion();
             for (int i = 0; i < usuarios.Length; i++)
             {
                 PriotiryQueue<AnalisisUsuarioInversion> pq = new PriotiryQueue<AnalisisUsuarioInversion>(invertida: true);

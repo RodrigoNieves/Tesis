@@ -20,7 +20,8 @@ namespace Simulacion
         }
         void Recomendador.iniciaRecomendador()
         {
-            db.limpiaTablas();
+            db.limpiaExpertoRecomendacion();
+            db.limpiaUsuarioRecomendacion();
             coldStart.iniciaRecomendador();
         }
         private List<int> interseccion(List<int> a, List<int> b)
@@ -53,7 +54,7 @@ namespace Simulacion
             return result;
         }
         /// <summary>
-        /// Similitud por correlacion de pearson
+        /// Similitud por coseno, sin ajustar
         /// </summary>
         /// <param name="u1"></param>
         /// <param name="u2"></param>
@@ -62,7 +63,18 @@ namespace Simulacion
         {
             List<int> problemas = interseccion(u1.Keys.ToList(), u2.Keys.ToList());
             if (problemas.Count <= 0) return 0.0;
-
+            double suma = 0.0;
+            double mag1 = 0.0;
+            double mag2 = 0.0;
+            foreach (var id in problemas)
+            {
+                suma += u1[id] * u2[id];
+                mag1 += u1[id] * u1[id];
+                mag2 += u2[id] * u2[id];
+            }
+            mag1 = Math.Sqrt(mag1);
+            mag2 = Math.Sqrt(mag2);
+            return suma / (mag1 * mag2);
         }
 
         void Recomendador.realizaAnalisis()
@@ -77,7 +89,7 @@ namespace Simulacion
                     similitud[i, j] = sim(uVector[usuarios[i]], uVector[usuarios[j]]);
                 }
             }
-
+            db.guardaSimilitudes(usuarios, similitud);
         }
         private int sinRecomendacion(int usuario)
         {

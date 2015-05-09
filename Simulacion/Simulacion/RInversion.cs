@@ -117,7 +117,8 @@ namespace Simulacion
         }
         void Recomendador.iniciaRecomendador()
         {
-            db.limpiaTablas();
+            db.limpiaExpertoRecomendacion();
+            db.limpiaInversion();
             coldStart.iniciaRecomendador();
         }
         void Recomendador.realizaAnalisis()
