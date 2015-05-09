@@ -74,10 +74,12 @@
     <Compile Include="RegistroSimulacion.cs" />
     <Compile Include="RExperto.cs" />
     <Compile Include="RRandom.cs" />
+    <Compile Include="RUser.cs" />
     <Compile Include="SelectorRandom.cs" />
     <Compile Include="SimulacionDB.cs" />
     <Compile Include="Simulador.cs" />
     <Compile Include="Tema.cs" />
+    <Compile Include="UserDB.cs" />
     <Compile Include="Usuario.cs" />
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
