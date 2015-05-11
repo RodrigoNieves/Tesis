@@ -138,9 +138,19 @@ namespace Simulacion
             log.Append("\r\n");
             txtLog.AppendText(log.ToString());
         }
+        private void testUser()
+        {
+            Simulador simulador = new Simulador();
+            simulador.iniciaModelo();
+            RRandom coldStart = new RRandom(ListaDeProblemas());
+            simulador.recomendador = new RUser(rEnColdStart: coldStart);
+            simulador.Simula();
+            txtLog.AppendText(simulador.testSimula());
+            Clipboard.SetText(txtLog.Text);
+        }
         private void button1_Click(object sender, EventArgs e)
         {
-            testInversion();
+            testUser();
         }
     }
 }
