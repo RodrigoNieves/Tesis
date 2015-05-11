@@ -76,6 +76,8 @@ namespace Simulacion
                 mag1 += u1[id] * u1[id];
                 mag2 += u2[id] * u2[id];
             }
+            if (mag1 <= 0.0 || mag2 <= 0.0)
+                return -1.0;
             mag1 = Math.Sqrt(mag1);
             mag2 = Math.Sqrt(mag2);
             return suma / (mag1 * mag2);
