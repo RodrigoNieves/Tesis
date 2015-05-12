@@ -266,7 +266,7 @@ namespace Simulacion
                 int clave = (int)sqlReader["clave"];
                 result.Add(clave);
             }
-
+            sqlConnection.Close();
             return result;
         }
     }

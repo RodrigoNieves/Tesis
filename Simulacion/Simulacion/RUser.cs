@@ -86,6 +86,7 @@ namespace Simulacion
         void Recomendador.realizaAnalisis()
         {
             /// TODO: encontrar Usuarios Similares.
+            /// TODO: solo calcular similitudes necesarias, no toda la matriz
             coldStart.realizaAnalisis();
             tiempo++;
             uVector = db.usuariosVector();
@@ -99,6 +100,8 @@ namespace Simulacion
                 }
             }
             db.guardaSimilitudes(usuarios, similitud);
+            similitud = null;
+            GC.Collect(); // para que se limpie memoria
         }
         private int sinRecomendacion(int usuario)
         {
