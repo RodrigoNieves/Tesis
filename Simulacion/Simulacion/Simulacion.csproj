@@ -51,6 +51,7 @@
     <Compile Include="CorrelacionUsuario.cs" />
     <Compile Include="InversionDB.cs" />
     <Compile Include="PriotiryQueue.cs" />
+    <Compile Include="ProblemDB.cs" />
     <Compile Include="RInversion.cs" />
     <Compile Include="Dificultad.cs" />
     <Compile Include="ExpertoDB.cs" />
@@ -74,6 +75,7 @@
     <Compile Include="Recomendador.cs" />
     <Compile Include="RegistroSimulacion.cs" />
     <Compile Include="RExperto.cs" />
+    <Compile Include="RProblema.cs" />
     <Compile Include="RRandom.cs" />
     <Compile Include="RUser.cs" />
     <Compile Include="SelectorRandom.cs" />
