@@ -164,6 +164,11 @@ namespace Simulacion
                     idRec = viable;
                 }
             }
+            if (idRec == -1)
+            {
+                // No se pudo generar recomendacion
+                idRec = sinRecomendacion(idCompetidor);
+            }
             db.registraRecomendacion(idCompetidor, idRec, tiempo);
             return idRec;
         }
