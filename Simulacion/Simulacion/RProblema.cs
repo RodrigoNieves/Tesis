@@ -9,6 +9,9 @@ namespace Simulacion
     class RProblema: Recomendador
     {
         Recomendador coldStart;
+        double[,] sim;
+        int[] pId;
+        Dictionary<int, int> invPId;
         ProblemDB db;
         int tiempo = 0;
         int fueraPro = 10;
@@ -77,8 +80,9 @@ namespace Simulacion
         {
             coldStart.realizaAnalisis();
             tiempo++;
-            int[] pId = new int[problemas.Count];
-            double[,] sim = new double[problemas.Count, problemas.Count];
+            pId = new int[problemas.Count];
+            invPId = new Dictionary<int, int>();
+            sim = new double[problemas.Count, problemas.Count];
 
             int p = 0;
             var pEnum = problemas.GetEnumerator();
@@ -86,6 +90,7 @@ namespace Simulacion
             {
                 var problem = pEnum.Current;
                 pId[p] = problem.idProblema;
+                invPId[problem.idProblema] = p;
                 p++;
             }
             var calificaciones = db.calificacionesProblema();
@@ -98,10 +103,72 @@ namespace Simulacion
             }
             db.registraSimilitudes(pId, sim);
         }
-
+        private int sinRecomendacion(int usuario)
+        {
+            return coldStart.recomendacion(usuario);
+        }
+        private int encuentraRecomendacion(Dictionary<int, int> problemasIntentados,List<int> problemasFaltantes)
+        {
+            double[] total = new double[pId.Length];
+            double[] peso = new double[pId.Length];
+            for (int i = 0; i < pId.Length; i++)
+            {
+                total[i] = 0.0;
+                peso[i] = 0.0;
+            }
+            foreach (var prob in problemasIntentados)
+            {
+                int i = invPId[prob.Key];
+                double puntuacion = (double)prob.Value;
+                for (int j = 0; j < pId.Length; j++)
+                {
+                    total[j] += puntuacion * sim[i, j];
+                    peso[j] += sim[i, j];
+                }
+            }
+            double[] estimado = new double[pId.Length];
+            for (int i = 0; i < pId.Length; i++)
+            {
+                if (peso[i] > 0.0)
+                {
+                    estimado[i] = total[i] / peso[i];
+                }
+            }
+            // TODO: sacar el mejor de los problemas faltantes
+            double mejor = 0.0;
+            int id = -1;
+            foreach (var candidato in problemasFaltantes)
+            {
+                int pC = invPId[candidato];
+                if (estimado[pC] > mejor)
+                {
+                    mejor = estimado[pC];
+                    id = candidato;
+                }
+            }
+            return id;
+        }
         int Recomendador.recomendacion(int idCompetidor)
         {
-            throw new NotImplementedException();
+            Dictionary<int, int> problemasIntentados = db.problemasIntentados(idCompetidor);
+            if (problemasIntentados.Keys.Count < 1)//minimo numero de problemas intentados para dar recomendacion
+            {
+                // No se ha intentado nada
+                int rec = sinRecomendacion(idCompetidor);
+                db.registraRecomendacion(idCompetidor, rec, tiempo);
+                return rec;
+            }
+            List<int> problemasFaltantes = db.problemasFaltantes(idCompetidor);
+            if (problemasFaltantes.Count < 1)
+            {
+                //ya resolvio todo
+                return -1;
+            }
+            int mejorCandidato = encuentraRecomendacion(problemasIntentados, problemasFaltantes);
+            db.registraRecomendacion(idCompetidor, mejorCandidato, tiempo);
+            return mejorCandidato;
         }
+
+        
     }
 }

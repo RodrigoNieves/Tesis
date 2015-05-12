@@ -88,7 +88,6 @@ namespace Simulacion
             sqlConnection.Close();
             return result;
         }
-
         public void guardaSimilitudes(int[] usuarios, double[,] similitud)
         {
             int top = 10;//guarda los mejores top

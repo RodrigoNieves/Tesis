@@ -156,5 +156,87 @@ namespace Simulacion
                 sqlConnection.Close();
             }
         }
+        public void registraRecomendacion(int idUsuarion, int idProblema, int tiempo)
+        {
+            SqlConnection sqlConnection = new SqlConnection(connectionString);
+            SqlCommand cmd = new SqlCommand();
+            cmd.CommandText = string.Format("SELECT * FROM SimulacionKarelotitlan.dbo.ExpertoRecomendacion WHERE ExpertoRecomendacion.usuario = {0} and ExpertoRecomendacion.problema = {1}", idUsuarion, idProblema);
+            cmd.Connection = sqlConnection;
+            sqlConnection.Open();
+            SqlDataReader data = cmd.ExecuteReader();
+            bool crear = !data.HasRows;
+            if (data.HasRows)
+            {
+                data.Read();
+                int oldTiempo = (int)data["tiempo"];
+                if (oldTiempo < tiempo) tiempo = oldTiempo;
+            }
+            sqlConnection.Close();
+
+            sqlConnection = new SqlConnection(connectionString);
+            cmd = new SqlCommand();
+            if (crear)
+            {
+                cmd.CommandText = string.Format("INSERT INTO SimulacionKarelotitlan.dbo.ExpertoRecomendacion (usuario,problema,tiempo) VALUES ({0},{1},{2})", idUsuarion, idProblema, tiempo);
+            }
+            else
+            {
+                cmd.CommandText = string.Format("UPDATE SimulacionKarelotitlan.dbo.ExpertoRecomendacion SET ExpertoRecomendacion.tiempo = {2} WHERE ExpertoRecomendacion.usuario = {0} AND ExpertoRecomendacion.problema = {1}", idUsuarion, idProblema, tiempo);
+            }
+            cmd.Connection = sqlConnection;
+            sqlConnection.Open();
+            cmd.ExecuteNonQuery();
+            sqlConnection.Close();
+        }
+        public Dictionary<int, int> problemasIntentados(int usuario)
+        {
+            Dictionary<int, int> result = new Dictionary<int, int>();
+
+            SqlConnection sqlConnection = new SqlConnection(connectionString);
+            SqlCommand cmd = new SqlCommand();
+            SqlDataReader reader;
+
+            cmd.CommandText = string.Format("SELECT * FROM SimulacionKarelotitlan.dbo.UsuarioProblema WHERE usuario = {0} order by problema", usuario);
+            cmd.CommandType = CommandType.Text;
+            cmd.Connection = sqlConnection;
+
+            sqlConnection.Open();
+
+            reader = cmd.ExecuteReader();
+
+            while (reader.Read())
+            {
+                int problema = (int)reader["problema"];
+                int puntos = (int)reader["puntos"];
+                result[problema] = puntos;
+            }
+            return result;
+        }
+        public List<int> problemasFaltantes(int usuario)
+        {
+            //TODO: excluir a los que ya fueron recomendados previamente
+            List<int> result = new List<int>();
+
+            SqlConnection sqlConnection = new SqlConnection(connectionString);
+            SqlCommand cmd = new SqlCommand();
+            SqlDataReader reader;
+
+            cmd.CommandText = string.Format("SELECT * FROM SimulacionKarelotitlan.dbo.Problema WHERE clave NOT IN (SELECT problema FROM SimulacionKarelotitlan.dbo.UsuarioProblema WHERE puntos = 100 and usuario = {0})", usuario);
+            cmd.CommandType = CommandType.Text;
+            cmd.Connection = sqlConnection;
+
+            sqlConnection.Open();
+
+            reader = cmd.ExecuteReader();
+            while (reader.Read())
+            {
+                int idProblema = (int)reader["clave"];
+                result.Add(idProblema);
+            }
+
+            sqlConnection.Close();
+
+            return result;
+        }
     }
 }
