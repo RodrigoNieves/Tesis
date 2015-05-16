@@ -44,7 +44,7 @@ namespace Simulacion
         {
             SqlConnection sqlConnection;
             SqlCommand cmd;
-            sqlConnection = new SqlConnection();
+            sqlConnection = new SqlConnection(connectionString);
             cmd = new SqlCommand();
             cmd.CommandText = "DELETE FROM SimulacionKarelotitlan.dbo.ProblemaRecomendacion";
             cmd.Connection = sqlConnection;
@@ -118,7 +118,11 @@ namespace Simulacion
                     dProblema = new Dictionary<int, int>();
                     probAct = problema;
                 }
-                dProblema[user] = problema;
+                dProblema[user] = puntos;
+            }
+            if (probAct != -1)
+            {
+                resultado[probAct] = dProblema;
             }
             sqlConnection.Close();
             return resultado;
