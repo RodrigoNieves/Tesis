@@ -82,6 +82,7 @@
     <Compile Include="SelectorRandom.cs" />
     <Compile Include="SimulacionDB.cs" />
     <Compile Include="Simulador.cs" />
+    <Compile Include="SVDDB.cs" />
     <Compile Include="Tema.cs" />
     <Compile Include="UserDB.cs" />
     <Compile Include="Usuario.cs" />
