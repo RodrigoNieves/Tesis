@@ -138,10 +138,11 @@ namespace Simulacion
                     }
                     actualizaRMSE();
                     //Registra RMSE
+                    EventoManager.Instance.registraEvento("RMSE-SVD", rmse.ToString());
                 }
             }
-  
             //gurada los features
+
         }
 
         int Recomendador.recomendacion(int idCompetidor)

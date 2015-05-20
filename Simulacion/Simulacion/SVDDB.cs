@@ -46,7 +46,15 @@ namespace Simulacion
             SqlCommand cmd;
             sqlConnection = new SqlConnection(connectionString);
             cmd = new SqlCommand();
-            cmd.CommandText = "DELETE FROM SimulacionKarelotitlan.dbo.SVDRecomendacion";
+            cmd.CommandText = "DELETE FROM SimulacionKarelotitlan.dbo.SVDUserF";
+            cmd.Connection = sqlConnection;
+            sqlConnection.Open();
+            cmd.ExecuteNonQuery();
+            sqlConnection.Close();
+
+            sqlConnection = new SqlConnection(connectionString);
+            cmd = new SqlCommand();
+            cmd.CommandText = "DELETE FROM SimulacionKarelotitlan.dbo.SVDProblemF";
             cmd.Connection = sqlConnection;
             sqlConnection.Open();
             cmd.ExecuteNonQuery();
