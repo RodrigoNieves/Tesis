@@ -109,5 +109,45 @@ namespace Simulacion
             }
             return usuariosId;
         }
+        public Dictionary<int, Dictionary<int, int>> calificacionesProblema()
+        {
+            Dictionary<int, Dictionary<int, int>> resultado = new Dictionary<int, Dictionary<int, int>>();
+
+            SqlConnection sqlConnection = new SqlConnection(connectionString);
+            SqlCommand cmd = new SqlCommand();
+            SqlDataReader reader;
+
+            cmd.CommandText = "SELECT * FROM SimulacionKarelotitlan.dbo.UsuarioProblema order by problema, usuario";
+            cmd.CommandType = CommandType.Text;
+            cmd.Connection = sqlConnection;
+
+            sqlConnection.Open();
+
+            reader = cmd.ExecuteReader();
+            int probAct = -1;
+            Dictionary<int, int> dProblema = new Dictionary<int, int>();
+            while (reader.Read())
+            {
+                int user = (int)reader["usuario"];
+                int problema = (int)reader["problema"];
+                int puntos = (int)reader["puntos"];
+                if (probAct != problema)
+                {
+                    if (probAct != -1)
+                    {
+                        resultado[probAct] = dProblema;
+                    }
+                    dProblema = new Dictionary<int, int>();
+                    probAct = problema;
+                }
+                dProblema[user] = puntos;
+            }
+            if (probAct != -1)
+            {
+                resultado[probAct] = dProblema;
+            }
+            sqlConnection.Close();
+            return resultado;
+        }
     }
 }

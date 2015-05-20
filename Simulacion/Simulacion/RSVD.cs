@@ -11,7 +11,6 @@ namespace Simulacion
         int nFeatures = 16;
         double lrate = 0.01;
         int nIterations = 10;
-        double[,] predictions;
         double[,] userFeatrure;
         double[,] problemFeature;
         Dictionary<int, Dictionary<int, int>> uVector;
@@ -66,54 +65,83 @@ namespace Simulacion
                 pProblem[problem.idProblema] = pos;
                 pos++;
             }
-            
-            uVector = db.
-            // uvector = db.ObtenPuntos de Usuarios;
-            predictions = new double[nUsuarios, nProblemas];
+
+            uVector = db.calificacionesProblema();
+
             userFeatrure = new double[nUsuarios, nFeatures];
             problemFeature = new double[nProblemas, nFeatures];
+            double inicio = Math.Sqrt(50.0 / nFeatures);
             for (int i = 0; i < nFeatures; i++)
             {
                 for (int p = 0; p < nProblemas; p++)
                 {
-                    problemFeature[p, i] = 7.0710678; //Inicializa con la raiz de 50
+                    problemFeature[p, i] = inicio; //Inicializa con la raiz de 50
                 }
                 for (int u = 0; u < nUsuarios; u++)
                 {
-                    userFeatrure[u, i] = 7.0710678;
+                    userFeatrure[u, i] = inicio;
                 }
             }
-            for (int u = 0; u < nUsuarios; u++)
-            {
-                for (int p = 0; p < nProblemas; p++)
-                {
-                    predictions[u, p] = 0.0;
-                    for (int i = 0; i < nFeatures; i++)
-                    {
-                        predictions[u, p] += userFeatrure[u, i] * problemFeature[p, i];
-                    }
-                }
-            }
+           
+            actualizaRMSE();
+        }
+        public void actualizaRMSE()
+        {
             squareSum = 0.0;
             nPuntos = 0;
             foreach (var u in uVector)
             {
                 foreach (var p in u.Value)
                 {
+                    int us = pUser[u.Key];
+                    int pr = pProblem[p.Key];
+                    double prediction = predict(us, pr);
                     nPuntos++;
-                    double err = p.Value - predictions[pUser[u.Key], pProblem[p.Key]];
+                    double err = p.Value - prediction;
                     squareSum += err;
                 }
             }
+        }
+        private double predict(int u, int p)
+        {
+            double prediction = 0.0;
+            for (int i = 0; i < nFeatures; i++)
+            {
+                prediction += userFeatrure[u, i] * problemFeature[p, i];
+            }
+            return prediction;
+        }
+        private void train(int f, int u, int p, int puntos)
+        {
+            double err = lrate * (puntos - predict(u, p));
+
+            double uv = userFeatrure[u, f];
+            userFeatrure[u, f] += err * problemFeature[p, f];
+            problemFeature[p, f] += err * uv;
         }
         void Recomendador.realizaAnalisis()
         {
             tiempo++;
 
             InicializaSVD();
-            
 
-            
+            for (int f = 0; f < nFeatures; f++)
+            {
+                for (int iterarion = 0; iterarion < nIterations; iterarion++)
+                {
+                    foreach (var u in uVector)
+                    {
+                        foreach (var p in u.Value)
+                        {
+                            train(f, u.Key, p.Key, p.Value);
+                        }
+                    }
+                    actualizaRMSE();
+                    //Registra RMSE
+                }
+            }
+  
+            //gurada los features
         }
 
         int Recomendador.recomendacion(int idCompetidor)
