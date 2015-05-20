@@ -142,7 +142,8 @@ namespace Simulacion
                 }
             }
             //gurada los features
-
+            db.guardaUserF(nFeatures, usuarios, userFeatrure);
+            db.guardaProblemF(nFeatures, problemas, problemFeature);
         }
 
         int Recomendador.recomendacion(int idCompetidor)

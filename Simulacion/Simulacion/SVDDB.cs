@@ -40,10 +40,11 @@ namespace Simulacion
             cmd.ExecuteNonQuery();
             sqlConnection.Close();
         }
-        public void limpiaSVDRecomendacion()
+        public void limpiaSVDUserF()
         {
             SqlConnection sqlConnection;
             SqlCommand cmd;
+
             sqlConnection = new SqlConnection(connectionString);
             cmd = new SqlCommand();
             cmd.CommandText = "DELETE FROM SimulacionKarelotitlan.dbo.SVDUserF";
@@ -51,6 +52,11 @@ namespace Simulacion
             sqlConnection.Open();
             cmd.ExecuteNonQuery();
             sqlConnection.Close();
+        }
+        public void limpiaSVDProblemF()
+        {
+            SqlConnection sqlConnection;
+            SqlCommand cmd;
 
             sqlConnection = new SqlConnection(connectionString);
             cmd = new SqlCommand();
@@ -59,6 +65,11 @@ namespace Simulacion
             sqlConnection.Open();
             cmd.ExecuteNonQuery();
             sqlConnection.Close();
+        }
+        public void limpiaSVDRecomendacion()
+        {
+            limpiaSVDUserF();
+            limpiaSVDProblemF();
         }
         public List<Problema> problemas()
         {
@@ -156,6 +167,68 @@ namespace Simulacion
             }
             sqlConnection.Close();
             return resultado;
+        }
+        public void guardaUserF(int nFeatures, int[] users, double[,] features)
+        {
+            limpiaSVDUserF();
+            for (int i = 0; i < users.Length; i++)
+            {
+                StringBuilder command = new StringBuilder();
+                command.Append("INSERT INTO SimulacionKarelotitlan.DBO.SVDUserF (usuario,feature,valor) VALUES ");
+                for (int f = 0; f < nFeatures; f++)
+                {
+                    if (f != 0)
+                    {
+                        command.Append(" , ");
+                    }
+                    command.Append("(");
+                    command.Append(users[i].ToString());
+                    command.Append(",");
+                    command.Append(f.ToString());
+                    command.Append(",");
+                    command.Append(features[i, f].ToString());
+                    command.Append(")");
+                }
+                command.Append(";");
+                SqlConnection sqlConnection = new SqlConnection(connectionString);
+                SqlCommand cmd = new SqlCommand();
+                cmd.CommandText = command.ToString();
+                cmd.Connection = sqlConnection;
+                sqlConnection.Open();
+                cmd.ExecuteNonQuery();
+                sqlConnection.Close();
+            }
+        }
+        public void guardaProblemF(int nFeatures, int[] problems, double[,] features)
+        {
+            limpiaSVDProblemF();
+            for (int i = 0; i < problems.Length; i++)
+            {
+                StringBuilder command = new StringBuilder();
+                command.Append("INSERT INTO SimulacionKarelotitlan.DBO.SVDProblemF(problema,feature,valor) VALUES ");
+                for (int f = 0; f < nFeatures; f++)
+                {
+                    if (f != 0)
+                    {
+                        command.Append(" , ");
+                    }
+                    command.Append("(");
+                    command.Append(problems[i].ToString());
+                    command.Append(",");
+                    command.Append(f.ToString());
+                    command.Append(",");
+                    command.Append(features[i, f].ToString());
+                    command.Append(")");
+                }
+                command.Append(";");
+                SqlConnection sqlConnection = new SqlConnection(connectionString);
+                SqlCommand cmd = new SqlCommand();
+                cmd.CommandText = command.ToString();
+                cmd.Connection = sqlConnection;
+                sqlConnection.Open();
+                cmd.ExecuteNonQuery();
+                sqlConnection.Close();
+            }
         }
     }
 }

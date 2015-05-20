@@ -1,6 +1,6 @@
 USE [master]
 GO
-/****** Object:  Database [SimulacionKarelotitlan]    Script Date: 20/05/2015 01:53:01 p. m. ******/
+/****** Object:  Database [SimulacionKarelotitlan]    Script Date: 20/05/2015 03:17:11 p. m. ******/
 CREATE DATABASE [SimulacionKarelotitlan]
  CONTAINMENT = NONE
  ON  PRIMARY 
@@ -75,7 +75,7 @@ ALTER DATABASE [SimulacionKarelotitlan] SET TARGET_RECOVERY_TIME = 0 SECONDS
 GO
 USE [SimulacionKarelotitlan]
 GO
-/****** Object:  Table [dbo].[Algoritmo]    Script Date: 20/05/2015 01:53:01 p. m. ******/
+/****** Object:  Table [dbo].[Algoritmo]    Script Date: 20/05/2015 03:17:11 p. m. ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -95,7 +95,7 @@ CREATE TABLE [dbo].[Algoritmo](
 GO
 SET ANSI_PADDING OFF
 GO
-/****** Object:  Table [dbo].[Clasificacion]    Script Date: 20/05/2015 01:53:01 p. m. ******/
+/****** Object:  Table [dbo].[Clasificacion]    Script Date: 20/05/2015 03:17:11 p. m. ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -117,7 +117,7 @@ CREATE TABLE [dbo].[Clasificacion](
 GO
 SET ANSI_PADDING OFF
 GO
-/****** Object:  Table [dbo].[Estado]    Script Date: 20/05/2015 01:53:01 p. m. ******/
+/****** Object:  Table [dbo].[Estado]    Script Date: 20/05/2015 03:17:11 p. m. ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -136,7 +136,7 @@ CREATE TABLE [dbo].[Estado](
 GO
 SET ANSI_PADDING OFF
 GO
-/****** Object:  Table [dbo].[Evento]    Script Date: 20/05/2015 01:53:01 p. m. ******/
+/****** Object:  Table [dbo].[Evento]    Script Date: 20/05/2015 03:17:11 p. m. ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -150,7 +150,7 @@ CREATE TABLE [dbo].[Evento](
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 
 GO
-/****** Object:  Table [dbo].[ExpertoRecomendacion]    Script Date: 20/05/2015 01:53:01 p. m. ******/
+/****** Object:  Table [dbo].[ExpertoRecomendacion]    Script Date: 20/05/2015 03:17:11 p. m. ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -167,7 +167,7 @@ CREATE TABLE [dbo].[ExpertoRecomendacion](
 ) ON [PRIMARY]
 
 GO
-/****** Object:  Table [dbo].[Inversion]    Script Date: 20/05/2015 01:53:01 p. m. ******/
+/****** Object:  Table [dbo].[Inversion]    Script Date: 20/05/2015 03:17:11 p. m. ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -181,7 +181,7 @@ CREATE TABLE [dbo].[Inversion](
 ) ON [PRIMARY]
 
 GO
-/****** Object:  Table [dbo].[Nivel]    Script Date: 20/05/2015 01:53:01 p. m. ******/
+/****** Object:  Table [dbo].[Nivel]    Script Date: 20/05/2015 03:17:11 p. m. ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -197,7 +197,7 @@ CREATE TABLE [dbo].[Nivel](
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 
 GO
-/****** Object:  Table [dbo].[OMI]    Script Date: 20/05/2015 01:53:01 p. m. ******/
+/****** Object:  Table [dbo].[OMI]    Script Date: 20/05/2015 03:17:11 p. m. ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -216,7 +216,7 @@ CREATE TABLE [dbo].[OMI](
 GO
 SET ANSI_PADDING OFF
 GO
-/****** Object:  Table [dbo].[Problema]    Script Date: 20/05/2015 01:53:01 p. m. ******/
+/****** Object:  Table [dbo].[Problema]    Script Date: 20/05/2015 03:17:11 p. m. ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -241,7 +241,7 @@ CREATE TABLE [dbo].[Problema](
 GO
 SET ANSI_PADDING OFF
 GO
-/****** Object:  Table [dbo].[problemaDificultad]    Script Date: 20/05/2015 01:53:01 p. m. ******/
+/****** Object:  Table [dbo].[problemaDificultad]    Script Date: 20/05/2015 03:17:11 p. m. ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -252,7 +252,7 @@ CREATE TABLE [dbo].[problemaDificultad](
 ) ON [PRIMARY]
 
 GO
-/****** Object:  Table [dbo].[ProblemaRecomendacion]    Script Date: 20/05/2015 01:53:01 p. m. ******/
+/****** Object:  Table [dbo].[ProblemaRecomendacion]    Script Date: 20/05/2015 03:17:11 p. m. ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -264,7 +264,7 @@ CREATE TABLE [dbo].[ProblemaRecomendacion](
 ) ON [PRIMARY]
 
 GO
-/****** Object:  Table [dbo].[Recomendacion]    Script Date: 20/05/2015 01:53:01 p. m. ******/
+/****** Object:  Table [dbo].[Recomendacion]    Script Date: 20/05/2015 03:17:11 p. m. ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -285,7 +285,7 @@ CREATE TABLE [dbo].[Recomendacion](
 ) ON [PRIMARY]
 
 GO
-/****** Object:  Table [dbo].[Simulacion]    Script Date: 20/05/2015 01:53:01 p. m. ******/
+/****** Object:  Table [dbo].[Simulacion]    Script Date: 20/05/2015 03:17:11 p. m. ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -302,7 +302,7 @@ CREATE TABLE [dbo].[Simulacion](
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 
 GO
-/****** Object:  Table [dbo].[SVDProblemF]    Script Date: 20/05/2015 01:53:01 p. m. ******/
+/****** Object:  Table [dbo].[SVDProblemF]    Script Date: 20/05/2015 03:17:11 p. m. ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -314,7 +314,7 @@ CREATE TABLE [dbo].[SVDProblemF](
 ) ON [PRIMARY]
 
 GO
-/****** Object:  Table [dbo].[SVDUserF]    Script Date: 20/05/2015 01:53:01 p. m. ******/
+/****** Object:  Table [dbo].[SVDUserF]    Script Date: 20/05/2015 03:17:11 p. m. ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -326,7 +326,7 @@ CREATE TABLE [dbo].[SVDUserF](
 ) ON [PRIMARY]
 
 GO
-/****** Object:  Table [dbo].[TipoEvento]    Script Date: 20/05/2015 01:53:01 p. m. ******/
+/****** Object:  Table [dbo].[TipoEvento]    Script Date: 20/05/2015 03:17:11 p. m. ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -338,7 +338,7 @@ CREATE TABLE [dbo].[TipoEvento](
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 
 GO
-/****** Object:  Table [dbo].[Usuario]    Script Date: 20/05/2015 01:53:01 p. m. ******/
+/****** Object:  Table [dbo].[Usuario]    Script Date: 20/05/2015 03:17:11 p. m. ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -369,7 +369,7 @@ CREATE TABLE [dbo].[Usuario](
 GO
 SET ANSI_PADDING OFF
 GO
-/****** Object:  Table [dbo].[UsuarioProblema]    Script Date: 20/05/2015 01:53:01 p. m. ******/
+/****** Object:  Table [dbo].[UsuarioProblema]    Script Date: 20/05/2015 03:17:11 p. m. ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -388,7 +388,7 @@ CREATE TABLE [dbo].[UsuarioProblema](
 ) ON [PRIMARY]
 
 GO
-/****** Object:  Table [dbo].[UsuarioRecomendacion]    Script Date: 20/05/2015 01:53:01 p. m. ******/
+/****** Object:  Table [dbo].[UsuarioRecomendacion]    Script Date: 20/05/2015 03:17:11 p. m. ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -400,7 +400,7 @@ CREATE TABLE [dbo].[UsuarioRecomendacion](
 ) ON [PRIMARY]
 
 GO
-/****** Object:  Table [dbo].[UsuarioSimulacion]    Script Date: 20/05/2015 01:53:01 p. m. ******/
+/****** Object:  Table [dbo].[UsuarioSimulacion]    Script Date: 20/05/2015 03:17:11 p. m. ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -422,13 +422,13 @@ CREATE TABLE [dbo].[UsuarioSimulacion](
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 
 GO
-/****** Object:  Index [Inversion_u1]    Script Date: 20/05/2015 01:53:01 p. m. ******/
+/****** Object:  Index [Inversion_u1]    Script Date: 20/05/2015 03:17:11 p. m. ******/
 CREATE NONCLUSTERED INDEX [Inversion_u1] ON [dbo].[Inversion]
 (
 	[u1] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 GO
-/****** Object:  Index [Inversion_u2]    Script Date: 20/05/2015 01:53:01 p. m. ******/
+/****** Object:  Index [Inversion_u2]    Script Date: 20/05/2015 03:17:11 p. m. ******/
 CREATE NONCLUSTERED INDEX [Inversion_u2] ON [dbo].[Inversion]
 (
 	[u2] ASC
