@@ -397,6 +397,7 @@ namespace Simulacion
         {
             RegistroSimulacion rsimulacion = new RegistroSimulacion();
             rsimulacion.inicia();
+            EventoManager.Instance.registroSimulacion = rsimulacion; //indica que debe guardar las simulaciones
             rsimulacion.recomendador = recomendador;
             
             SimulacionDB simuladorDB = new SimulacionDB();

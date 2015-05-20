@@ -49,6 +49,7 @@
     <Compile Include="Algoritmos.cs" />
     <Compile Include="AnalisisUsuarioInversion.cs" />
     <Compile Include="CorrelacionUsuario.cs" />
+    <Compile Include="Evento.cs" />
     <Compile Include="InversionDB.cs" />
     <Compile Include="PriotiryQueue.cs" />
     <Compile Include="ProblemDB.cs" />
