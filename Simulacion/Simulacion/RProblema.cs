@@ -14,7 +14,7 @@ namespace Simulacion
         Dictionary<int, int> invPId;
         ProblemDB db;
         int tiempo = 0;
-        int fueraPro = 10;
+        int fueraPor = 10;
         List<Problema> problemas;
         public RProblema(Recomendador rEnColdStart = null)
         {

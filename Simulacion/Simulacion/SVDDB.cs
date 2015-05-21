@@ -230,5 +230,32 @@ namespace Simulacion
                 sqlConnection.Close();
             }
         }
+        public List<int> problemasPosibles(int competidor,int tiempo)
+        {
+            List<int> pPosible = new List<int>();
+
+            SqlConnection sqlConnection = new SqlConnection(connectionString);
+            SqlCommand cmd = new SqlCommand();
+            SqlDataReader result;
+
+            cmd.CommandText = string.Format(@"SELECT clave FROM SimulacionKarelotitlan.dbo.Problema WHERE
+                                                clave not in (SELECT problema FROM SimulacionKarelotitlan.dbo.UsuarioProblema WHERE usuario = {0} and puntos = 100) and
+                                                clave not in (SELECT problema FROM SimulacionKarelotitlan.dbo.ExpertoRecomendacion WHERE usuario = {0} and tiempo < {1})", competidor, tiempo);
+            cmd.CommandType = CommandType.Text;
+            cmd.Connection = sqlConnection;
+
+            sqlConnection.Open();
+
+            result = cmd.ExecuteReader();
+            while (result.Read())
+            {
+                int clave = (int)result["clave"];
+                pPosible.Add(clave);
+            }
+
+            sqlConnection.Close();
+
+            return pPosible;
+        }
     }
 }

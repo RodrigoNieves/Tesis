@@ -11,6 +11,7 @@ namespace Simulacion
         int nFeatures = 16;
         double lrate = 0.01;
         int nIterations = 10;
+        bool limitaPrediccion = false;
         double[,] userFeatrure;
         double[,] problemFeature;
         Dictionary<int, Dictionary<int, int>> uVector;
@@ -21,7 +22,8 @@ namespace Simulacion
         int[] usuarios;
         int nProblemas;
         int[] problemas;
-        int tiempo;
+        int tiempo = 0;
+        int fueraPor = 10;
         Dictionary<int, int> pUser;
         Dictionary<int, int> pProblem;
 
@@ -109,6 +111,17 @@ namespace Simulacion
             {
                 prediction += userFeatrure[u, i] * problemFeature[p, i];
             }
+            if (limitaPrediccion)
+            {
+                if (prediction < 0.0)
+                {
+                    prediction = 0.0;
+                }
+                if (prediction > 100.0)
+                {
+                    prediction = 100.0;
+                }
+            }
             return prediction;
         }
         private void train(int f, int u, int p, int puntos)
@@ -148,7 +161,24 @@ namespace Simulacion
 
         int Recomendador.recomendacion(int idCompetidor)
         {
-            throw new NotImplementedException();
+            List<int> problemasPosibles = db.problemasPosibles(idCompetidor, tiempo - fueraPor);
+            if (problemasPosibles.Count <= 0)
+            {
+                //NO es posible recomendar
+                return -1;
+            }
+            int idProblema = -1;
+            double maximo = -100000.0;
+            foreach (var candidato in problemasPosibles)
+            {
+                double pred = predict(pUser[idCompetidor], pProblem[candidato]);
+                if (pred > maximo)
+                {
+                    maximo = pred;
+                    idProblema = candidato;
+                }
+            }
+            return idProblema;
         }
     }
 }
