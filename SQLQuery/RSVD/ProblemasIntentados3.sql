@@ -1,0 +1,1 @@
+SELECT count(*) as intentos FROM SimulacionKarelotitlan.dbo.UsuarioProblema WHERE usuario = 1

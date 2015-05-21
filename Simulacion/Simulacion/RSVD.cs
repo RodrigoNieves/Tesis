@@ -9,8 +9,9 @@ namespace Simulacion
     class RSVD: Recomendador
     {
         int nFeatures = 16;
-        double lrate = 0.0001;
+        double lrate = 0.001;
         int nIterations = 10;
+        int minimoCalificaciones = 100;
         bool limitaPrediccion = true;
         double[,] userFeatrure;
         double[,] problemFeature;
@@ -27,6 +28,8 @@ namespace Simulacion
         Dictionary<int, int> pUser;
         Dictionary<int, int> pProblem;
 
+        Recomendador coldStart;
+
         SVDDB db;
         double rmse
         {
@@ -35,12 +38,17 @@ namespace Simulacion
                 return Math.Sqrt(squareSum / nPuntos);
             }
         }
+        public RSVD(Recomendador rEnColdStart = null)
+        {
+            db = SVDDB.Instance;
+            coldStart = rEnColdStart;
+        }
         void Recomendador.iniciaRecomendador()
         {
             tiempo = 0;
-            db = SVDDB.Instance;
             db.limpiaExpertoRecomendacion();
             db.limpiaSVDRecomendacion();
+            coldStart.iniciaRecomendador();
         }
         private void InicializaSVD()
         {
@@ -135,6 +143,7 @@ namespace Simulacion
         void Recomendador.realizaAnalisis()
         {
             tiempo++;
+            coldStart.realizaAnalisis();
 
             InicializaSVD();
 
@@ -159,8 +168,21 @@ namespace Simulacion
             db.guardaProblemF(nFeatures, problemas, problemFeature);
         }
 
+        private int sinRecomendacion(int usuario)
+        {
+            return coldStart.recomendacion(usuario);
+        }
+
         int Recomendador.recomendacion(int idCompetidor)
         {
+            int totalIntentados = db.intentados(idCompetidor);
+            if (totalIntentados < minimoCalificaciones)
+            {
+                //muy pocos atributos no es confiable SVD
+                int rec = sinRecomendacion(idCompetidor);
+                db.registraRecomendacion(idCompetidor, rec, tiempo);
+                return rec;
+            }
             List<int> problemasPosibles = db.problemasPosibles(idCompetidor, tiempo - fueraPor);
             if (problemasPosibles.Count <= 0)
             {
@@ -178,6 +200,7 @@ namespace Simulacion
                     idProblema = candidato;
                 }
             }
+            db.registraRecomendacion(idCompetidor, idProblema, tiempo);
             return idProblema;
         }
     }

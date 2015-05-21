@@ -23,6 +23,7 @@ namespace Simulacion
         }
         void Recomendador.iniciaRecomendador()
         {
+            tiempo = 0;
             db.limpiaExpertoRecomendacion();
             db.limpiaProblemaRecomendacion();
             coldStart.iniciaRecomendador();

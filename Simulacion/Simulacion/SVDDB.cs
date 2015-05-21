@@ -257,5 +257,55 @@ namespace Simulacion
 
             return pPosible;
         }
+        public void registraRecomendacion(int idUsuarion, int idProblema, int tiempo)
+        {
+            SqlConnection sqlConnection = new SqlConnection(connectionString);
+            SqlCommand cmd = new SqlCommand();
+            cmd.CommandText = string.Format("SELECT * FROM SimulacionKarelotitlan.dbo.ExpertoRecomendacion WHERE ExpertoRecomendacion.usuario = {0} and ExpertoRecomendacion.problema = {1}", idUsuarion, idProblema);
+            cmd.Connection = sqlConnection;
+            sqlConnection.Open();
+            SqlDataReader data = cmd.ExecuteReader();
+            bool crear = !data.HasRows;
+            if (data.HasRows)
+            {
+                data.Read();
+                int oldTiempo = (int)data["tiempo"];
+                if (oldTiempo < tiempo) tiempo = oldTiempo;
+            }
+            sqlConnection.Close();
+
+            sqlConnection = new SqlConnection(connectionString);
+            cmd = new SqlCommand();
+            if (crear)
+            {
+                cmd.CommandText = string.Format("INSERT INTO SimulacionKarelotitlan.dbo.ExpertoRecomendacion (usuario,problema,tiempo) VALUES ({0},{1},{2})", idUsuarion, idProblema, tiempo);
+            }
+            else
+            {
+                cmd.CommandText = string.Format("UPDATE SimulacionKarelotitlan.dbo.ExpertoRecomendacion SET ExpertoRecomendacion.tiempo = {2} WHERE ExpertoRecomendacion.usuario = {0} AND ExpertoRecomendacion.problema = {1}", idUsuarion, idProblema, tiempo);
+            }
+            cmd.Connection = sqlConnection;
+            sqlConnection.Open();
+            cmd.ExecuteNonQuery();
+            sqlConnection.Close();
+        }
+        public int intentados(int usuario)
+        {
+            int intentados = 0;
+
+            SqlConnection sqlConnection = new SqlConnection(connectionString);
+            SqlCommand cmd = new SqlCommand();
+            cmd.CommandText = string.Format("SELECT count(*) as intentos FROM SimulacionKarelotitlan.dbo.UsuarioProblema WHERE usuario = {0}", usuario);
+            cmd.Connection = sqlConnection;
+
+            sqlConnection.Open();
+            SqlDataReader data = cmd.ExecuteReader();
+            if (data.Read())
+            {
+                intentados = (int)data["intentos"];
+            }
+            sqlConnection.Close();
+            return intentados;
+        }
     }
 }
