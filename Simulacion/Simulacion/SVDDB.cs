@@ -128,7 +128,7 @@ namespace Simulacion
             }
             return usuariosId;
         }
-        public Dictionary<int, Dictionary<int, int>> calificacionesProblema()
+        public Dictionary<int, Dictionary<int, int>> calificacionesUsuarios()
         {
             Dictionary<int, Dictionary<int, int>> resultado = new Dictionary<int, Dictionary<int, int>>();
 
@@ -136,34 +136,34 @@ namespace Simulacion
             SqlCommand cmd = new SqlCommand();
             SqlDataReader reader;
 
-            cmd.CommandText = "SELECT * FROM SimulacionKarelotitlan.dbo.UsuarioProblema order by problema, usuario";
+            cmd.CommandText = "SELECT * FROM SimulacionKarelotitlan.dbo.UsuarioProblema order by usuario, problema";
             cmd.CommandType = CommandType.Text;
             cmd.Connection = sqlConnection;
 
             sqlConnection.Open();
 
             reader = cmd.ExecuteReader();
-            int probAct = -1;
-            Dictionary<int, int> dProblema = new Dictionary<int, int>();
+            int uAct = -1;
+            Dictionary<int, int> dUsuario = new Dictionary<int, int>();
             while (reader.Read())
             {
                 int user = (int)reader["usuario"];
                 int problema = (int)reader["problema"];
                 int puntos = (int)reader["puntos"];
-                if (probAct != problema)
+                if (uAct != user)
                 {
-                    if (probAct != -1)
+                    if (uAct != -1)
                     {
-                        resultado[probAct] = dProblema;
+                        resultado[uAct] = dUsuario;
                     }
-                    dProblema = new Dictionary<int, int>();
-                    probAct = problema;
+                    dUsuario = new Dictionary<int, int>();
+                    uAct = user;
                 }
-                dProblema[user] = puntos;
+                dUsuario[problema] = puntos;
             }
-            if (probAct != -1)
+            if (uAct != -1)
             {
-                resultado[probAct] = dProblema;
+                resultado[uAct] = dUsuario;
             }
             sqlConnection.Close();
             return resultado;

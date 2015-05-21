@@ -158,9 +158,18 @@ namespace Simulacion
             txtLog.AppendText(simulador.testSimula());
             Clipboard.SetText(txtLog.Text);
         }
+        private void testSVD()
+        {
+            Simulador simulador = new Simulador();
+            simulador.iniciaModelo();
+            simulador.recomendador = new RSVD();
+            simulador.Simula();
+            txtLog.AppendText(simulador.testSimula());
+            Clipboard.SetText(txtLog.Text);
+        }
         private void button1_Click(object sender, EventArgs e)
         {
-            testProblem();
+            testSVD();
         }
     }
 }

@@ -39,7 +39,12 @@ namespace Simulacion
             {
                 int id = (int)result["id"];
                 string nombre = (string)result["nombre"];
-                string descripcion = (string)result["descripcion"];
+                nombre = nombre.Trim();
+                string descripcion = "";
+                if (!(result["descripcion"] is System.DBNull))
+                {
+                    descripcion = (string)result["descripcion"];
+                }
                 Evento nuevo = new Evento(id, nombre, descripcion);
                 nombreEvento[nuevo.nombre] = nuevo;
                 idEvento[nuevo.idEvento] = nuevo;

@@ -9,9 +9,9 @@ namespace Simulacion
     class RSVD: Recomendador
     {
         int nFeatures = 16;
-        double lrate = 0.01;
+        double lrate = 0.0001;
         int nIterations = 10;
-        bool limitaPrediccion = false;
+        bool limitaPrediccion = true;
         double[,] userFeatrure;
         double[,] problemFeature;
         Dictionary<int, Dictionary<int, int>> uVector;
@@ -68,7 +68,7 @@ namespace Simulacion
                 pos++;
             }
 
-            uVector = db.calificacionesProblema();
+            uVector = db.calificacionesUsuarios();
 
             userFeatrure = new double[nUsuarios, nFeatures];
             problemFeature = new double[nProblemas, nFeatures];
@@ -100,7 +100,7 @@ namespace Simulacion
                     double prediction = predict(us, pr);
                     nPuntos++;
                     double err = p.Value - prediction;
-                    squareSum += err;
+                    squareSum += err*err;
                 }
             }
         }
@@ -146,7 +146,7 @@ namespace Simulacion
                     {
                         foreach (var p in u.Value)
                         {
-                            train(f, u.Key, p.Key, p.Value);
+                            train(f, pUser[u.Key], pProblem[p.Key], p.Value);
                         }
                     }
                     actualizaRMSE();
