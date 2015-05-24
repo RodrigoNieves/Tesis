@@ -496,9 +496,10 @@ namespace Simulacion
                     int i = user.Key;
                     usuarios[i].tickTiempo();
                 }
-                rsimulacion.termina();
+                
                 ciclosCompletos++;
             }
+            rsimulacion.termina();
             this.termino = true;
         }
 
