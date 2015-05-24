@@ -188,15 +188,108 @@ namespace Simulacion
         }
         private void button1_Click(object sender, EventArgs e)
         {
-            testThread();
+            if (simulador != null)
+            {
+                MessageBox.Show("Actualmente esta corriendo una simulacion");
+                return;
+            }
+
+            simulador = new Simulador();
+            simulador.iniciaModelo();
+            Recomendador coldStart = null;
+            if (cmbColdStart.Text == "Random")
+            {
+                coldStart = new RRandom(ListaDeProblemas());
+            }
+            else if(cmbColdStart.Text == "Experto")
+            {
+                coldStart = new RExperto();
+            }
+            Recomendador recomendador = null;
+            if (cmbAlgoritmo.Text == "Random")
+            {
+                //Random
+                recomendador = new RRandom(ListaDeProblemas());
+            }
+            else if (cmbAlgoritmo.Text == "Experto")
+            {
+                //Experto
+                recomendador = new RExperto();
+            }else if(cmbAlgoritmo.Text == "Inversion"){
+                //Inversion
+                recomendador = new RInversion(rEnColdStart: coldStart);
+            }
+            else if (cmbAlgoritmo.Text == "Usuario")
+            {
+                //Usuario
+                recomendador = new RUser(rEnColdStart: coldStart);
+            }
+            else if (cmbAlgoritmo.Text == "Problema")
+            {
+                //Problema
+                recomendador = new RProblema(rEnColdStart: coldStart);
+            }
+            else if (cmbAlgoritmo.Text == "SVD")
+            {
+                //SVD
+                recomendador = new RSVD(rEnColdStart: coldStart);
+            }
+            else
+            {
+                MessageBox.Show("No hay Algoritmo Seleccionado");
+                return;
+            }
+
+            int nUsuarios = int.Parse(txtUsuariosSimulacion.Text);
+            int nCiclos = int.Parse(txtNCiclos.Text);
+
+            simulador.recomendador = recomendador;
+            simulador.nUsuarios = nUsuarios;
+            simulador.nCiclos = nCiclos;
+
+            oThread = new Thread(new ThreadStart(simulador.Simula));
+            oThread.Start();
+            cont = 0;
+            timer1.Enabled = true;
+            progressBar.Visible = true;
+
         }
 
         private void timer1_Tick(object sender, EventArgs e)
         {
+            double progreso = 0.0;
+            if (simulador.nCiclos > 0)
+            {
+                progreso += (double)simulador.ciclosCompletos / ((double)simulador.nCiclos+1.0);
+                if (simulador.simulacionesADar > 0)
+                {
+                    progreso += ((double)simulador.simulacionesDadas / (double)simulador.simulacionesADar) / (simulador.nCiclos+1.0);
+                }
+            }
+
+            progressBar.Value = (int)(progreso*progressBar.Maximum);
+
+            double tiempoTranscurrido = 0.0;
+            tiempoTranscurrido = ((double)cont * timer1.Interval) / 1000.0;
+            txtLog.Text = "Tiempo transcurrido: " + tiempoTranscurrido.ToString() + " seg.";
+            /*
             txtLog.Text = "tick: " + cont.ToString() + "\r\n" +
                           simulador.ciclosCompletos.ToString() + "/" + simulador.nCiclos.ToString()+"\r\n"+
                           simulador.simulacionesDadas.ToString() + "/" + simulador.simulacionesADar.ToString();
+            */
             cont++;
+            if (simulador.termino)
+            {
+                simulador = null;
+                timer1.Enabled = false;
+                oThread = null;
+                progressBar.Visible = false;
+            }
+        }
+
+        private void label1_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

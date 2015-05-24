@@ -66,7 +66,7 @@ namespace Simulacion
                 _nCiclos = value;
             }
         }
-
+        public bool termino = false;
         StringBuilder log;
 
         public int simulacionesADar;
@@ -499,6 +499,7 @@ namespace Simulacion
                 rsimulacion.termina();
                 ciclosCompletos++;
             }
+            this.termino = true;
         }
 
         public string testSimula()
