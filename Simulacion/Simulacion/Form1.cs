@@ -6,6 +6,7 @@ using System.Data.SqlClient;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -13,6 +14,9 @@ namespace Simulacion
 {
     public partial class Form1 : Form
     {
+        Thread oThread;
+        Simulador simulador= null;
+        int cont;
         public Form1()
         {
             InitializeComponent();
@@ -81,7 +85,7 @@ namespace Simulacion
         }
         private void testSimulacion()
         {
-            Simulador simulador = new Simulador();
+            simulador = new Simulador();
             simulador.iniciaModelo();
             simulador.recomendador = new RRandom(ListaDeProblemas());
             simulador.Simula();
@@ -90,7 +94,7 @@ namespace Simulacion
         }
         private void testExperto()
         {
-            Simulador simulador = new Simulador();
+            simulador = new Simulador();
             simulador.iniciaModelo();
             simulador.recomendador = new RExperto();
             simulador.Simula();
@@ -99,7 +103,7 @@ namespace Simulacion
         }
         private void testInversion()
         {
-            Simulador simulador = new Simulador();
+            simulador = new Simulador();
             simulador.iniciaModelo();
             RRandom coldStart = new RRandom(ListaDeProblemas());
             simulador.recomendador = new RInversion(rEnColdStart: coldStart);
@@ -140,7 +144,7 @@ namespace Simulacion
         }
         private void testUser()
         {
-            Simulador simulador = new Simulador();
+            simulador = new Simulador();
             simulador.iniciaModelo();
             RRandom coldStart = new RRandom(ListaDeProblemas());
             simulador.recomendador = new RUser(rEnColdStart: coldStart);
@@ -150,7 +154,7 @@ namespace Simulacion
         }
         private void testProblem()
         {
-            Simulador simulador = new Simulador();
+            simulador = new Simulador();
             simulador.iniciaModelo();
             RRandom coldStart = new RRandom(ListaDeProblemas());
             simulador.recomendador = new RProblema(rEnColdStart: coldStart);
@@ -160,7 +164,7 @@ namespace Simulacion
         }
         private void testSVD()
         {
-            Simulador simulador = new Simulador();
+            simulador = new Simulador();
             simulador.iniciaModelo();
             RRandom coldStart = new RRandom(ListaDeProblemas());
             simulador.recomendador = new RSVD(rEnColdStart:coldStart);
@@ -168,9 +172,31 @@ namespace Simulacion
             txtLog.AppendText(simulador.testSimula());
             Clipboard.SetText(txtLog.Text);
         }
+        private void testThread()
+        {
+            if (oThread != null) { return; }
+            
+            simulador = new Simulador();
+            simulador.iniciaModelo();
+            RRandom coldStart = new RRandom(ListaDeProblemas());
+            simulador.recomendador = new RSVD(rEnColdStart: coldStart);
+
+            oThread = new Thread(new ThreadStart(simulador.Simula));
+            oThread.Start();
+            cont = 0;
+            timer1.Enabled = true;
+        }
         private void button1_Click(object sender, EventArgs e)
         {
-            testSVD();
+            testThread();
+        }
+
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+            txtLog.Text = "tick: " + cont.ToString() + "\r\n" +
+                          simulador.ciclosCompletos.ToString() + "/" + simulador.nCiclos.ToString()+"\r\n"+
+                          simulador.simulacionesDadas.ToString() + "/" + simulador.simulacionesADar.ToString();
+            cont++;
         }
     }
 }

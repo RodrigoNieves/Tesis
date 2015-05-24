@@ -194,6 +194,7 @@ namespace Simulacion
                 SqlCommand cmd = new SqlCommand();
                 cmd.CommandText = command.ToString();
                 cmd.Connection = sqlConnection;
+                cmd.CommandTimeout = 20000;
                 sqlConnection.Open();
                 cmd.ExecuteNonQuery();
                 sqlConnection.Close();

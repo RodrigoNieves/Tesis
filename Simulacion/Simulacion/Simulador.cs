@@ -54,6 +54,7 @@ namespace Simulacion
             }
         }
         int _nCiclos = 30;
+        public int ciclosCompletos;
         public int nCiclos
         {
             get
@@ -67,6 +68,9 @@ namespace Simulacion
         }
 
         StringBuilder log;
+
+        public int simulacionesADar;
+        public int simulacionesDadas;
 
         public Simulador()
         {
@@ -395,6 +399,7 @@ namespace Simulacion
         }
         public void Simula()
         {
+            ciclosCompletos = 0;
             RegistroSimulacion rsimulacion = new RegistroSimulacion();
             rsimulacion.inicia();
             EventoManager.Instance.registroSimulacion = rsimulacion; //indica que debe guardar las simulaciones
@@ -428,6 +433,8 @@ namespace Simulacion
                     int i = user.Key;
                     sr.agrega(i, (int)Math.Floor(usuarios[i].motivacion));
                 }
+                simulacionesADar = sr.cuantosRestantes();
+                simulacionesDadas = 0;
                 while (!sr.empty())
                 {
                     int pUsuario = sr.saca();
@@ -481,6 +488,7 @@ namespace Simulacion
                         }
                     }
                     log.Append("\r\n");
+                    simulacionesDadas++;
                 }
                 log.Append("\r\n");
                 foreach(var user in usuarios)
@@ -489,6 +497,7 @@ namespace Simulacion
                     usuarios[i].tickTiempo();
                 }
                 rsimulacion.termina();
+                ciclosCompletos++;
             }
         }
 
