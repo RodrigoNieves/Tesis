@@ -75,6 +75,10 @@ namespace Simulacion
         public int parcialRFallidas;
         public int parcialSubioNivel;
 
+        public int alumnosRendidos;
+        public int alumnosCompletos;
+
+        public int sinRecomendaciones;
         StringBuilder log;
 
         public int simulacionesADar;
@@ -411,7 +415,10 @@ namespace Simulacion
             totalRResueltas = 0;
             totalRFallidas = 0;
             totalSubioNivel = 0;
-        
+            alumnosCompletos = 0;
+            alumnosRendidos = 0;
+            sinRecomendaciones = 0;
+
             RegistroSimulacion rsimulacion = new RegistroSimulacion();
             rsimulacion.inicia();
             EventoManager.Instance.registroSimulacion = rsimulacion; //indica que debe guardar las simulaciones
@@ -443,10 +450,20 @@ namespace Simulacion
                 }
                 recomendador.realizaAnalisis();
                 SelectorRandom sr = new SelectorRandom(nUsuarios);
+                alumnosCompletos = 0;
+                alumnosRendidos = 0;
                 foreach (var user in usuarios)
                 {
                     int i = user.Key;
                     sr.agrega(i, (int)Math.Floor(usuarios[i].motivacion));
+                    if (usuarios[i].rendido)
+                    {
+                        alumnosRendidos++;
+                    }
+                    if (usuarios[i].acaboProblemas)
+                    {
+                        alumnosCompletos++;
+                    }
                 }
                 simulacionesADar = sr.cuantosRestantes();
                 simulacionesDadas = 0;
@@ -469,6 +486,7 @@ namespace Simulacion
                         }
                         else
                         {
+                            sinRecomendaciones++;
                             log.Append("Recomendador no tiene recomendaciones");
                         }
                     }

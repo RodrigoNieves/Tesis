@@ -61,6 +61,12 @@
             this.lbParcialResuelto = new System.Windows.Forms.Label();
             this.lbParcialFallado = new System.Windows.Forms.Label();
             this.lbParcialSubioNivel = new System.Windows.Forms.Label();
+            this.label11 = new System.Windows.Forms.Label();
+            this.lbAlumnosCompletos = new System.Windows.Forms.Label();
+            this.label12 = new System.Windows.Forms.Label();
+            this.lbAlumnosRendidos = new System.Windows.Forms.Label();
+            this.label13 = new System.Windows.Forms.Label();
+            this.lbSinRecomendaciones = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // button1
@@ -360,11 +366,72 @@
             this.lbParcialSubioNivel.TabIndex = 30;
             this.lbParcialSubioNivel.Text = "0";
             // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Location = new System.Drawing.Point(399, 92);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(102, 13);
+            this.label11.TabIndex = 31;
+            this.label11.Text = "Alumnos Completos:";
+            // 
+            // lbAlumnosCompletos
+            // 
+            this.lbAlumnosCompletos.AutoSize = true;
+            this.lbAlumnosCompletos.Location = new System.Drawing.Point(533, 92);
+            this.lbAlumnosCompletos.Name = "lbAlumnosCompletos";
+            this.lbAlumnosCompletos.Size = new System.Drawing.Size(13, 13);
+            this.lbAlumnosCompletos.TabIndex = 32;
+            this.lbAlumnosCompletos.Text = "0";
+            // 
+            // label12
+            // 
+            this.label12.AutoSize = true;
+            this.label12.Location = new System.Drawing.Point(570, 92);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(98, 13);
+            this.label12.TabIndex = 33;
+            this.label12.Text = "Alumnos Rendidos:";
+            this.label12.Click += new System.EventHandler(this.label12_Click);
+            // 
+            // lbAlumnosRendidos
+            // 
+            this.lbAlumnosRendidos.AutoSize = true;
+            this.lbAlumnosRendidos.Location = new System.Drawing.Point(721, 92);
+            this.lbAlumnosRendidos.Name = "lbAlumnosRendidos";
+            this.lbAlumnosRendidos.Size = new System.Drawing.Size(13, 13);
+            this.lbAlumnosRendidos.TabIndex = 34;
+            this.lbAlumnosRendidos.Text = "0";
+            // 
+            // label13
+            // 
+            this.label13.AutoSize = true;
+            this.label13.Location = new System.Drawing.Point(399, 110);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(115, 13);
+            this.label13.TabIndex = 35;
+            this.label13.Text = "Sin recomendaciones: ";
+            // 
+            // lbSinRecomendaciones
+            // 
+            this.lbSinRecomendaciones.AutoSize = true;
+            this.lbSinRecomendaciones.Location = new System.Drawing.Point(536, 109);
+            this.lbSinRecomendaciones.Name = "lbSinRecomendaciones";
+            this.lbSinRecomendaciones.Size = new System.Drawing.Size(13, 13);
+            this.lbSinRecomendaciones.TabIndex = 36;
+            this.lbSinRecomendaciones.Text = "0";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(756, 248);
+            this.Controls.Add(this.lbSinRecomendaciones);
+            this.Controls.Add(this.label13);
+            this.Controls.Add(this.lbAlumnosRendidos);
+            this.Controls.Add(this.label12);
+            this.Controls.Add(this.lbAlumnosCompletos);
+            this.Controls.Add(this.label11);
             this.Controls.Add(this.lbParcialSubioNivel);
             this.Controls.Add(this.lbParcialFallado);
             this.Controls.Add(this.lbParcialResuelto);
@@ -437,6 +504,12 @@
         private System.Windows.Forms.Label lbParcialResuelto;
         private System.Windows.Forms.Label lbParcialFallado;
         private System.Windows.Forms.Label lbParcialSubioNivel;
+        private System.Windows.Forms.Label label11;
+        private System.Windows.Forms.Label lbAlumnosCompletos;
+        private System.Windows.Forms.Label label12;
+        private System.Windows.Forms.Label lbAlumnosRendidos;
+        private System.Windows.Forms.Label label13;
+        private System.Windows.Forms.Label lbSinRecomendaciones;
     }
 }
 

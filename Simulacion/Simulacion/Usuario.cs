@@ -20,6 +20,22 @@ namespace Simulacion
         bool _ficticio;
         bool _terminado = false;
 
+        bool _acaboProblemas = false;
+        public bool acaboProblemas
+        {
+            get
+            {
+                return _acaboProblemas;
+            }
+        }
+        bool _rendido = false;
+        public bool rendido
+        {
+            get
+            {
+                return _rendido;
+            }
+        }
         int _idUsuario;
         int _idUsuarioSimulacion;
         public double motivacion
@@ -123,6 +139,7 @@ namespace Simulacion
             }
             if ((!_terminado) && _motivacion < 1.0)
             {
+                _rendido = true;
                 _terminado = true;
                 // El usuario ha abandonado
                 var llaves = new List<int>(_habilidades.Keys);
@@ -147,6 +164,7 @@ namespace Simulacion
             if (!_terminado && _resolvioTodo)
             {
                 //el usuario ha terminado todo
+                _acaboProblemas = true;
                 _motivacion = 0.0;
                 _terminado = true;
                 var llaves = new List<int>(_habilidades.Keys);

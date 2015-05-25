@@ -286,6 +286,11 @@ namespace Simulacion
             lbParcialFallado.Text = simulador.parcialRFallidas.ToString();
             lbParcialResuelto.Text = simulador.parcialRResueltas.ToString();
             lbParcialSubioNivel.Text = simulador.parcialSubioNivel.ToString();
+
+            lbAlumnosCompletos.Text = simulador.alumnosCompletos.ToString();
+            lbAlumnosRendidos.Text = simulador.alumnosRendidos.ToString();
+
+            lbSinRecomendaciones.Text = simulador.sinRecomendaciones.ToString();
             /*
             txtLog.Text = "tick: " + cont.ToString() + "\r\n" +
                           simulador.ciclosCompletos.ToString() + "/" + simulador.nCiclos.ToString()+"\r\n"+
@@ -307,6 +312,11 @@ namespace Simulacion
         }
 
         private void label6_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label12_Click(object sender, EventArgs e)
         {
 
         }

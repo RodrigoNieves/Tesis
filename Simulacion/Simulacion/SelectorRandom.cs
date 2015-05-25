@@ -60,5 +60,12 @@ namespace Simulacion
         {
             return total;
         }
+        public void quita(int id)
+        {
+            if(!posicion.ContainsKey(id)){ return;}
+            if (cantidad[id] == 0) return;
+            n--;
+            total -= cantidad[id];
+        }
     }
 }
