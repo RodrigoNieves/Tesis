@@ -67,6 +67,8 @@
             this.lbAlumnosRendidos = new System.Windows.Forms.Label();
             this.label13 = new System.Windows.Forms.Label();
             this.lbSinRecomendaciones = new System.Windows.Forms.Label();
+            this.label14 = new System.Windows.Forms.Label();
+            this.lbTiempo = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // button1
@@ -84,7 +86,7 @@
             // 
             this.txtLog.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtLog.Location = new System.Drawing.Point(12, 126);
+            this.txtLog.Location = new System.Drawing.Point(12, 160);
             this.txtLog.Multiline = true;
             this.txtLog.Name = "txtLog";
             this.txtLog.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
@@ -178,7 +180,7 @@
             // 
             this.progressBar.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.progressBar.Location = new System.Drawing.Point(12, 213);
+            this.progressBar.Location = new System.Drawing.Point(12, 247);
             this.progressBar.Maximum = 1000;
             this.progressBar.Name = "progressBar";
             this.progressBar.Size = new System.Drawing.Size(741, 23);
@@ -421,11 +423,31 @@
             this.lbSinRecomendaciones.TabIndex = 36;
             this.lbSinRecomendaciones.Text = "0";
             // 
+            // label14
+            // 
+            this.label14.AutoSize = true;
+            this.label14.Location = new System.Drawing.Point(570, 110);
+            this.label14.Name = "label14";
+            this.label14.Size = new System.Drawing.Size(106, 13);
+            this.label14.TabIndex = 37;
+            this.label14.Text = "Tiempo transcurrido: ";
+            // 
+            // lbTiempo
+            // 
+            this.lbTiempo.AutoSize = true;
+            this.lbTiempo.Location = new System.Drawing.Point(692, 109);
+            this.lbTiempo.Name = "lbTiempo";
+            this.lbTiempo.Size = new System.Drawing.Size(13, 13);
+            this.lbTiempo.TabIndex = 38;
+            this.lbTiempo.Text = "0";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(756, 248);
+            this.ClientSize = new System.Drawing.Size(756, 282);
+            this.Controls.Add(this.lbTiempo);
+            this.Controls.Add(this.label14);
             this.Controls.Add(this.lbSinRecomendaciones);
             this.Controls.Add(this.label13);
             this.Controls.Add(this.lbAlumnosRendidos);
@@ -510,6 +532,8 @@
         private System.Windows.Forms.Label lbAlumnosRendidos;
         private System.Windows.Forms.Label label13;
         private System.Windows.Forms.Label lbSinRecomendaciones;
+        private System.Windows.Forms.Label label14;
+        private System.Windows.Forms.Label lbTiempo;
     }
 }
 

@@ -271,7 +271,7 @@ namespace Simulacion
 
             double tiempoTranscurrido = 0.0;
             tiempoTranscurrido = ((double)cont * timer1.Interval) / 1000.0;
-            txtLog.Text = "Tiempo transcurrido: " + tiempoTranscurrido.ToString() + " seg.";
+            lbTiempo.Text = tiempoTranscurrido.ToString();
 
             lbTotalCiclos.Text = simulador.nCiclos.ToString();
             lbCiclosCompletados.Text = simulador.ciclosCompletos.ToString();
@@ -291,11 +291,8 @@ namespace Simulacion
             lbAlumnosRendidos.Text = simulador.alumnosRendidos.ToString();
 
             lbSinRecomendaciones.Text = simulador.sinRecomendaciones.ToString();
-            /*
-            txtLog.Text = "tick: " + cont.ToString() + "\r\n" +
-                          simulador.ciclosCompletos.ToString() + "/" + simulador.nCiclos.ToString()+"\r\n"+
-                          simulador.simulacionesDadas.ToString() + "/" + simulador.simulacionesADar.ToString();
-            */
+            
+
             cont++;
             if (simulador.termino)
             {
