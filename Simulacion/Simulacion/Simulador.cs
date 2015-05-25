@@ -67,6 +67,14 @@ namespace Simulacion
             }
         }
         public bool termino = false;
+
+        public int totalRResueltas;
+        public int totalRFallidas;
+        public int totalSubioNivel;
+        public int parcialRResueltas;
+        public int parcialRFallidas;
+        public int parcialSubioNivel;
+
         StringBuilder log;
 
         public int simulacionesADar;
@@ -400,6 +408,10 @@ namespace Simulacion
         public void Simula()
         {
             ciclosCompletos = 0;
+            totalRResueltas = 0;
+            totalRFallidas = 0;
+            totalSubioNivel = 0;
+        
             RegistroSimulacion rsimulacion = new RegistroSimulacion();
             rsimulacion.inicia();
             EventoManager.Instance.registroSimulacion = rsimulacion; //indica que debe guardar las simulaciones
@@ -421,6 +433,9 @@ namespace Simulacion
             recomendador.iniciaRecomendador();
             for (int iteracion = 0; iteracion < nCiclos; iteracion++)
             {
+                parcialRResueltas = 0;
+                parcialRFallidas = 0;
+                parcialSubioNivel = 0;
                 log.Append("Iteracion: " + iteracion.ToString() + "\r\n");
                 foreach (var user in usuarios)
                 {
@@ -461,11 +476,15 @@ namespace Simulacion
                     {
                         if (pasa(usuarios[pUsuario], recomendacion))
                         {
+                            totalRResueltas++;
+                            parcialRResueltas++;
                             log.Append("paso");
                             log.Append(",");
                             usuarios[pUsuario].resolvio(problemas[recomendacion]);
                             if (subeNivel(usuarios[pUsuario], recomendacion))
                             {
+                                totalSubioNivel++;
+                                parcialSubioNivel++;
                                 rsimulacion.registraRecomendacion(usuarios[pUsuario], recomendacion, true, true);
                                 usuarios[pUsuario].subeNivel(problemas[recomendacion].idTema);
                                 log.Append("Subio");
@@ -480,6 +499,8 @@ namespace Simulacion
                         }
                         else
                         {
+                            totalRFallidas++;
+                            parcialRFallidas++;
                             log.Append("no paso");
                             log.Append(",");
                             rsimulacion.registraRecomendacion(usuarios[pUsuario], recomendacion, false, false);
@@ -496,7 +517,6 @@ namespace Simulacion
                     int i = user.Key;
                     usuarios[i].tickTiempo();
                 }
-                
                 ciclosCompletos++;
             }
             rsimulacion.termina();

@@ -272,6 +272,20 @@ namespace Simulacion
             double tiempoTranscurrido = 0.0;
             tiempoTranscurrido = ((double)cont * timer1.Interval) / 1000.0;
             txtLog.Text = "Tiempo transcurrido: " + tiempoTranscurrido.ToString() + " seg.";
+
+            lbTotalCiclos.Text = simulador.nCiclos.ToString();
+            lbCiclosCompletados.Text = simulador.ciclosCompletos.ToString();
+
+            lbRDadas.Text = simulador.simulacionesDadas.ToString();
+            lbRPorDar.Text = simulador.simulacionesADar.ToString();
+
+            lbTotalResuelto.Text = simulador.totalRResueltas.ToString();
+            lbTotalFallado.Text = simulador.totalRFallidas.ToString();
+            lbTotalSubioNivel.Text = simulador.totalSubioNivel.ToString();
+
+            lbParcialFallado.Text = simulador.parcialRFallidas.ToString();
+            lbParcialResuelto.Text = simulador.parcialRResueltas.ToString();
+            lbParcialSubioNivel.Text = simulador.parcialSubioNivel.ToString();
             /*
             txtLog.Text = "tick: " + cont.ToString() + "\r\n" +
                           simulador.ciclosCompletos.ToString() + "/" + simulador.nCiclos.ToString()+"\r\n"+
@@ -288,6 +302,11 @@ namespace Simulacion
         }
 
         private void label1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label6_Click(object sender, EventArgs e)
         {
 
         }
