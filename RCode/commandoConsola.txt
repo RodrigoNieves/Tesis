@@ -1,0 +1,4 @@
+del .RData
+r < variables.R --save
+r < xyPlot.R --no-save
+

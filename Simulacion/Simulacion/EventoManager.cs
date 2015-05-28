@@ -100,6 +100,15 @@ namespace Simulacion
             Evento tipoEvento = nombreEvento[tipo];
             registraEvento(tipoEvento, informacion);
         }
+        public int getIdEvento(string nombre)
+        {
+            if (!nombreEvento.ContainsKey(nombre))
+            {
+                agregaTipoEvento(nombre);
+            }
+            cargaTipoEventos();
+            return nombreEvento[nombre].idEvento;
+        }
         public void registraEvento(int idTipo, String informacion)
         {
             if (idEvento.ContainsKey(idTipo))

@@ -16,6 +16,7 @@ namespace Simulacion
     {
         Thread oThread;
         Simulador simulador= null;
+        int lastIdSimulation = -1;
         int cont;
         public Form1()
         {
@@ -186,7 +187,7 @@ namespace Simulacion
             cont = 0;
             timer1.Enabled = true;
         }
-        private void button1_Click(object sender, EventArgs e)
+        private void realizaSimulacion()
         {
             if (simulador != null)
             {
@@ -201,7 +202,7 @@ namespace Simulacion
             {
                 coldStart = new RRandom(ListaDeProblemas());
             }
-            else if(cmbColdStart.Text == "Experto")
+            else if (cmbColdStart.Text == "Experto")
             {
                 coldStart = new RExperto();
             }
@@ -215,7 +216,9 @@ namespace Simulacion
             {
                 //Experto
                 recomendador = new RExperto();
-            }else if(cmbAlgoritmo.Text == "Inversion"){
+            }
+            else if (cmbAlgoritmo.Text == "Inversion")
+            {
                 //Inversion
                 recomendador = new RInversion(rEnColdStart: coldStart);
             }
@@ -252,7 +255,11 @@ namespace Simulacion
             cont = 0;
             timer1.Enabled = true;
             progressBar.Visible = true;
-
+        }
+        private void button1_Click(object sender, EventArgs e)
+        {
+            //realizaSimulacion();
+            GeneraGrafica.Instance.graficaRMSE_SVD(61);
         }
 
         private void timer1_Tick(object sender, EventArgs e)
@@ -291,7 +298,12 @@ namespace Simulacion
             lbAlumnosRendidos.Text = simulador.alumnosRendidos.ToString();
 
             lbSinRecomendaciones.Text = simulador.sinRecomendaciones.ToString();
-            
+
+            lbIdSimulacion.Text = simulador.idSimulacion.ToString();
+            if (simulador.idSimulacion > 0)
+            {
+                lastIdSimulation = simulador.idSimulacion;
+            }
 
             cont++;
             if (simulador.termino)

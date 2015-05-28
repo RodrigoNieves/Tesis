@@ -79,6 +79,8 @@ namespace Simulacion
         public int alumnosCompletos;
 
         public int sinRecomendaciones;
+
+        public int idSimulacion = -1;
         StringBuilder log;
 
         public int simulacionesADar;
@@ -421,6 +423,7 @@ namespace Simulacion
 
             RegistroSimulacion rsimulacion = new RegistroSimulacion();
             rsimulacion.inicia();
+            idSimulacion = rsimulacion.id;
             EventoManager.Instance.registroSimulacion = rsimulacion; //indica que debe guardar las simulaciones
             rsimulacion.recomendador = recomendador;
             
@@ -538,6 +541,7 @@ namespace Simulacion
                 ciclosCompletos++;
             }
             rsimulacion.termina();
+            idSimulacion = -1;
             this.termino = true;
         }
 

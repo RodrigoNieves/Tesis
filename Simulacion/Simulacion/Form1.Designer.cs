@@ -69,6 +69,8 @@
             this.lbSinRecomendaciones = new System.Windows.Forms.Label();
             this.label14 = new System.Windows.Forms.Label();
             this.lbTiempo = new System.Windows.Forms.Label();
+            this.label15 = new System.Windows.Forms.Label();
+            this.lbIdSimulacion = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // button1
@@ -441,11 +443,30 @@
             this.lbTiempo.TabIndex = 38;
             this.lbTiempo.Text = "0";
             // 
+            // label15
+            // 
+            this.label15.AutoSize = true;
+            this.label15.Location = new System.Drawing.Point(13, 96);
+            this.label15.Name = "label15";
+            this.label15.Size = new System.Drawing.Size(70, 13);
+            this.label15.TabIndex = 39;
+            this.label15.Text = "Id Simulación";
+            // 
+            // lbIdSimulacion
+            // 
+            this.lbIdSimulacion.AutoSize = true;
+            this.lbIdSimulacion.Location = new System.Drawing.Point(89, 96);
+            this.lbIdSimulacion.Name = "lbIdSimulacion";
+            this.lbIdSimulacion.Size = new System.Drawing.Size(0, 13);
+            this.lbIdSimulacion.TabIndex = 40;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(756, 282);
+            this.Controls.Add(this.lbIdSimulacion);
+            this.Controls.Add(this.label15);
             this.Controls.Add(this.lbTiempo);
             this.Controls.Add(this.label14);
             this.Controls.Add(this.lbSinRecomendaciones);
@@ -534,6 +555,8 @@
         private System.Windows.Forms.Label lbSinRecomendaciones;
         private System.Windows.Forms.Label label14;
         private System.Windows.Forms.Label lbTiempo;
+        private System.Windows.Forms.Label label15;
+        private System.Windows.Forms.Label lbIdSimulacion;
     }
 }
 
