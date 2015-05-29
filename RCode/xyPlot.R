@@ -16,7 +16,10 @@ if(!exists("x")){
 if(!exists("y")){
   y <- rnorm(100)  
 }
+if(!exists("imageName")){
+	imageName <- "xyplot"
+}
 
-png("xyplot.png",width = PNGwidth, height = PNGheight)
+png(paste0(imageName,".png"),width = PNGwidth, height = PNGheight)
 plot(x,y,type= "l", xlab = PNGxlabel, ylab = PNGylabel)
 dev.off()

@@ -39,7 +39,7 @@ namespace Simulacion
                 return instance;
             }
         }
-        public void graficaXY(int[] x, double[] y,int height = 480, int width = 480,string xlabel="", string ylable = "")
+        public void graficaXY(int[] x, double[] y,int height = 480, int width = 480,string xlabel="", string ylable = "", string imageName = "xyplot")
         {
             StringBuilder xString = new StringBuilder();
             xString.Append("x <- c(");
@@ -66,8 +66,9 @@ namespace Simulacion
             String Rylabel = "PNGylabel <- \"" + ylable + "\"";
             String RHeight = "PNGheight <- " + height.ToString();
             String RWidth = "PNGwidth <- " + width.ToString();
+            String RImageName = "imageName <- \"" + imageName + "\"";
 
-            System.IO.File.WriteAllLines(pathR + "/variables.R", new string[] { xString.ToString(), yString.ToString(), Rxlabel, Rylabel, RHeight, RWidth });
+            System.IO.File.WriteAllLines(pathR + "/variables.R", new string[] { xString.ToString(), yString.ToString(), Rxlabel, Rylabel, RHeight, RWidth, RImageName });
 
             runCommand("del .RData");
             runCommand("R < variables.R --save");
@@ -82,7 +83,7 @@ namespace Simulacion
             {
                 iteracion.Add(i + 1);
             }
-            graficaXY(iteracion.ToArray(), rmse.ToArray(), xlabel: "Iteracion", ylable: "RMSE", height: 500, width: iteracion.Count);
+            graficaXY(iteracion.ToArray(), rmse.ToArray(), xlabel: "Iteracion", ylable: "RMSE", height: 500, width: iteracion.Count, imageName: "RMSE");
         }
     }
 }

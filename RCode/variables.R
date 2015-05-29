@@ -4,3 +4,4 @@ PNGxlabel <- "Iteracion"
 PNGylabel <- "RMSE"
 PNGheight <- 500
 PNGwidth <- 4800
+imageName <- "RMSE"
