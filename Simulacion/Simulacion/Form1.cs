@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Data.SqlClient;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -17,18 +18,31 @@ namespace Simulacion
         Thread oThread;
         Thread creaImagenThread;
         Simulador simulador= null;
+        int imgContador = 0;
         int lastIdSimulation = -1;
         int cont;
         public Form1()
         {
             InitializeComponent();
             GeneraGrafica.Instance.graphicCreated += Instance_graphicCreated;
+            pbGrafica.SizeMode = PictureBoxSizeMode.AutoSize;
         }
 
         void Instance_graphicCreated(object sender, EventArgs e)
         {
-            /// TODO: copiar imagen a una carpeta nueva y mostrarla en interfaz
-            throw new NotImplementedException();
+            GraphicCreatedEventArgs args = (GraphicCreatedEventArgs)e;
+            imgContador++;
+
+            Process process = new Process();
+            ProcessStartInfo startInfo = new ProcessStartInfo();
+            startInfo.WindowStyle = ProcessWindowStyle.Hidden;
+            startInfo.WorkingDirectory = Application.StartupPath;
+            startInfo.FileName = "cmd.exe";
+            startInfo.Arguments = "/C " + "echo F | xcopy " + args.location.Replace('/','\\') + " Imagenes\\imagen" + imgContador + ".png";
+            process.StartInfo = startInfo;
+            process.Start();
+            process.WaitForExit();
+            pbGrafica.ImageLocation = "Imagenes\\imagen" + imgContador + ".png";
         }
         private void testNombreProblemas()
         {

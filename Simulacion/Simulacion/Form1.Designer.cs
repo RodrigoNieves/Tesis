@@ -71,12 +71,16 @@
             this.lbTiempo = new System.Windows.Forms.Label();
             this.label15 = new System.Windows.Forms.Label();
             this.lbIdSimulacion = new System.Windows.Forms.Label();
+            this.panelGrafica = new System.Windows.Forms.Panel();
+            this.pbGrafica = new System.Windows.Forms.PictureBox();
+            this.panelGrafica.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pbGrafica)).BeginInit();
             this.SuspendLayout();
             // 
             // button1
             // 
             this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.button1.Location = new System.Drawing.Point(669, 12);
+            this.button1.Location = new System.Drawing.Point(712, 12);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(75, 23);
             this.button1.TabIndex = 0;
@@ -88,11 +92,11 @@
             // 
             this.txtLog.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtLog.Location = new System.Drawing.Point(12, 160);
+            this.txtLog.Location = new System.Drawing.Point(12, 198);
             this.txtLog.Multiline = true;
             this.txtLog.Name = "txtLog";
             this.txtLog.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.txtLog.Size = new System.Drawing.Size(732, 81);
+            this.txtLog.Size = new System.Drawing.Size(775, 81);
             this.txtLog.TabIndex = 1;
             // 
             // timer1
@@ -182,10 +186,10 @@
             // 
             this.progressBar.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.progressBar.Location = new System.Drawing.Point(12, 247);
+            this.progressBar.Location = new System.Drawing.Point(12, 285);
             this.progressBar.Maximum = 1000;
             this.progressBar.Name = "progressBar";
-            this.progressBar.Size = new System.Drawing.Size(741, 23);
+            this.progressBar.Size = new System.Drawing.Size(784, 23);
             this.progressBar.TabIndex = 10;
             this.progressBar.Visible = false;
             // 
@@ -460,11 +464,32 @@
             this.lbIdSimulacion.Size = new System.Drawing.Size(0, 13);
             this.lbIdSimulacion.TabIndex = 40;
             // 
+            // panelGrafica
+            // 
+            this.panelGrafica.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.panelGrafica.AutoScroll = true;
+            this.panelGrafica.Controls.Add(this.pbGrafica);
+            this.panelGrafica.Location = new System.Drawing.Point(12, 126);
+            this.panelGrafica.Name = "panelGrafica";
+            this.panelGrafica.Size = new System.Drawing.Size(775, 66);
+            this.panelGrafica.TabIndex = 41;
+            // 
+            // pbGrafica
+            // 
+            this.pbGrafica.Location = new System.Drawing.Point(0, 0);
+            this.pbGrafica.Name = "pbGrafica";
+            this.pbGrafica.Size = new System.Drawing.Size(100, 50);
+            this.pbGrafica.TabIndex = 0;
+            this.pbGrafica.TabStop = false;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(756, 282);
+            this.ClientSize = new System.Drawing.Size(799, 320);
+            this.Controls.Add(this.panelGrafica);
             this.Controls.Add(this.lbIdSimulacion);
             this.Controls.Add(this.label15);
             this.Controls.Add(this.lbTiempo);
@@ -508,6 +533,8 @@
             this.Controls.Add(this.button1);
             this.Name = "Form1";
             this.Text = "Form1";
+            this.panelGrafica.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.pbGrafica)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -557,6 +584,8 @@
         private System.Windows.Forms.Label lbTiempo;
         private System.Windows.Forms.Label label15;
         private System.Windows.Forms.Label lbIdSimulacion;
+        private System.Windows.Forms.Panel panelGrafica;
+        private System.Windows.Forms.PictureBox pbGrafica;
     }
 }
 
