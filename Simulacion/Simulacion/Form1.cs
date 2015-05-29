@@ -15,12 +15,20 @@ namespace Simulacion
     public partial class Form1 : Form
     {
         Thread oThread;
+        Thread creaImagenThread;
         Simulador simulador= null;
         int lastIdSimulation = -1;
         int cont;
         public Form1()
         {
             InitializeComponent();
+            GeneraGrafica.Instance.graphicCreated += Instance_graphicCreated;
+        }
+
+        void Instance_graphicCreated(object sender, EventArgs e)
+        {
+            /// TODO: copiar imagen a una carpeta nueva y mostrarla en interfaz
+            throw new NotImplementedException();
         }
         private void testNombreProblemas()
         {
@@ -259,9 +267,21 @@ namespace Simulacion
         private void button1_Click(object sender, EventArgs e)
         {
             //realizaSimulacion();
-            GeneraGrafica.Instance.graficaRMSE_SVD(61);
+            graficaRMSE_SVD(61);
         }
-
+        private void graficaRMSE_SVD(int idSimulacion)
+        {
+            if (creaImagenThread != null)
+            {
+                if (creaImagenThread.IsAlive)
+                {
+                    // termina aun esta corriendo
+                    return;
+                }
+            }
+            creaImagenThread = new Thread(() => GeneraGrafica.Instance.graficaRMSE_SVD(idSimulacion));
+            creaImagenThread.Start();
+        }
         private void timer1_Tick(object sender, EventArgs e)
         {
             double progreso = 0.0;

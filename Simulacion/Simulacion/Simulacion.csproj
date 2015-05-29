@@ -66,6 +66,7 @@
     <Compile Include="EventoManager.cs" />
     <Compile Include="GeneraGrafica.cs" />
     <Compile Include="GraficaDB.cs" />
+    <Compile Include="GraphicCreatedEventArgs.cs" />
     <Compile Include="InversionDB.cs" />
     <Compile Include="PriotiryQueue.cs" />
     <Compile Include="ProblemDB.cs" />

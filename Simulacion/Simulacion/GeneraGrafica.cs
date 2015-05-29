@@ -7,8 +7,10 @@ using System.Threading.Tasks;
 
 namespace Simulacion
 {
+    public delegate void GraphicCreatedHandler(object sender, EventArgs e);
     class GeneraGrafica
     {
+        public event GraphicCreatedHandler graphicCreated;
         private static GeneraGrafica instance;
         private string pathR = "../../../../RCode";
         GraficaDB db;
@@ -73,6 +75,13 @@ namespace Simulacion
             runCommand("del .RData");
             runCommand("R < variables.R --save");
             runCommand("R < xyPlot.R --no-save");
+            if (graphicCreated != null)
+            {
+                GraphicCreatedEventArgs args = new GraphicCreatedEventArgs();
+                args.location = pathR + "/" + imageName + ".png";
+                args.name = imageName;
+                graphicCreated(this, args);
+            }
             
         }
         public void graficaRMSE_SVD(int idSimulacion)
