@@ -532,7 +532,7 @@
             this.Controls.Add(this.txtLog);
             this.Controls.Add(this.button1);
             this.Name = "Form1";
-            this.Text = "Form1";
+            this.Text = "Recomendador";
             this.panelGrafica.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pbGrafica)).EndInit();
             this.ResumeLayout(false);
