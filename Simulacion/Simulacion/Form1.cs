@@ -363,6 +363,7 @@ namespace Simulacion
         }
         private void actualizaGrafica()
         {
+            if (simulador == null) return;
             if (simulador.idSimulacion > 0)
             {
                 graficaRMSE_SVD(simulador.idSimulacion);
