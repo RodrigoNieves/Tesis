@@ -38,7 +38,7 @@ namespace Simulacion
             SqlDataReader result;
 
             cmd.CommandText = string.Format(@"SELECT comentario FROM SimulacionKarelotitlan.dbo.Evento
-                                                WHERE idSimulacion = {0} and tipoEvento = {1}", idSimulacion, idEvento);
+                                                WHERE idSimulacion = {0} and tipoEvento = {1} order by timestamp", idSimulacion, idEvento);
             cmd.CommandType = CommandType.Text;
             cmd.Connection = sqlConnection;
             sqlConnection.Open();

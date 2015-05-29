@@ -43,6 +43,18 @@ namespace Simulacion
             process.Start();
             process.WaitForExit();
             pbGrafica.ImageLocation = "Imagenes\\imagen" + imgContador + ".png";
+
+
+            /// Eliminando imagenes anteriores
+            Process p2 = new Process();
+            ProcessStartInfo si2 = new ProcessStartInfo();
+            si2.WindowStyle = ProcessWindowStyle.Hidden;
+            si2.WorkingDirectory = Application.StartupPath + "\\Imagenes";
+            si2.FileName = "cmd.exe";
+            si2.Arguments = "/C " + "for %i in (*) do if not %i == imagen" + imgContador + ".png del %i ";
+            p2.StartInfo = si2;
+            p2.Start();
+            process.WaitForExit();
         }
         private void testNombreProblemas()
         {
@@ -262,6 +274,7 @@ namespace Simulacion
             else
             {
                 MessageBox.Show("No hay Algoritmo Seleccionado");
+                simulador = null;
                 return;
             }
 
@@ -280,8 +293,7 @@ namespace Simulacion
         }
         private void button1_Click(object sender, EventArgs e)
         {
-            //realizaSimulacion();
-            graficaRMSE_SVD(61);
+            realizaSimulacion();
         }
         private void graficaRMSE_SVD(int idSimulacion)
         {
@@ -347,8 +359,15 @@ namespace Simulacion
                 oThread = null;
                 progressBar.Visible = false;
             }
+            actualizaGrafica();
         }
-
+        private void actualizaGrafica()
+        {
+            if (simulador.idSimulacion > 0)
+            {
+                graficaRMSE_SVD(simulador.idSimulacion);
+            }
+        }
         private void label1_Click(object sender, EventArgs e)
         {
 

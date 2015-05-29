@@ -92,7 +92,7 @@ namespace Simulacion
             {
                 iteracion.Add(i + 1);
             }
-            graficaXY(iteracion.ToArray(), rmse.ToArray(), xlabel: "Iteracion", ylable: "RMSE", height: 500, width: iteracion.Count, imageName: "RMSE");
+            graficaXY(iteracion.ToArray(), rmse.ToArray(), xlabel: "Iteracion", ylable: "RMSE", height: 450, width: 450+iteracion.Count*2, imageName: "RMSE");
         }
     }
 }
