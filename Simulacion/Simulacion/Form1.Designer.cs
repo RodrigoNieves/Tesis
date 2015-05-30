@@ -73,6 +73,14 @@
             this.lbIdSimulacion = new System.Windows.Forms.Label();
             this.panelGrafica = new System.Windows.Forms.Panel();
             this.pbGrafica = new System.Windows.Forms.PictureBox();
+            this.label16 = new System.Windows.Forms.Label();
+            this.cmbGrafica = new System.Windows.Forms.ComboBox();
+            this.label17 = new System.Windows.Forms.Label();
+            this.cmbSimulacion1 = new System.Windows.Forms.ComboBox();
+            this.label18 = new System.Windows.Forms.Label();
+            this.cmbSimulacion2 = new System.Windows.Forms.ComboBox();
+            this.timer2 = new System.Windows.Forms.Timer(this.components);
+            this.button2 = new System.Windows.Forms.Button();
             this.panelGrafica.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbGrafica)).BeginInit();
             this.SuspendLayout();
@@ -80,7 +88,7 @@
             // button1
             // 
             this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.button1.Location = new System.Drawing.Point(712, 12);
+            this.button1.Location = new System.Drawing.Point(817, 12);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(75, 23);
             this.button1.TabIndex = 0;
@@ -92,11 +100,11 @@
             // 
             this.txtLog.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtLog.Location = new System.Drawing.Point(12, 198);
+            this.txtLog.Location = new System.Drawing.Point(12, 354);
             this.txtLog.Multiline = true;
             this.txtLog.Name = "txtLog";
             this.txtLog.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.txtLog.Size = new System.Drawing.Size(775, 81);
+            this.txtLog.Size = new System.Drawing.Size(880, 81);
             this.txtLog.TabIndex = 1;
             // 
             // timer1
@@ -186,10 +194,10 @@
             // 
             this.progressBar.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.progressBar.Location = new System.Drawing.Point(12, 285);
+            this.progressBar.Location = new System.Drawing.Point(12, 441);
             this.progressBar.Maximum = 1000;
             this.progressBar.Name = "progressBar";
-            this.progressBar.Size = new System.Drawing.Size(784, 23);
+            this.progressBar.Size = new System.Drawing.Size(889, 23);
             this.progressBar.TabIndex = 10;
             this.progressBar.Visible = false;
             // 
@@ -471,9 +479,9 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.panelGrafica.AutoScroll = true;
             this.panelGrafica.Controls.Add(this.pbGrafica);
-            this.panelGrafica.Location = new System.Drawing.Point(12, 126);
+            this.panelGrafica.Location = new System.Drawing.Point(12, 160);
             this.panelGrafica.Name = "panelGrafica";
-            this.panelGrafica.Size = new System.Drawing.Size(775, 66);
+            this.panelGrafica.Size = new System.Drawing.Size(880, 188);
             this.panelGrafica.TabIndex = 41;
             // 
             // pbGrafica
@@ -484,11 +492,94 @@
             this.pbGrafica.TabIndex = 0;
             this.pbGrafica.TabStop = false;
             // 
+            // label16
+            // 
+            this.label16.AutoSize = true;
+            this.label16.Location = new System.Drawing.Point(13, 117);
+            this.label16.Name = "label16";
+            this.label16.Size = new System.Drawing.Size(80, 13);
+            this.label16.TabIndex = 42;
+            this.label16.Text = "Tipo de Grafica";
+            // 
+            // cmbGrafica
+            // 
+            this.cmbGrafica.FormattingEnabled = true;
+            this.cmbGrafica.Items.AddRange(new object[] {
+            "Ninguna",
+            "Root Mean Square Error"});
+            this.cmbGrafica.Location = new System.Drawing.Point(12, 133);
+            this.cmbGrafica.Name = "cmbGrafica";
+            this.cmbGrafica.Size = new System.Drawing.Size(179, 21);
+            this.cmbGrafica.TabIndex = 43;
+            this.cmbGrafica.Text = "Ninguna";
+            this.cmbGrafica.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
+            // 
+            // label17
+            // 
+            this.label17.AutoSize = true;
+            this.label17.Location = new System.Drawing.Point(241, 117);
+            this.label17.Name = "label17";
+            this.label17.Size = new System.Drawing.Size(67, 13);
+            this.label17.TabIndex = 44;
+            this.label17.Text = "Simulacion 1";
+            // 
+            // cmbSimulacion1
+            // 
+            this.cmbSimulacion1.FormattingEnabled = true;
+            this.cmbSimulacion1.Items.AddRange(new object[] {
+            "Actual"});
+            this.cmbSimulacion1.Location = new System.Drawing.Point(241, 133);
+            this.cmbSimulacion1.Name = "cmbSimulacion1";
+            this.cmbSimulacion1.Size = new System.Drawing.Size(190, 21);
+            this.cmbSimulacion1.TabIndex = 45;
+            this.cmbSimulacion1.Text = "Actual";
+            // 
+            // label18
+            // 
+            this.label18.AutoSize = true;
+            this.label18.Location = new System.Drawing.Point(473, 136);
+            this.label18.Name = "label18";
+            this.label18.Size = new System.Drawing.Size(67, 13);
+            this.label18.TabIndex = 46;
+            this.label18.Text = "Simulacion 2";
+            // 
+            // cmbSimulacion2
+            // 
+            this.cmbSimulacion2.FormattingEnabled = true;
+            this.cmbSimulacion2.Items.AddRange(new object[] {
+            "Ninguna"});
+            this.cmbSimulacion2.Location = new System.Drawing.Point(546, 133);
+            this.cmbSimulacion2.Name = "cmbSimulacion2";
+            this.cmbSimulacion2.Size = new System.Drawing.Size(188, 21);
+            this.cmbSimulacion2.TabIndex = 47;
+            this.cmbSimulacion2.Text = "Ninguna";
+            // 
+            // timer2
+            // 
+            this.timer2.Tick += new System.EventHandler(this.timer2_Tick);
+            // 
+            // button2
+            // 
+            this.button2.Location = new System.Drawing.Point(740, 131);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(75, 23);
+            this.button2.TabIndex = 48;
+            this.button2.Text = "Actualiza grafica";
+            this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(799, 320);
+            this.ClientSize = new System.Drawing.Size(904, 476);
+            this.Controls.Add(this.button2);
+            this.Controls.Add(this.cmbSimulacion2);
+            this.Controls.Add(this.label18);
+            this.Controls.Add(this.cmbSimulacion1);
+            this.Controls.Add(this.label17);
+            this.Controls.Add(this.cmbGrafica);
+            this.Controls.Add(this.label16);
             this.Controls.Add(this.panelGrafica);
             this.Controls.Add(this.lbIdSimulacion);
             this.Controls.Add(this.label15);
@@ -533,6 +624,7 @@
             this.Controls.Add(this.button1);
             this.Name = "Form1";
             this.Text = "Recomendador";
+            this.Load += new System.EventHandler(this.Form1_Load);
             this.panelGrafica.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pbGrafica)).EndInit();
             this.ResumeLayout(false);
@@ -586,6 +678,14 @@
         private System.Windows.Forms.Label lbIdSimulacion;
         private System.Windows.Forms.Panel panelGrafica;
         private System.Windows.Forms.PictureBox pbGrafica;
+        private System.Windows.Forms.Label label16;
+        private System.Windows.Forms.ComboBox cmbGrafica;
+        private System.Windows.Forms.Label label17;
+        private System.Windows.Forms.ComboBox cmbSimulacion1;
+        private System.Windows.Forms.Label label18;
+        private System.Windows.Forms.ComboBox cmbSimulacion2;
+        private System.Windows.Forms.Timer timer2;
+        private System.Windows.Forms.Button button2;
     }
 }
 

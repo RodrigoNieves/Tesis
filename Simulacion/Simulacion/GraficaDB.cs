@@ -56,5 +56,56 @@ namespace Simulacion
             }
             return rmse_SVD;
         }
+        public List<SimulacionData> getSimulaciones()
+        {
+            List<SimulacionData> simulaciones = new List<SimulacionData>();
+
+            SqlConnection sqlConnection = new SqlConnection(connectionString);
+            SqlCommand cmd = new SqlCommand();
+            SqlDataReader result;
+
+            cmd.CommandText = "SELECT *,(SELECT TOP 1 nombre FROM SimulacionKarelotitlan.dbo.Algoritmo WHERE Algoritmo.id = (SELECT TOP 1 idAlgoritmo FROM simulacionKarelotitlan.dbo.Recomendacion WHERE Recomendacion.idSimulacion = Simulacion.id)) AS algoritmo,(SELECT TOP 1 descripcion FROM SimulacionKarelotitlan.dbo.Algoritmo WHERE Algoritmo.id = (SELECT TOP 1 idAlgoritmo FROM simulacionKarelotitlan.dbo.Recomendacion WHERE Recomendacion.idSimulacion = Simulacion.id)) as algoritmoDescripcion FROM SimulacionKarelotitlan.dbo.Simulacion";
+            cmd.CommandType = CommandType.Text;
+            cmd.Connection = sqlConnection;
+
+            sqlConnection.Open();
+
+            result = cmd.ExecuteReader();
+            while (result.Read())
+            {
+                int id=-1;
+                DateTime? inicio = null;
+                DateTime? fin = null;
+                string comentario = "";
+                string algoritmo = "";
+                string algoritmoDescripcion = "";
+
+                id = (int)result["id"];
+                if (!(result["inicio"] is DBNull))
+                {
+                    inicio = (DateTime?)result["inicio"];
+                }
+                if (!(result["fin"] is DBNull))
+                {
+                    fin = (DateTime?)result["fin"] as DateTime?;
+                }
+                comentario = result["comentario"] as string;
+                algoritmo = result["algoritmo"] as string;
+                algoritmoDescripcion = result["algoritmoDescripcion"] as string;
+
+                SimulacionData nuevo = new SimulacionData();
+                nuevo.idSimulacion = id;
+                nuevo.inicio = inicio;
+                nuevo.fin = fin;
+                nuevo.comentario = comentario;
+                nuevo.algoritmo = algoritmo;
+                nuevo.algoritmoDescripcion = algoritmoDescripcion;
+
+                simulaciones.Add(nuevo);
+            }
+
+            sqlConnection.Close();
+            return simulaciones;
+        }
     }
 }

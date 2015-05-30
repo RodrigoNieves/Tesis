@@ -17,7 +17,9 @@ namespace Simulacion
     {
         Thread oThread;
         Thread creaImagenThread;
+        Thread inicializaOpcion;
         Simulador simulador= null;
+        List<SimulacionData> simulaciones;
         int imgContador = 0;
         int lastIdSimulation = -1;
         int cont;
@@ -55,6 +57,41 @@ namespace Simulacion
             p2.StartInfo = si2;
             p2.Start();
             process.WaitForExit();
+        }
+        private void aplicaActualizacionOpcion()
+        {
+            string ant1 = cmbSimulacion1.Text;
+            string ant2 = cmbSimulacion2.Text;
+            cmbSimulacion1.Items.Clear();
+            cmbSimulacion2.Items.Clear();
+            cmbSimulacion1.Items.Add("Actual");
+            cmbSimulacion2.Items.Add("Ninguna");
+            foreach (var elem in simulaciones)
+            {
+                StringBuilder name = new StringBuilder();
+                name.Append(string.Format("{0,4}", elem.idSimulacion));
+                name.Append(")");
+                name.Append(elem.algoritmo);
+                name.Append("-");
+                name.Append(elem.inicio.ToString());
+                name.Append("/");
+                name.Append(elem.fin.ToString());
+                cmbSimulacion1.Items.Add(name.ToString());
+                cmbSimulacion2.Items.Add(name.ToString());
+            }
+            cmbSimulacion1.Text = ant1;
+            cmbSimulacion2.Text = ant2;
+        }
+        private void inicializaGraficaOpcionSync()
+        {
+            simulaciones = GraficaDB.Instance.getSimulaciones();
+            
+        }
+        private void inicializaGraficaOpcion()
+        {
+            inicializaOpcion = new Thread(inicializaGraficaOpcionSync);
+            inicializaOpcion.Start();
+            timer2.Enabled = true;
         }
         private void testNombreProblemas()
         {
@@ -358,15 +395,36 @@ namespace Simulacion
                 timer1.Enabled = false;
                 oThread = null;
                 progressBar.Visible = false;
+                inicializaGraficaOpcion();
             }
             actualizaGrafica();
         }
         private void actualizaGrafica()
         {
-            if (simulador == null) return;
-            if (simulador.idSimulacion > 0)
+            string grafica = cmbGrafica.Text;
+            string simulacion1 = cmbSimulacion1.Text;
+            string simulacion2 = cmbSimulacion2.Text;
+            if (grafica == "Root Mean Square Error")
             {
-                graficaRMSE_SVD(simulador.idSimulacion);
+                if (simulacion1 == "Actual")
+                {
+                    if (simulacion2 == "Ninguna")
+                    {
+                        if (simulador == null) return;
+                        if (simulador.idSimulacion > 0)
+                        {
+                            graficaRMSE_SVD(simulador.idSimulacion);
+                        }
+                    }
+                }
+                else
+                {
+                    if (simulacion2 == "Ninguna")
+                    {
+                        int idSimulacion =int.Parse( simulacion1.Split(')')[0].Trim());
+                        graficaRMSE_SVD(idSimulacion);
+                    }
+                }
             }
         }
         private void label1_Click(object sender, EventArgs e)
@@ -382,6 +440,33 @@ namespace Simulacion
         private void label12_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+            inicializaGraficaOpcion();
+        }
+
+        private void timer2_Tick(object sender, EventArgs e)
+        {
+            if(inicializaOpcion != null){
+                if (inicializaOpcion.ThreadState == System.Threading.ThreadState.Stopped)
+                {
+                    inicializaOpcion = null;
+                    aplicaActualizacionOpcion();
+                    timer2.Enabled = false;
+                }
+            }
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            actualizaGrafica();
         }
     }
 }
