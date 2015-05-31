@@ -1,0 +1,5 @@
+DELETE FROM SimulacionKarelotitlan.dbo.Recomendacion
+DELETE FROM SimulacionKarelotitlan.DBO.Evento
+DELETE FROM SimulacionKarelotitlan.dbo.UsuarioSimulacion
+DELETE FROM SimulacionKarelotitlan.dbo.Simulacion
+DELETE FROM SimulacionKarelotitlan.dbo.TipoEvento

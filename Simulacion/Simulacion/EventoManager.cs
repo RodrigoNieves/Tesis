@@ -4,6 +4,7 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Simulacion
@@ -63,8 +64,30 @@ namespace Simulacion
         }
         public void agregaTipoEvento(string nombre)
         {
-            SqlConnection sqlConnection = new SqlConnection(connectionString);
-            SqlCommand cmd = new SqlCommand();
+            SqlConnection sqlConnection;
+            SqlCommand cmd;
+            SqlDataReader result;
+            /* PLAN B si se continuan recibiendo cosas que no deberian dar
+            sqlConnection = new SqlConnection(connectionString);
+            cmd = new SqlCommand();
+            cmd.CommandText = string.Format("SELECT * FROM SimulacionKarelotitlan.dbo.TipoEvento WHERE nombre = '{0}' ", nombre);
+            cmd.Connection = sqlConnection;
+            sqlConnection.Open();
+            bool duplicada = false;
+            result = cmd.ExecuteReader();
+            if (result.NextResult())
+            {
+                duplicada = true;
+            }
+            sqlConnection.Close();
+
+            if (duplicada)
+            {
+                return;
+            }
+            */
+            sqlConnection = new SqlConnection(connectionString);
+            cmd = new SqlCommand();
             cmd.CommandText = string.Format("INSERT INTO SimulacionKarelotitlan.dbo.TipoEvento (nombre) values('{0}');", nombre);
             cmd.Connection = sqlConnection;
             sqlConnection.Open();
@@ -92,10 +115,16 @@ namespace Simulacion
         }
         public void registraEvento(String tipo, String informacion)
         {
-            if (!nombreEvento.ContainsKey(tipo))
+            if (!(nombreEvento.ContainsKey(tipo)))
             {
-                agregaTipoEvento(tipo);
-                cargaTipoEventos();
+                Thread.Sleep(50);
+                if (!(nombreEvento.ContainsKey(tipo)))
+                {
+                    //Por mas tonto que se vea sirve
+                    // En ocaciones el dictionary muere por el multithreading, por el momento no se como solucionarlo mas que de esta manera
+                    agregaTipoEvento(tipo);
+                    cargaTipoEventos();
+                }
             }
             Evento tipoEvento = nombreEvento[tipo];
             registraEvento(tipoEvento, informacion);
