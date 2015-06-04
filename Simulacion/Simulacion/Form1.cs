@@ -345,6 +345,19 @@ namespace Simulacion
             creaImagenThread = new Thread(() => GeneraGrafica.Instance.graficaRMSE_SVD(idSimulacion));
             creaImagenThread.Start();
         }
+        private void graficaRMSE_SVD(int idSimulacion1,int idSimulacion2)
+        {
+            if (creaImagenThread != null)
+            {
+                if (creaImagenThread.IsAlive)
+                {
+                    // termina aun esta corriendo
+                    return;
+                }
+            }
+            creaImagenThread = new Thread(() => GeneraGrafica.Instance.graficaRMSE_SVD(idSimulacion1, idSimulacion2));
+            creaImagenThread.Start();
+        }
         private void timer1_Tick(object sender, EventArgs e)
         {
             double progreso = 0.0;
@@ -408,12 +421,20 @@ namespace Simulacion
             {
                 if (simulacion1 == "Actual")
                 {
+                    if (simulador == null) return;
                     if (simulacion2 == "Ninguna")
                     {
-                        if (simulador == null) return;
                         if (simulador.idSimulacion > 0)
                         {
                             graficaRMSE_SVD(simulador.idSimulacion);
+                        }
+                    }
+                    else
+                    {
+                        int idSimulacion2 = int.Parse(simulacion2.Split(')')[0].Trim());
+                        if (simulador.idSimulacion > 0)
+                        {
+                            graficaRMSE_SVD(simulador.idSimulacion, idSimulacion2);
                         }
                     }
                 }
@@ -423,6 +444,12 @@ namespace Simulacion
                     {
                         int idSimulacion =int.Parse( simulacion1.Split(')')[0].Trim());
                         graficaRMSE_SVD(idSimulacion);
+                    }
+                    else
+                    {
+                        int idSimulacion1 = int.Parse(simulacion1.Split(')')[0].Trim());
+                        int idSimulacion2 = int.Parse(simulacion2.Split(')')[0].Trim());
+                        graficaRMSE_SVD(idSimulacion1, idSimulacion2);
                     }
                 }
             }
