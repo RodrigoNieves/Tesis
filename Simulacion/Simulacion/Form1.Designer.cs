@@ -506,7 +506,17 @@
             this.cmbGrafica.FormattingEnabled = true;
             this.cmbGrafica.Items.AddRange(new object[] {
             "Ninguna",
-            "Root Mean Square Error"});
+            "Root Mean Square Error",
+            "Numero de recomendaciones dadas",
+            "Numero de problemas fallados",
+            "Numero de problemas fallados por ciclo",
+            "Numero de problemas resueltos",
+            "Numero de problemas resueltos por ciclo",
+            "Numero de incrementos de nivel",
+            "Numero de incrementos de nivel por ciclo",
+            "Numero de usuarios que completaron los problemas",
+            "Numero de usuarios rendidos",
+            "Numero de veces que no se pudo generar recomendacion"});
             this.cmbGrafica.Location = new System.Drawing.Point(12, 133);
             this.cmbGrafica.Name = "cmbGrafica";
             this.cmbGrafica.Size = new System.Drawing.Size(179, 21);

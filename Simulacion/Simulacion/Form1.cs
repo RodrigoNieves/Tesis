@@ -358,6 +358,32 @@ namespace Simulacion
             creaImagenThread = new Thread(() => GeneraGrafica.Instance.graficaRMSE_SVD(idSimulacion1, idSimulacion2));
             creaImagenThread.Start();
         }
+        public void graficaEntero(string tipoEvento, int idSimulacion)
+        {
+            if (creaImagenThread != null)
+            {
+                if (creaImagenThread.IsAlive)
+                {
+                    // termina aun esta corriendo
+                    return;
+                }
+            }
+            creaImagenThread = new Thread(() => GeneraGrafica.Instance.graficaEntero(tipoEvento, idSimulacion));
+            creaImagenThread.Start();
+        }
+        public void graficaEntero(string tipoEvento, int idSimulacion1, int idSimulacion2)
+        {
+            if (creaImagenThread != null)
+            {
+                if (creaImagenThread.IsAlive)
+                {
+                    // termina aun esta corriendo
+                    return;
+                }
+            }
+            creaImagenThread = new Thread(() => GeneraGrafica.Instance.graficaEntero(tipoEvento, idSimulacion1, idSimulacion2));
+            creaImagenThread.Start();
+        }
         private void timer1_Tick(object sender, EventArgs e)
         {
             double progreso = 0.0;
@@ -417,40 +443,157 @@ namespace Simulacion
             string grafica = cmbGrafica.Text;
             string simulacion1 = cmbSimulacion1.Text;
             string simulacion2 = cmbSimulacion2.Text;
+            int idS1 = -1;
+            int idS2 = -1;
+            if (simulacion1 == "Actual")
+            {
+                idS1 = 0;
+            }
+            else
+            {
+                if (!int.TryParse(simulacion1.Split(')')[0].Trim(), out idS1))
+                {
+                    idS1 = -1;
+                }
+            }
+            if (simulacion2 == "Ninguna")
+            {
+                idS2 = 0;
+            }
+            else
+            {
+                if (!int.TryParse(simulacion2.Split(')')[0].Trim(), out idS2))
+                {
+                    idS2 = -1;
+                }
+            }
+            if (idS1 < 0) return;
+            if(idS1 == 0){
+                if (simulador == null) return;
+                if (simulador.idSimulacion > 0)
+                {
+                    idS1 =simulador.idSimulacion;
+                }
+            }
             if (grafica == "Root Mean Square Error")
             {
-                if (simulacion1 == "Actual")
+                if (idS2 < 1)
                 {
-                    if (simulador == null) return;
-                    if (simulacion2 == "Ninguna")
-                    {
-                        if (simulador.idSimulacion > 0)
-                        {
-                            graficaRMSE_SVD(simulador.idSimulacion);
-                        }
-                    }
-                    else
-                    {
-                        int idSimulacion2 = int.Parse(simulacion2.Split(')')[0].Trim());
-                        if (simulador.idSimulacion > 0)
-                        {
-                            graficaRMSE_SVD(simulador.idSimulacion, idSimulacion2);
-                        }
-                    }
+                    graficaRMSE_SVD(idS1);
                 }
                 else
                 {
-                    if (simulacion2 == "Ninguna")
-                    {
-                        int idSimulacion =int.Parse( simulacion1.Split(')')[0].Trim());
-                        graficaRMSE_SVD(idSimulacion);
-                    }
-                    else
-                    {
-                        int idSimulacion1 = int.Parse(simulacion1.Split(')')[0].Trim());
-                        int idSimulacion2 = int.Parse(simulacion2.Split(')')[0].Trim());
-                        graficaRMSE_SVD(idSimulacion1, idSimulacion2);
-                    }
+                    graficaRMSE_SVD(idS1, idS2);
+                }
+            }
+            else if (grafica == "Numero de recomendaciones dadas")
+            {
+                if (idS2 < 1)
+                {
+                    graficaEntero("nRecomendaciones", idS1);
+                }
+                else
+                {
+                    graficaEntero("nRecomendaciones", idS1, idS2);
+                }
+            }
+            else if (grafica == "Numero de problemas fallados")
+            {
+                if (idS2 < 1)
+                {
+                    graficaEntero("nFallos", idS1);
+                }
+                else
+                {
+                    graficaEntero("nFallos", idS1, idS2);
+                }
+            }
+            else if (grafica == "Numero de problemas fallados por ciclo")
+            {
+                if (idS2 < 1)
+                {
+                    graficaEntero("nFallosCiclo", idS1);
+                }
+                else
+                {
+                    graficaEntero("nFallosCiclo", idS1, idS2);
+                }
+            }
+            else if (grafica == "Numero de problemas resueltos")
+            {
+                if (idS2 < 1)
+                {
+                    graficaEntero("nExitos", idS1);
+                }
+                else
+                {
+                    graficaEntero("nExitos", idS1, idS2);
+                }
+            }
+            else if (grafica == "Numero de problemas resueltos por ciclo")
+            {
+                if (idS2 < 1)
+                {
+                    graficaEntero("nExitosCiclo", idS1);
+                }
+                else
+                {
+                    graficaEntero("nExitosCiclo", idS1, idS2);
+                }
+            }
+            else if (grafica == "Numero de incrementos de nivel")
+            {
+                if (idS2 < 1)
+                {
+                    graficaEntero("nIncNivel", idS1);
+                }
+                else
+                {
+                    graficaEntero("nIncNivel", idS1, idS2);
+                }
+            }
+            else if (grafica == "Numero de incrementos de nivel por ciclo")
+            {
+                if (idS2 < 1)
+                {
+                    graficaEntero("nIncNivelCiclo", idS1);
+                }
+                else
+                {
+                    graficaEntero("nIncNivelCiclo", idS1, idS2);
+                }
+            }
+            else if (grafica == "Numero de usuarios que completaron los problemas")
+            {
+                if (idS2 < 1)
+                {
+                    graficaEntero("nCompletos", idS1);
+                }
+                else
+                {
+                    graficaEntero("nCompletos", idS1, idS2);
+                }
+            }
+            else if (grafica == "Numero de usuarios rendidos")
+            {
+                if (idS2 < 1)
+                {
+                    graficaEntero("nRendidos", idS1);
+                }
+                else
+                {
+                    graficaEntero("nRendidos", idS1, idS2);
+                }
+            }
+            else if (grafica == "Numero de veces que no se pudo generar recomendacion")
+            {
+                if (idS2 < 1)
+                {
+                    graficaEntero("nSinRecomendacion", idS1);
+                }
+                else
+                {
+                    graficaEntero("nSinRecomendacion", idS1, idS2);
                 }
             }
         }

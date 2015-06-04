@@ -469,6 +469,7 @@ namespace Simulacion
                     }
                 }
                 simulacionesADar = sr.cuantosRestantes();
+                EventoManager.Instance.registraEvento("nRecomendaciones", simulacionesADar.ToString());
                 simulacionesDadas = 0;
                 while (!sr.empty())
                 {
@@ -538,6 +539,15 @@ namespace Simulacion
                     int i = user.Key;
                     usuarios[i].tickTiempo();
                 }
+                EventoManager.Instance.registraEvento("nFallos", totalRFallidas.ToString());
+                EventoManager.Instance.registraEvento("nFallosCiclo", parcialRFallidas.ToString());
+                EventoManager.Instance.registraEvento("nExitos", totalRResueltas.ToString());
+                EventoManager.Instance.registraEvento("nExitosCiclo", parcialRResueltas.ToString());
+                EventoManager.Instance.registraEvento("nIncNivel", totalSubioNivel.ToString());
+                EventoManager.Instance.registraEvento("nIncNivelCiclo", parcialSubioNivel.ToString());
+                EventoManager.Instance.registraEvento("nCompletos", alumnosCompletos.ToString());
+                EventoManager.Instance.registraEvento("nRendidos", alumnosRendidos.ToString());
+                EventoManager.Instance.registraEvento("nSinRecomendacion", sinRecomendaciones.ToString());
                 ciclosCompletos++;
             }
             rsimulacion.termina();

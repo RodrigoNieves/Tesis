@@ -1,0 +1,12 @@
+RMSE-SVD  | Root Mean Square Error para el algoritmo SVD
+nRecomendaciones | numero de recomendaciones dadas
+nFallos | numero de problemas fallados
+nFallosCiclo | numero de problemas fallados por ciclo
+nExitos | numero de problemas exitosos
+nExitosCiclo | numero de problemas exitosos por ciclo
+nIncNivel | numero de incrementos de nivel
+nIncNivelCiclo | numero de incrementos de nivel por ciclo
+nCompletos | numero de alumnos completos
+nRendidos | numero de alumnos rendidos
+nSinRecomendacion | numero de pasos sin recomendacion
+nombre | nombre de simulacion

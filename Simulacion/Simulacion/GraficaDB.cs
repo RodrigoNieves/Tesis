@@ -54,6 +54,7 @@ namespace Simulacion
                 }
                 rmse_SVD.Add(RMSE);
             }
+            sqlConnection.Close();
             return rmse_SVD;
         }
         public List<SimulacionData> getSimulaciones()
@@ -106,6 +107,36 @@ namespace Simulacion
 
             sqlConnection.Close();
             return simulaciones;
+        }
+        public List<int> entero(string tipoEvento, int idSimulacion)
+        {
+            List<int> entero = new List<int>();
+
+            int idEvento = EventoManager.Instance.getIdEvento(tipoEvento);
+
+            SqlConnection sqlConnection = new SqlConnection(connectionString);
+            SqlCommand cmd = new SqlCommand();
+            SqlDataReader result;
+
+            cmd.CommandText = string.Format(@"SELECT comentario FROM SimulacionKarelotitlan.dbo.Evento
+                                                WHERE idSimulacion = {0} and tipoEvento = {1} order by timestamp", idSimulacion, idEvento);
+            cmd.CommandType = CommandType.Text;
+            cmd.Connection = sqlConnection;
+            sqlConnection.Open();
+
+            result = cmd.ExecuteReader();
+            while (result.Read())
+            {
+                string comentario = (string)result["comentario"];
+                int dato = -100;
+                if (!int.TryParse(comentario, out dato))
+                {
+                    dato = -100;
+                }
+                entero.Add(dato);
+            }
+            sqlConnection.Close();
+            return entero;
         }
     }
 }
