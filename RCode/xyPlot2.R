@@ -28,7 +28,28 @@ if(!exists("imageName")){
 	imageName <- "xyplot"
 }
 
+if(!exists("name1")){
+  name1 <- "Simulacion 1"
+}
+
+if(!exists("name2")){
+  name2 <- "Simulacion 2"
+}
+
+library(ggplot2)
+
+
+df1 <- data.frame(x = x1,y1)
+df2 <- data.frame(x = x2,y2)
+df <- merge(df1,df2, by = "x", all = TRUE)
+
+
 png(paste0(imageName,".png"),width = PNGwidth, height = PNGheight)
-plot(x1,y1,type= "l", xlab = PNGxlabel, ylab = PNGylabel, col="red")
-lines(x2,y2, col="green")
+g <- ggplot(data= df, aes(x))
+g <- g + geom_line(aes(y = y1, colour = name1))
+g <- g + geom_line(aes(y = y2, colour = name2))
+g <- g + xlab(PNGxlabel)
+g <- g + ylab(PNGylabel)
+print(g)
 dev.off()
+

@@ -19,7 +19,14 @@ if(!exists("y")){
 if(!exists("imageName")){
 	imageName <- "xyplot"
 }
+df <- data.frame(x,y)
+
+library(ggplot2)
 
 png(paste0(imageName,".png"),width = PNGwidth, height = PNGheight)
-plot(x,y,type= "l", xlab = PNGxlabel, ylab = PNGylabel)
+g <- ggplot(data= df, aes(x = x,y = y))
+g <- g + geom_line()
+g <- g + xlab(PNGxlabel)
+g <- g + ylab(PNGylabel)
+print(g)
 dev.off()
