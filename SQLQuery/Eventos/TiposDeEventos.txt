@@ -13,3 +13,5 @@ nombre | nombre de simulacion
 nColdStart | Numero de veces utilizado coldStart | numero de veces que se necesito utilizar el coldstart
 nColdStartCiclo | Numero de veces utilizado coldStart por ciclo | numero de veces que se necesito utilizar el coldstart en el ciclo
 presicion | Presicion de recomendaciones | numero de problemas con acepted entre numero de recomendaciones
+presicionRecomendacion | Presicion por recomendaciones | presicion por el numero de recomendaciones
+presicionRecomendacion2 | Presicion por log de recomendaciones | presicion por el logaritmo del numero de recomendaciones

@@ -410,7 +410,7 @@ namespace Simulacion
             {
                 return false;
             }
-            double subeNivel = pNivel[idProblema][user.habilidadEn(problemas[idProblema].idTema)+1];
+            double subeNivel = pNivel[idProblema][user.habilidadEn(problemas[idProblema].idTema) + 1];
             double p = rnd.NextDouble();
             return p <= subeNivel;
         }
@@ -430,12 +430,12 @@ namespace Simulacion
             idSimulacion = rsimulacion.id;
             EventoManager.Instance.registroSimulacion = rsimulacion; //indica que debe guardar las simulaciones
             rsimulacion.recomendador = recomendador;
-            
+
             SimulacionDB simuladorDB = new SimulacionDB();
             simuladorDB.limpiaBase();
             //simuladorDB.llenaUsuarios();
             //simuladorDB.llenaUsuariosProbelmas();
-            
+
             log = new StringBuilder();
             usuarios = new Dictionary<int, Usuario>();
             for (int i = 0; i < nUsuarios; i++)
@@ -539,7 +539,7 @@ namespace Simulacion
                     simulacionesDadas++;
                 }
                 log.Append("\r\n");
-                foreach(var user in usuarios)
+                foreach (var user in usuarios)
                 {
                     int i = user.Key;
                     usuarios[i].tickTiempo();
@@ -558,10 +558,13 @@ namespace Simulacion
                 EventoManager.Instance.registraEvento("nColdStart", totalColdStart.ToString());
                 EventoManager.Instance.registraEvento("nColdStartCiclo", parcialColdStart.ToString());
                 double presicion = 0.0;
-                if(simulacionesADar != 0){
+                if (simulacionesADar != 0)
+                {
                     presicion = (double)parcialRResueltas / (double)simulacionesADar;
                 }
                 EventoManager.Instance.registraEvento("presicion", presicion.ToString());
+                EventoManager.Instance.registraEvento("presicionRecomendacion", (presicion * simulacionesADar).ToString());
+                EventoManager.Instance.registraEvento("presicionRecomendacion2", (presicion * Math.Log(simulacionesADar)).ToString());
                 ciclosCompletos++;
             }
             rsimulacion.termina();

@@ -653,6 +653,28 @@ namespace Simulacion
                     graficaFlotante("presicion", idS1, idS2);
                 }
             }
+            else if (grafica == "Presicion por recomendaciones")
+            {
+                if (idS2 < 1)
+                {
+                    graficaFlotante("presicionRecomendacion", idS1);
+                }
+                else
+                {
+                    graficaFlotante("presicionRecomendacion", idS1, idS2);
+                }
+            }
+            else if (grafica == "Presicion por log de recomendaciones")
+            {
+                if (idS2 < 1)
+                {
+                    graficaFlotante("presicionRecomendacion2", idS1);
+                }
+                else
+                {
+                    graficaFlotante("presicionRecomendacion2", idS1, idS2);
+                }
+            }
         }
         private void label1_Click(object sender, EventArgs e)
         {

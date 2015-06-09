@@ -519,7 +519,9 @@
             "Numero de veces que no se pudo generar recomendacion",
             "Numero de veces utilizado coldStart",
             "Numero de veces utilizado coldStart por ciclo",
-            "Presicion de recomendaciones"});
+            "Presicion de recomendaciones",
+            "Presicion por recomendaciones",
+            "Presicion por log de recomendaciones"});
             this.cmbGrafica.Location = new System.Drawing.Point(12, 133);
             this.cmbGrafica.Name = "cmbGrafica";
             this.cmbGrafica.Size = new System.Drawing.Size(179, 21);

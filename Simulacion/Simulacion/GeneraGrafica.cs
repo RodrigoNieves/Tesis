@@ -396,6 +396,10 @@ namespace Simulacion
                     return "Numero de veces utilizado coldStart por ciclo";
                 case "presicion":
                     return "Presicion de recomendaciones";
+                case "presicionRecomendacion":
+                    return "Presicion por recomendaciones";
+                case "presicionRecomendacion2":
+                    return "Presicion por log de recomendaciones";
             }
             return "No asignado";
         }
