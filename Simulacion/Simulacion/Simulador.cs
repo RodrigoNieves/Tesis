@@ -548,6 +548,11 @@ namespace Simulacion
                 EventoManager.Instance.registraEvento("nCompletos", alumnosCompletos.ToString());
                 EventoManager.Instance.registraEvento("nRendidos", alumnosRendidos.ToString());
                 EventoManager.Instance.registraEvento("nSinRecomendacion", sinRecomendaciones.ToString());
+                double presicion = 0.0;
+                if(simulacionesADar != 0){
+                    presicion = (double)parcialRResueltas / (double)simulacionesADar;
+                }
+                EventoManager.Instance.registraEvento("presicion", presicion.ToString());
                 ciclosCompletos++;
             }
             rsimulacion.termina();
