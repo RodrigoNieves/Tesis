@@ -474,8 +474,8 @@ namespace Simulacion
                     }
                 }
                 simulacionesADar = sr.cuantosRestantes();
-                EventoManager.Instance.registraEvento("nRecomendaciones", simulacionesADar.ToString());
                 simulacionesDadas = 0;
+                EventoManager.Instance.registraEvento("nRecomendaciones", simulacionesADar.ToString());
                 while (!sr.empty())
                 {
                     int pUsuario = sr.saca();
