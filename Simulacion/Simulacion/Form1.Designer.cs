@@ -516,7 +516,10 @@
             "Numero de incrementos de nivel por ciclo",
             "Numero de usuarios que completaron los problemas",
             "Numero de usuarios rendidos",
-            "Numero de veces que no se pudo generar recomendacion"});
+            "Numero de veces que no se pudo generar recomendacion",
+            "Numero de veces utilizado coldStart",
+            "Numero de veces utilizado coldStart por ciclo",
+            "Presicion de recomendaciones"});
             this.cmbGrafica.Location = new System.Drawing.Point(12, 133);
             this.cmbGrafica.Name = "cmbGrafica";
             this.cmbGrafica.Size = new System.Drawing.Size(179, 21);

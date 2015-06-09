@@ -329,6 +329,43 @@ namespace Simulacion
                 width: 450 + Math.Max(iteracion1.Count, iteracion2.Count) * 2,
                 imageName: "Grafica");
         }
+        public void graficaFlotante(string tipoEvento, int idSimulacion)
+        {
+            List<double> datos = db.flotante(tipoEvento, idSimulacion);
+            List<int> iteracion = new List<int>();
+            for (int i = 0; i < datos.Count; i++)
+            {
+                iteracion.Add(i + 1);
+            }
+            graficaXY(iteracion.ToArray(), datos.ToArray(),
+                xlabel: "Iteracion",
+                ylabel: obtenNombre(tipoEvento),
+                height: 450,
+                width: 450 + iteracion.Count * 2,
+                imageName: "Grafica");
+        }
+        public void graficaFlotante(string tipoEvento, int idSimulacion1, int idSimulacion2)
+        {
+            List<double> datos1 = db.flotante(tipoEvento, idSimulacion1);
+            List<int> iteracion1 = new List<int>();
+            List<double> datos2 = db.flotante(tipoEvento, idSimulacion2);
+            List<int> iteracion2 = new List<int>();
+            for (int i = 0; i < datos1.Count; i++)
+            {
+                iteracion1.Add(i + 1);
+            }
+            for (int i = 0; i < datos2.Count; i++)
+            {
+                iteracion2.Add(i + 1);
+            }
+            graficaXY(iteracion1.ToArray(), datos1.ToArray(),
+                iteracion2.ToArray(), datos2.ToArray(),
+                xlabel: "Iteracion",
+                ylabel: obtenNombre(tipoEvento),
+                height: 450,
+                width: 450 + Math.Max(iteracion1.Count, iteracion2.Count) * 2,
+                imageName: "Grafica");
+        }
         private string obtenNombre(string tipoEvento)
         {
             switch (tipoEvento)
@@ -353,6 +390,12 @@ namespace Simulacion
                     return "Usuarios rendidos";
                 case "nSinRecomendacion":
                     return "numero de veces sin recomendacion";
+                case "nColdStart":
+                    return "Numero de veces utilizado coldStart";
+                case "nColdStartCiclo":
+                    return "Numero de veces utilizado coldStart por ciclo";
+                case "presicion":
+                    return "Presicion de recomendaciones";
             }
             return "No asignado";
         }

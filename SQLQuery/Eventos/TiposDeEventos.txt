@@ -1,12 +1,15 @@
-RMSE-SVD  | Root Mean Square Error para el algoritmo SVD
-nRecomendaciones | numero de recomendaciones dadas
-nFallos | numero de problemas fallados
-nFallosCiclo | numero de problemas fallados por ciclo
-nExitos | numero de problemas exitosos
-nExitosCiclo | numero de problemas exitosos por ciclo
-nIncNivel | numero de incrementos de nivel
-nIncNivelCiclo | numero de incrementos de nivel por ciclo
-nCompletos | numero de alumnos completos
-nRendidos | numero de alumnos rendidos
-nSinRecomendacion | numero de pasos sin recomendacion
+RMSE-SVD  | Root Mean Square Error |Root Mean Square Error para el algoritmo SVD
+nRecomendaciones | Numero de recomendaciones dadas |numero de recomendaciones dadas
+nFallos | Numero de problemas fallados | numero de problemas fallados
+nFallosCiclo | Numero de problemas fallados por ciclo | numero de problemas fallados por ciclo
+nExitos | Numero de problemas resueltos | numero de problemas exitosos
+nExitosCiclo | Numero de problemas resueltos por ciclo | numero de problemas exitosos por ciclo
+nIncNivel | Numero de incrementos de nivel | numero de incrementos de nivel
+nIncNivelCiclo | Numero de incrementos de nivel por ciclo | numero de incrementos de nivel por ciclo
+nCompletos | Numero de usuarios que completaron los problemas | numero de alumnos completos
+nRendidos | Numero de usuarios rendidos | numero de alumnos rendidos
+nSinRecomendacion | Numero de veces que no se pudo generar recomendacion | numero de pasos sin recomendacion
 nombre | nombre de simulacion
+nColdStart | Numero de veces utilizado coldStart | numero de veces que se necesito utilizar el coldstart
+nColdStartCiclo | Numero de veces utilizado coldStart por ciclo | numero de veces que se necesito utilizar el coldstart en el ciclo
+presicion | Presicion de recomendaciones | numero de problemas con acepted entre numero de recomendaciones

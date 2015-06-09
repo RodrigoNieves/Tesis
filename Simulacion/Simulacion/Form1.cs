@@ -371,6 +371,18 @@ namespace Simulacion
             creaImagenThread = new Thread(() => GeneraGrafica.Instance.graficaEntero(tipoEvento, idSimulacion));
             creaImagenThread.Start();
         }
+        public void graficaFlotante(string tipoEvento, int idSimulacion)
+        {
+            if (creaImagenThread != null)
+            {
+                if (creaImagenThread.IsAlive)
+                {
+                    return;
+                }
+            }
+            creaImagenThread = new Thread(() => GeneraGrafica.Instance.graficaFlotante(tipoEvento, idSimulacion));
+            creaImagenThread.Start();
+        }
         public void graficaEntero(string tipoEvento, int idSimulacion1, int idSimulacion2)
         {
             if (creaImagenThread != null)
@@ -382,6 +394,18 @@ namespace Simulacion
                 }
             }
             creaImagenThread = new Thread(() => GeneraGrafica.Instance.graficaEntero(tipoEvento, idSimulacion1, idSimulacion2));
+            creaImagenThread.Start();
+        }
+        public void graficaFlotante(string tipoEvento, int idSimulacion1, int idSimulacion2)
+        {
+            if (creaImagenThread != null)
+            {
+                if (creaImagenThread.IsAlive)
+                {
+                    return;
+                }
+            }
+            creaImagenThread = new Thread(() => GeneraGrafica.Instance.graficaFlotante(tipoEvento, idSimulacion1, idSimulacion2));
             creaImagenThread.Start();
         }
         private void timer1_Tick(object sender, EventArgs e)
@@ -594,6 +618,39 @@ namespace Simulacion
                 else
                 {
                     graficaEntero("nSinRecomendacion", idS1, idS2);
+                }
+            }
+            else if (grafica == "Numero de veces utilizado coldStart")
+            {
+                if (idS2 < 1)
+                {
+                    graficaEntero("nColdStart", idS1);
+                }
+                else
+                {
+                    graficaEntero("nColdStart", idS1, idS2);
+                }
+            }
+            else if (grafica == "Numero de veces utilizado coldStart por ciclo")
+            {
+                if (idS2 < 1)
+                {
+                    graficaEntero("nColdStartCiclo", idS1);
+                }
+                else
+                {
+                    graficaEntero("nColdStartCiclo", idS1, idS2);
+                }
+            }
+            else if (grafica == "Presicion de recomendaciones")
+            {
+                if (idS2 < 1)
+                {
+                    graficaFlotante("presicion", idS1);
+                }
+                else
+                {
+                    graficaFlotante("presicion", idS1, idS2);
                 }
             }
         }
