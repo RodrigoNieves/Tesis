@@ -106,6 +106,7 @@ namespace Simulacion
         }
         private int sinRecomendacion(int usuario)
         {
+            VariablesCompartidas.Instance.nColdStart++;
             return coldStart.recomendacion(usuario);
         }
         private int encuentraRecomendacion(Dictionary<int, int> problemasIntentados,List<int> problemasFaltantes)

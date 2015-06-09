@@ -105,6 +105,7 @@ namespace Simulacion
         }
         private int sinRecomendacion(int usuario)
         {
+            VariablesCompartidas.Instance.nColdStart++;
             return coldStart.recomendacion(usuario);
         }
         private Dictionary<int, double> rankingProblema(List<CorrelacionUsuario> similares)

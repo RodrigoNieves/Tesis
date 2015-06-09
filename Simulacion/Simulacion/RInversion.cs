@@ -159,6 +159,7 @@ namespace Simulacion
         private int sinRecomendacion(int usuario)
         {
             //En caso de no tener recomendacion se va a otro recomendador.
+            VariablesCompartidas.Instance.nColdStart++;
             return coldStart.recomendacion(usuario);
         }
         /// <summary>

@@ -75,6 +75,9 @@ namespace Simulacion
         public int parcialRFallidas;
         public int parcialSubioNivel;
 
+        public int totalColdStart;
+        public int parcialColdStart;
+
         public int alumnosRendidos;
         public int alumnosCompletos;
 
@@ -417,6 +420,7 @@ namespace Simulacion
             totalRResueltas = 0;
             totalRFallidas = 0;
             totalSubioNivel = 0;
+            totalColdStart = 0;
             alumnosCompletos = 0;
             alumnosRendidos = 0;
             sinRecomendaciones = 0;
@@ -446,6 +450,7 @@ namespace Simulacion
                 parcialRResueltas = 0;
                 parcialRFallidas = 0;
                 parcialSubioNivel = 0;
+                VariablesCompartidas.Instance.nColdStart = 0;
                 log.Append("Iteracion: " + iteracion.ToString() + "\r\n");
                 foreach (var user in usuarios)
                 {
@@ -539,6 +544,8 @@ namespace Simulacion
                     int i = user.Key;
                     usuarios[i].tickTiempo();
                 }
+                parcialColdStart = VariablesCompartidas.Instance.nColdStart;
+                totalColdStart += parcialColdStart;
                 EventoManager.Instance.registraEvento("nFallos", totalRFallidas.ToString());
                 EventoManager.Instance.registraEvento("nFallosCiclo", parcialRFallidas.ToString());
                 EventoManager.Instance.registraEvento("nExitos", totalRResueltas.ToString());
@@ -548,6 +555,8 @@ namespace Simulacion
                 EventoManager.Instance.registraEvento("nCompletos", alumnosCompletos.ToString());
                 EventoManager.Instance.registraEvento("nRendidos", alumnosRendidos.ToString());
                 EventoManager.Instance.registraEvento("nSinRecomendacion", sinRecomendaciones.ToString());
+                EventoManager.Instance.registraEvento("nColdStart", totalColdStart.ToString());
+                EventoManager.Instance.registraEvento("nColdStartCiclo", parcialColdStart.ToString());
                 double presicion = 0.0;
                 if(simulacionesADar != 0){
                     presicion = (double)parcialRResueltas / (double)simulacionesADar;
