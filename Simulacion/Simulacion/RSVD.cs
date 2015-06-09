@@ -11,7 +11,7 @@ namespace Simulacion
         int nFeatures = 16;
         double lrate = 0.001;
         int nIterations = 10;
-        int minimoCalificaciones = 100;
+        int minimoCalificaciones = 10;
         bool limitaPrediccion = true;
         double[,] userFeatrure;
         double[,] problemFeature;
