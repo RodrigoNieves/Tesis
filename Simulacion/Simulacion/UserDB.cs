@@ -91,13 +91,14 @@ namespace Simulacion
         public void guardaSimilitudes(int[] usuarios, double[,] similitud)
         {
             int top = 10;//guarda los mejores top
+            double similitudMinima = 0.1;
             limpiaUsuarioRecomendacion();
             for (int i = 0; i < usuarios.Length; i++)
             {
                 PriotiryQueue<CorrelacionUsuario> pq = new PriotiryQueue<CorrelacionUsuario>(invertida:true);
                 for (int j = 0; j < usuarios.Length; j++)
                 {
-                    if (i != j)
+                    if (i != j && similitud[i, j] >= similitudMinima)
                     {
                         CorrelacionUsuario nuevo = new CorrelacionUsuario();
                         nuevo.u1 = usuarios[i];

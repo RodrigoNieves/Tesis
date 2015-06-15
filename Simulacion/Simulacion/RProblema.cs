@@ -15,6 +15,9 @@ namespace Simulacion
         ProblemDB db;
         int tiempo = 0;
         int fueraPor = 10;
+        int minProblemasIntentados = 1;
+        int minimoProblemas = 1;
+        double minimaSimilitud = 0.0;
         List<Problema> problemas;
         public RProblema(Recomendador rEnColdStart = null)
         {
@@ -113,10 +116,12 @@ namespace Simulacion
         {
             double[] total = new double[pId.Length];
             double[] peso = new double[pId.Length];
+            int[] count = new int[pId.Length];
             for (int i = 0; i < pId.Length; i++)
             {
                 total[i] = 0.0;
                 peso[i] = 0.0;
+                count[i] = 0;
             }
             foreach (var prob in problemasIntentados)
             {
@@ -124,14 +129,18 @@ namespace Simulacion
                 double puntuacion = (double)prob.Value;
                 for (int j = 0; j < pId.Length; j++)
                 {
-                    total[j] += puntuacion * sim[i, j];
-                    peso[j] += sim[i, j];
+                    if (sim[i, j] >= minimaSimilitud)
+                    {
+                        total[j] += puntuacion * sim[i, j];
+                        peso[j] += sim[i, j];
+                        count[j]++;
+                    }
                 }
             }
             double[] estimado = new double[pId.Length];
             for (int i = 0; i < pId.Length; i++)
             {
-                if (peso[i] > 0.0)
+                if (count[i] >= minimoProblemas && peso[i] > 0.0)
                 {
                     estimado[i] = total[i] / peso[i];
                 }
@@ -153,7 +162,7 @@ namespace Simulacion
         int Recomendador.recomendacion(int idCompetidor)
         {
             Dictionary<int, int> problemasIntentados = db.problemasIntentados(idCompetidor);
-            if (problemasIntentados.Keys.Count < 1)//minimo numero de problemas intentados para dar recomendacion
+            if (problemasIntentados.Keys.Count < minProblemasIntentados)//minimo numero de problemas intentados para dar recomendacion
             {
                 // No se ha intentado nada
                 int rec = sinRecomendacion(idCompetidor);

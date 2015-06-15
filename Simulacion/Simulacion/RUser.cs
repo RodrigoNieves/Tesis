@@ -77,7 +77,7 @@ namespace Simulacion
                 mag2 += u2[id] * u2[id];
             }
             if (mag1 <= 0.0 || mag2 <= 0.0)
-                return -1.0;
+                return 0.0;
             mag1 = Math.Sqrt(mag1);
             mag2 = Math.Sqrt(mag2);
             return suma / (mag1 * mag2);
@@ -110,6 +110,7 @@ namespace Simulacion
         }
         private Dictionary<int, double> rankingProblema(List<CorrelacionUsuario> similares)
         {
+            int minUsuarios = 3;
             Dictionary<int, double> result = new Dictionary<int, double>();
             foreach (var prob in problemas)
             {
@@ -130,7 +131,7 @@ namespace Simulacion
                         count++;
                     }
                 }
-                if (count >= 3) // obtiene al menos 3 rankings diferentes
+                if (count >= minUsuarios) // obtiene al menos 3 rankings diferentes
                 {
                     result[idProb] = total / totalweight; 
                 }
