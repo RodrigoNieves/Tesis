@@ -260,7 +260,8 @@ namespace Simulacion
             List<int> parcial;
             foreach (var elem in similares)
             {
-                parcial = interseccion(historiasOrdenadas[usuario], historiasOrdenadas[elem]);
+                //parcial = interseccion(historiasOrdenadas[usuario], historiasOrdenadas[elem]);
+                parcial = historiasOrdenadas[elem];
                 resultado = union(resultado,parcial);
             }
             return resultado;
