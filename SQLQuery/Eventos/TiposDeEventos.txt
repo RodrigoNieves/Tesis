@@ -15,3 +15,6 @@ nColdStartCiclo | Numero de veces utilizado coldStart por ciclo | numero de vece
 presicion | Presicion de recomendaciones | numero de problemas con acepted entre numero de recomendaciones
 presicionRecomendacion | Presicion por recomendaciones | presicion por el numero de recomendaciones - Es lo mismo que resueltos por ciclo
 presicionRecomendacion2 | Presicion por log de recomendaciones | presicion por el logaritmo del numero de recomendaciones
+tIniciaRecomendador | Tiempo tomado para funcion iniciaRecomendador() | tiempo que se toma en realizar inicia Recomendador
+tRealizaAnalisis | Tiempo tomado para funcion realizaAnalisis() | tiempo que se toma en realizar realiza analisis
+tPromedioRecomendacion | Tiempo promedio en dar una recomendacion | tiempo promedio que toma en dar una recomendacion

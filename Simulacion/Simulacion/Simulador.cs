@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -444,7 +445,12 @@ namespace Simulacion
                 usuarios[nuevo.idUsuario] = nuevo;
                 usuarios[nuevo.idUsuario].temas = temas;
             }
+            Stopwatch sw = new Stopwatch();
+            sw.Start();
             recomendador.iniciaRecomendador();
+            sw.Stop();
+            TimeSpan tiempoTranscurrido = sw.Elapsed;
+            EventoManager.Instance.registraEvento("tIniciaRecomendador", tiempoTranscurrido.TotalMilliseconds.ToString());
             for (int iteracion = 0; iteracion < nCiclos; iteracion++)
             {
                 parcialRResueltas = 0;
@@ -456,7 +462,14 @@ namespace Simulacion
                 {
                     log.Append(user.Value.ToString());
                 }
+                
+                sw = new Stopwatch();
+                sw.Start();
                 recomendador.realizaAnalisis();
+                sw.Stop();
+                tiempoTranscurrido = sw.Elapsed;
+                EventoManager.Instance.registraEvento("tRealizaAnalisis", tiempoTranscurrido.TotalMilliseconds.ToString());
+                
                 SelectorRandom sr = new SelectorRandom(nUsuarios);
                 alumnosCompletos = 0;
                 alumnosRendidos = 0;
@@ -476,10 +489,20 @@ namespace Simulacion
                 simulacionesADar = sr.cuantosRestantes();
                 simulacionesDadas = 0;
                 EventoManager.Instance.registraEvento("nRecomendaciones", simulacionesADar.ToString());
+                double totalTiempoRecomendacion = 0.0;
+                int contTiempoRecomendacion = 0;
                 while (!sr.empty())
                 {
                     int pUsuario = sr.saca();
+
+                    sw = new Stopwatch();
+                    sw.Start();
                     int recomendacion = recomendador.recomendacion(usuarios[pUsuario].idUsuario);
+                    sw.Stop();
+                    tiempoTranscurrido = sw.Elapsed;
+                    totalTiempoRecomendacion += tiempoTranscurrido.TotalMilliseconds;
+                    contTiempoRecomendacion++;
+
                     log.Append(pUsuario);
                     log.Append(",");
                     log.Append(recomendacion.ToString());
@@ -557,6 +580,15 @@ namespace Simulacion
                 EventoManager.Instance.registraEvento("nSinRecomendacion", sinRecomendaciones.ToString());
                 EventoManager.Instance.registraEvento("nColdStart", totalColdStart.ToString());
                 EventoManager.Instance.registraEvento("nColdStartCiclo", parcialColdStart.ToString());
+                if (contTiempoRecomendacion > 0)
+                {
+                    EventoManager.Instance.registraEvento("tPromedioRecomendacion", (totalTiempoRecomendacion / (double)contTiempoRecomendacion).ToString());
+                }
+                else
+                {
+                    EventoManager.Instance.registraEvento("tPromedioRecomendacion", "0.0");
+                }
+                
                 double presicion = 0.0;
                 if (simulacionesADar != 0)
                 {
