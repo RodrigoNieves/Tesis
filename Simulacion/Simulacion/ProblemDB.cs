@@ -160,11 +160,11 @@ namespace Simulacion
                 sqlConnection.Close();
             }
         }
-        public void registraRecomendacion(int idUsuarion, int idProblema, int tiempo)
+        public void registraRecomendacion(int idUsuario, int idProblema, int tiempo)
         {
             SqlConnection sqlConnection = new SqlConnection(connectionString);
             SqlCommand cmd = new SqlCommand();
-            cmd.CommandText = string.Format("SELECT * FROM SimulacionKarelotitlan.dbo.ExpertoRecomendacion WHERE ExpertoRecomendacion.usuario = {0} and ExpertoRecomendacion.problema = {1}", idUsuarion, idProblema);
+            cmd.CommandText = string.Format("SELECT * FROM SimulacionKarelotitlan.dbo.ExpertoRecomendacion WHERE ExpertoRecomendacion.usuario = {0} and ExpertoRecomendacion.problema = {1}", idUsuario, idProblema);
             cmd.Connection = sqlConnection;
             sqlConnection.Open();
             SqlDataReader data = cmd.ExecuteReader();
@@ -181,11 +181,11 @@ namespace Simulacion
             cmd = new SqlCommand();
             if (crear)
             {
-                cmd.CommandText = string.Format("INSERT INTO SimulacionKarelotitlan.dbo.ExpertoRecomendacion (usuario,problema,tiempo) VALUES ({0},{1},{2})", idUsuarion, idProblema, tiempo);
+                cmd.CommandText = string.Format("INSERT INTO SimulacionKarelotitlan.dbo.ExpertoRecomendacion (usuario,problema,tiempo) VALUES ({0},{1},{2})", idUsuario, idProblema, tiempo);
             }
             else
             {
-                cmd.CommandText = string.Format("UPDATE SimulacionKarelotitlan.dbo.ExpertoRecomendacion SET ExpertoRecomendacion.tiempo = {2} WHERE ExpertoRecomendacion.usuario = {0} AND ExpertoRecomendacion.problema = {1}", idUsuarion, idProblema, tiempo);
+                cmd.CommandText = string.Format("UPDATE SimulacionKarelotitlan.dbo.ExpertoRecomendacion SET ExpertoRecomendacion.tiempo = {2} WHERE ExpertoRecomendacion.usuario = {0} AND ExpertoRecomendacion.problema = {1}", idUsuario, idProblema, tiempo);
             }
             cmd.Connection = sqlConnection;
             sqlConnection.Open();
