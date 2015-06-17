@@ -675,6 +675,39 @@ namespace Simulacion
                     graficaFlotante("presicionRecomendacion2", idS1, idS2);
                 }
             }
+            else if (grafica == "Tiempo tomado para funcion iniciaRecomendador()")
+            {
+                if (idS2 < 1)
+                {
+                    graficaFlotante("tIniciaRecomendador", idS1);
+                }
+                else
+                {
+                    graficaFlotante("tIniciaRecomendador", idS1, idS2);
+                }
+            }
+            else if (grafica == "Tiempo tomado para funcion realizaAnalisis()")
+            {
+                if (idS2 < 1)
+                {
+                    graficaFlotante("tRealizaAnalisis", idS1);
+                }
+                else
+                {
+                    graficaFlotante("tRealizaAnalisis", idS1, idS2);
+                }
+            }
+            else if (grafica == "Tiempo promedio en dar una recomendacion")
+            {
+                if (idS2 < 1)
+                {
+                    graficaFlotante("tPromedioRecomendacion", idS1);
+                }
+                else
+                {
+                    graficaFlotante("tPromedioRecomendacion", idS1, idS2);
+                }
+            }
         }
         private void label1_Click(object sender, EventArgs e)
         {

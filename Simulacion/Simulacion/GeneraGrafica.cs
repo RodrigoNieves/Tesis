@@ -400,6 +400,12 @@ namespace Simulacion
                     return "Presicion por recomendaciones";
                 case "presicionRecomendacion2":
                     return "Presicion por log de recomendaciones";
+                case "tIniciaRecomendador":
+                    return "Tiempo tomado para funcion iniciaRecomendador en mseg";
+                case "tRealizaAnalisis":
+                    return "Tiempo tomado para funcion realizaAnalisis en mseg";
+                case "tPromedioRecomendacion":
+                    return "Tiempo promedio en dar una recomendacion en mseg";
             }
             return "No asignado";
         }

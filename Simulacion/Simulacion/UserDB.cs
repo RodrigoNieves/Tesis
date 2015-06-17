@@ -131,13 +131,16 @@ namespace Simulacion
                     cout++;
                 }
                 command.Append(";");
-                SqlConnection sqlConnection = new SqlConnection(connectionString);
-                SqlCommand cmd = new SqlCommand();
-                cmd.CommandText = command.ToString();
-                cmd.Connection = sqlConnection;
-                sqlConnection.Open();
-                cmd.ExecuteNonQuery();
-                sqlConnection.Close();
+                if (cout > 0)
+                {
+                    SqlConnection sqlConnection = new SqlConnection(connectionString);
+                    SqlCommand cmd = new SqlCommand();
+                    cmd.CommandText = command.ToString();
+                    cmd.Connection = sqlConnection;
+                    sqlConnection.Open();
+                    cmd.ExecuteNonQuery();
+                    sqlConnection.Close();
+                }
             }
         }
         public List<CorrelacionUsuario> obtenSimilares(int usuario)

@@ -521,10 +521,13 @@
             "Numero de veces utilizado coldStart por ciclo",
             "Presicion de recomendaciones",
             "Presicion por recomendaciones",
-            "Presicion por log de recomendaciones"});
+            "Presicion por log de recomendaciones",
+            "Tiempo tomado para funcion iniciaRecomendador()",
+            "Tiempo tomado para funcion realizaAnalisis()",
+            "Tiempo promedio en dar una recomendacion"});
             this.cmbGrafica.Location = new System.Drawing.Point(12, 133);
             this.cmbGrafica.Name = "cmbGrafica";
-            this.cmbGrafica.Size = new System.Drawing.Size(179, 21);
+            this.cmbGrafica.Size = new System.Drawing.Size(223, 21);
             this.cmbGrafica.TabIndex = 43;
             this.cmbGrafica.Text = "Ninguna";
             this.cmbGrafica.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
@@ -545,7 +548,7 @@
             "Actual"});
             this.cmbSimulacion1.Location = new System.Drawing.Point(241, 133);
             this.cmbSimulacion1.Name = "cmbSimulacion1";
-            this.cmbSimulacion1.Size = new System.Drawing.Size(190, 21);
+            this.cmbSimulacion1.Size = new System.Drawing.Size(226, 21);
             this.cmbSimulacion1.TabIndex = 45;
             this.cmbSimulacion1.Text = "Actual";
             // 
