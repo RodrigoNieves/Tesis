@@ -454,6 +454,7 @@ namespace Simulacion
             cont++;
             if (simulador.termino)
             {
+                txtLog.Text = simulador.testSimula();
                 simulador = null;
                 timer1.Enabled = false;
                 oThread = null;
