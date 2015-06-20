@@ -539,7 +539,7 @@
             this.label17.Name = "label17";
             this.label17.Size = new System.Drawing.Size(67, 13);
             this.label17.TabIndex = 44;
-            this.label17.Text = "Simulacion 1";
+            this.label17.Text = "Simulación 1";
             // 
             // cmbSimulacion1
             // 
@@ -559,7 +559,7 @@
             this.label18.Name = "label18";
             this.label18.Size = new System.Drawing.Size(67, 13);
             this.label18.TabIndex = 46;
-            this.label18.Text = "Simulacion 2";
+            this.label18.Text = "Simulación 2";
             // 
             // cmbSimulacion2
             // 
