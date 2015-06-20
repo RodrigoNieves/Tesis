@@ -12,9 +12,9 @@ nSinRecomendacion | Numero de veces que no se pudo generar recomendacion | numer
 nombre | nombre de simulacion
 nColdStart | Numero de veces utilizado coldStart | numero de veces que se necesito utilizar el coldstart
 nColdStartCiclo | Numero de veces utilizado coldStart por ciclo | numero de veces que se necesito utilizar el coldstart en el ciclo
-presicion | Presicion de recomendaciones | numero de problemas con acepted entre numero de recomendaciones
-presicionRecomendacion | Presicion por recomendaciones | presicion por el numero de recomendaciones - Es lo mismo que resueltos por ciclo
-presicionRecomendacion2 | Presicion por log de recomendaciones | presicion por el logaritmo del numero de recomendaciones
+precision | Precisión de recomendaciones | numero de problemas con acepted entre numero de recomendaciones
+precisionRecomendacion | Precisión por recomendaciones | precisión por el numero de recomendaciones - Es lo mismo que resueltos por ciclo
+precisionRecomendacion2 | Precisión por log de recomendaciones | precisión por el logaritmo del numero de recomendaciones
 tIniciaRecomendador | Tiempo tomado para funcion iniciaRecomendador() | tiempo que se toma en realizar inicia Recomendador
 tRealizaAnalisis | Tiempo tomado para funcion realizaAnalisis() | tiempo que se toma en realizar realiza analisis
 tPromedioRecomendacion | Tiempo promedio en dar una recomendacion | tiempo promedio que toma en dar una recomendacion

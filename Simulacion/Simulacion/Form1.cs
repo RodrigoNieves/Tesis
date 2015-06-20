@@ -643,37 +643,37 @@ namespace Simulacion
                     graficaEntero("nColdStartCiclo", idS1, idS2);
                 }
             }
-            else if (grafica == "Presicion de recomendaciones")
+            else if (grafica == "Precisión de recomendaciones")
             {
                 if (idS2 < 1)
                 {
-                    graficaFlotante("presicion", idS1);
+                    graficaFlotante("precision", idS1);
                 }
                 else
                 {
-                    graficaFlotante("presicion", idS1, idS2);
+                    graficaFlotante("precision", idS1, idS2);
                 }
             }
-            else if (grafica == "Presicion por recomendaciones")
+            else if (grafica == "Precisión por recomendaciones")
             {
                 if (idS2 < 1)
                 {
-                    graficaFlotante("presicionRecomendacion", idS1);
+                    graficaFlotante("precisionRecomendacion", idS1);
                 }
                 else
                 {
-                    graficaFlotante("presicionRecomendacion", idS1, idS2);
+                    graficaFlotante("precisionRecomendacion", idS1, idS2);
                 }
             }
-            else if (grafica == "Presicion por log de recomendaciones")
+            else if (grafica == "Precisión por log de recomendaciones")
             {
                 if (idS2 < 1)
                 {
-                    graficaFlotante("presicionRecomendacion2", idS1);
+                    graficaFlotante("precisionRecomendacion2", idS1);
                 }
                 else
                 {
-                    graficaFlotante("presicionRecomendacion2", idS1, idS2);
+                    graficaFlotante("precisionRecomendacion2", idS1, idS2);
                 }
             }
             else if (grafica == "Tiempo tomado para funcion iniciaRecomendador()")

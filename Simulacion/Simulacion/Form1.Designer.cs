@@ -519,9 +519,9 @@
             "Numero de veces que no se pudo generar recomendacion",
             "Numero de veces utilizado coldStart",
             "Numero de veces utilizado coldStart por ciclo",
-            "Presicion de recomendaciones",
-            "Presicion por recomendaciones",
-            "Presicion por log de recomendaciones",
+            "Precisión de recomendaciones",
+            "Precisión por recomendaciones",
+            "Precisión por log de recomendaciones",
             "Tiempo tomado para funcion iniciaRecomendador()",
             "Tiempo tomado para funcion realizaAnalisis()",
             "Tiempo promedio en dar una recomendacion"});

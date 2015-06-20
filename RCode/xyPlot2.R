@@ -29,11 +29,11 @@ if(!exists("imageName")){
 }
 
 if(!exists("name1")){
-  name1 <- "Simulacion 1"
+  name1 <- "Simulación 1"
 }
 
 if(!exists("name2")){
-  name2 <- "Simulacion 2"
+  name2 <- "Simulación 2"
 }
 
 library(ggplot2)

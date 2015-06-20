@@ -70,7 +70,7 @@ namespace Simulacion
             String RWidth = "PNGwidth <- " + width.ToString();
             String RImageName = "imageName <- \"" + imageName + "\"";
 
-            System.IO.File.WriteAllLines(pathR + "/variables.R", new string[] { xString.ToString(), yString.ToString(), Rxlabel, Rylabel, RHeight, RWidth, RImageName });
+            System.IO.File.WriteAllLines(pathR + "/variables.R", new string[] { xString.ToString(), yString.ToString(), Rxlabel, Rylabel, RHeight, RWidth, RImageName }, Encoding.Default);
 
             runCommand("del .RData");
             runCommand("R < variables.R --save");
@@ -135,7 +135,7 @@ namespace Simulacion
             String RWidth = "PNGwidth <- " + width.ToString();
             String RImageName = "imageName <- \"" + imageName + "\"";
 
-            System.IO.File.WriteAllLines(pathR + "/variables.R", new string[] { x1String.ToString(), y1String.ToString(), x2String.ToString(), y2String.ToString(), Rxlabel, Rylabel, RHeight, RWidth, RImageName });
+            System.IO.File.WriteAllLines(pathR + "/variables.R", new string[] { x1String.ToString(), y1String.ToString(), x2String.ToString(), y2String.ToString(), Rxlabel, Rylabel, RHeight, RWidth, RImageName }, Encoding.Default);
 
             runCommand("del .RData");
             runCommand("R < variables.R --save");
@@ -177,7 +177,7 @@ namespace Simulacion
             String RWidth = "PNGwidth <- " + width.ToString();
             String RImageName = "imageName <- \"" + imageName + "\"";
 
-            System.IO.File.WriteAllLines(pathR + "/variables.R", new string[] { xString.ToString(), yString.ToString(), Rxlabel, Rylabel, RHeight, RWidth, RImageName });
+            System.IO.File.WriteAllLines(pathR + "/variables.R", new string[] { xString.ToString(), yString.ToString(), Rxlabel, Rylabel, RHeight, RWidth, RImageName }, Encoding.Default);
 
             runCommand("del .RData");
             runCommand("R < variables.R --save");
@@ -242,7 +242,7 @@ namespace Simulacion
             String RWidth = "PNGwidth <- " + width.ToString();
             String RImageName = "imageName <- \"" + imageName + "\"";
 
-            System.IO.File.WriteAllLines(pathR + "/variables.R", new string[] { x1String.ToString(), y1String.ToString(), x2String.ToString(), y2String.ToString(), Rxlabel, Rylabel, RHeight, RWidth, RImageName });
+            System.IO.File.WriteAllLines(pathR + "/variables.R", new string[] { x1String.ToString(), y1String.ToString(), x2String.ToString(), y2String.ToString(), Rxlabel, Rylabel, RHeight, RWidth, RImageName }, Encoding.Default);
 
             runCommand("del .RData");
             runCommand("R < variables.R --save");
@@ -394,12 +394,12 @@ namespace Simulacion
                     return "Numero de veces utilizado coldStart";
                 case "nColdStartCiclo":
                     return "Numero de veces utilizado coldStart por ciclo";
-                case "presicion":
-                    return "Presicion de recomendaciones";
-                case "presicionRecomendacion":
-                    return "Presicion por recomendaciones";
-                case "presicionRecomendacion2":
-                    return "Presicion por log de recomendaciones";
+                case "precision":
+                    return "Precisión de recomendaciones";
+                case "precisionRecomendacion":
+                    return "Precisión por recomendaciones";
+                case "precisionRecomendacion2":
+                    return "Precisión por log de recomendaciones";
                 case "tIniciaRecomendador":
                     return "Tiempo tomado para funcion iniciaRecomendador en mseg";
                 case "tRealizaAnalisis":
