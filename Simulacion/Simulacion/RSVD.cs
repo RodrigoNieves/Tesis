@@ -10,8 +10,9 @@ namespace Simulacion
     {
         int nFeatures = 16;
         double lrate = 0.001;
-        int nIterations = 10;
+        int nIterations = 20;
         int minimoCalificaciones = 10;
+        double difConvergencia = 0.01;
         bool limitaPrediccion = true;
         double[,] userFeatrure;
         double[,] problemFeature;
@@ -144,12 +145,13 @@ namespace Simulacion
         {
             tiempo++;
             coldStart.realizaAnalisis();
-
+            
             InicializaSVD();
 
             for (int f = 0; f < nFeatures; f++)
             {
-                for (int iterarion = 0; iterarion < nIterations; iterarion++)
+                double antRMSE = 0.0;
+                for (int iterarion = 0; iterarion < nIterations && Math.Abs(rmse - antRMSE) >= difConvergencia; iterarion++)
                 {
                     foreach (var u in uVector)
                     {
@@ -158,8 +160,11 @@ namespace Simulacion
                             train(f, pUser[u.Key], pProblem[p.Key], p.Value);
                         }
                     }
+                    antRMSE = rmse;
                     actualizaRMSE();
                     //Registra RMSE
+
+                    
                     EventoManager.Instance.registraEvento("RMSE-SVD", rmse.ToString());
                 }
             }
