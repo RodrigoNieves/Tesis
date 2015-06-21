@@ -15,9 +15,9 @@ namespace Simulacion
         ProblemDB db;
         int tiempo = 0;
         int fueraPor = 10;
-        int minProblemasIntentados = 1;
-        int minimoProblemas = 1;
-        double minimaSimilitud = 0.0;
+        int minProblemasIntentados = 3;
+        int minimoProblemas = 3;
+        double minimaSimilitud = 0.5;
         List<Problema> problemas;
         public RProblema(Recomendador rEnColdStart = null)
         {

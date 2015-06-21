@@ -594,9 +594,9 @@ namespace Simulacion
                 {
                     presicion = (double)parcialRResueltas / (double)simulacionesADar;
                 }
-                EventoManager.Instance.registraEvento("presicion", presicion.ToString());
-                EventoManager.Instance.registraEvento("presicionRecomendacion", (presicion * simulacionesADar).ToString());
-                EventoManager.Instance.registraEvento("presicionRecomendacion2", (presicion * Math.Log(simulacionesADar)).ToString());
+                EventoManager.Instance.registraEvento("precision", presicion.ToString());
+                EventoManager.Instance.registraEvento("precisionRecomendacion", (presicion * simulacionesADar).ToString());
+                EventoManager.Instance.registraEvento("precisionRecomendacion2", (presicion * Math.Log(simulacionesADar)).ToString());
                 ciclosCompletos++;
             }
             rsimulacion.termina();
