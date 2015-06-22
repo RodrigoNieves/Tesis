@@ -176,6 +176,12 @@ namespace Simulacion
                 return -1;
             }
             int mejorCandidato = encuentraRecomendacion(problemasIntentados, problemasFaltantes);
+            if (mejorCandidato < 0)
+            {
+                int rec = sinRecomendacion(idCompetidor);
+                db.registraRecomendacion(idCompetidor, rec, tiempo);
+                return rec;
+            }
             db.registraRecomendacion(idCompetidor, mejorCandidato, tiempo);
             return mejorCandidato;
         }
