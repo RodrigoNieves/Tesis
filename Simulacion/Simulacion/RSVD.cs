@@ -206,6 +206,12 @@ namespace Simulacion
                     idProblema = candidato;
                 }
             }
+            if (idProblema < 0)
+            {
+                int rec = sinRecomendacion(idCompetidor);
+                db.registraRecomendacion(idCompetidor, rec, tiempo);
+                return rec;
+            }
             db.registraRecomendacion(idCompetidor, idProblema, tiempo);
             return idProblema;
         }
