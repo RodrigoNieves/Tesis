@@ -58,27 +58,7 @@ namespace Simulacion
             SqlCommand cmd = new SqlCommand();
             SqlDataReader result;
 
-            cmd.CommandText = @"SELECT usuario,
-                                   DateTime,
-	                               problema FROM (SELECT
-		                            usuario,
-		                            problema,
-		                            puntos,
-		                            hora/100000000 as year,
-		                            (hora/1000000) % 100 as month,
-		                            (hora/10000)   % 100 as day,
-		                            (hora/100)     % 100 as hour,
-		                            hora           % 100 as minutes,
-		                            DATETIMEFROMPARTS(
-			                            hora/100000000,
-			                            (hora/1000000) % 100,
-			                            (hora/10000)   % 100,
-			                            (hora/100)     % 100,
-			                            hora           % 100,
-			                            0,0) as DateTime
-		                            FROM Karelotitlan.dbo.UsuarioProblema
-	                            WHERE puntos = 100 and hora != 0) as submitions
-	                            order by usuario, DateTime";
+            cmd.CommandText = "SELECT usuario, problema FROM SimulacionKarelotitlan.dbo.UsuarioProblema  WHERE puntos = 100 order by usuario";
             cmd.CommandType = CommandType.Text;
             cmd.Connection = sqlConnection;
 
@@ -91,7 +71,7 @@ namespace Simulacion
             {
                 IDataReader data = (IDataReader)result;
                 int idUsuario = data.GetInt32(0);
-                int idProblema = data.GetInt32(2);
+                int idProblema = data.GetInt32(1);
                 if (idUsuario != idUsuarioAnt)
                 {
                     if (idUsuarioAnt != -1)
