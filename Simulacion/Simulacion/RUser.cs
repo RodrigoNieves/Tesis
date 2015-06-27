@@ -123,7 +123,7 @@ namespace Simulacion
                 similitudMotivacion = 1.0 - (Math.Abs(u1.motivacion - u2.motivacion) / VariablesCompartidas.Instance.maximaMotivacion);
             }
              
-            double similitud = (0.5) * similitudHabilidades + (0.4) * similitudProblemas + (0.1) * similitudMotivacion;
+            double similitud = (0.5) * similitudHabilidades + (0.5) * similitudProblemas + (0.0) * similitudMotivacion;
             return similitud;
         }
         void Recomendador.realizaAnalisis()
