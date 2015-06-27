@@ -62,7 +62,7 @@ namespace Simulacion
         }
         public void quita(int id)
         {
-            if(!posicion.ContainsKey(id)){ return;}
+            if (!posicion.ContainsKey(id)) { return; }
             if (cantidad[id] == 0) return;
             n--;
             total -= cantidad[id];

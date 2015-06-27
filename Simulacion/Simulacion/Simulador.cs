@@ -397,7 +397,23 @@ namespace Simulacion
             }
             return result.ToString();
         }
-
+        private void pasaUsuariosReales()
+        {
+            Dictionary<int, Usuario> lista = new Dictionary<int, Usuario>();
+            Dictionary<int, int> nivel;
+            foreach (var u in historias)
+            {
+                nivel = new Dictionary<int, int>();
+                foreach (var t in temas)
+                {
+                    int nelem = nivelUsuarios[t.idTema][u.Key].Count;
+                    nivel[t.idTema] = nivelUsuarios[t.idTema][u.Key][nelem - 1];
+                }
+                Usuario nuevo = new Usuario(nivel);
+                lista[u.Key] = nuevo;
+            }
+            VariablesCompartidas.Instance.usuarios = lista;
+        }
         private bool pasa(Usuario user, int idProblema)
         {
             double pPasa = pResolver[idProblema][user.habilidadEn(problemas[idProblema].idTema)];
@@ -425,6 +441,7 @@ namespace Simulacion
             alumnosCompletos = 0;
             alumnosRendidos = 0;
             sinRecomendaciones = 0;
+            VariablesCompartidas.Instance.reinicia();
 
             RegistroSimulacion rsimulacion = new RegistroSimulacion();
             rsimulacion.inicia();
@@ -437,6 +454,8 @@ namespace Simulacion
             //simuladorDB.llenaUsuarios();
             //simuladorDB.llenaUsuariosProbelmas();
 
+            pasaUsuariosReales();
+
             log = new StringBuilder();
             usuarios = new Dictionary<int, Usuario>();
             for (int i = 0; i < nUsuarios; i++)
@@ -445,6 +464,7 @@ namespace Simulacion
                 usuarios[nuevo.idUsuario] = nuevo;
                 usuarios[nuevo.idUsuario].temas = temas;
             }
+            VariablesCompartidas.Instance.usuarios = usuarios;
             Stopwatch sw = new Stopwatch();
             sw.Start();
             recomendador.iniciaRecomendador();

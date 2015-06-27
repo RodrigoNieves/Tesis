@@ -9,6 +9,13 @@ namespace Simulacion
     class Usuario
     {
         Dictionary<int, int> _habilidades;
+        public Dictionary<int, int> habilidades
+        {
+            get
+            {
+                return _habilidades;
+            }
+        }
         double _motivacion;
         double _aPositiva;
         double _aNegativa;
@@ -72,6 +79,20 @@ namespace Simulacion
                 aNegativa,
                 fFacilidad,
                 sinRecomendacion);
+            if (VariablesCompartidas.Instance.maximaMotivacion < _motivacion)
+            {
+                VariablesCompartidas.Instance.maximaMotivacion = _motivacion;
+            }
+        }
+        public Usuario(Dictionary<int, int> nivel)
+        {
+            _ficticio = false;
+            _motivacion = 2.0;
+            _habilidades = nivel;
+            if (VariablesCompartidas.Instance.maximaMotivacion < _motivacion)
+            {
+                VariablesCompartidas.Instance.maximaMotivacion = _motivacion;
+            }
         }
         public List<Tema> temas
         {
@@ -136,6 +157,10 @@ namespace Simulacion
                 incremento = 0.0;
                 _resueltos = 0;
                 _fallos = 0;
+            }
+            if (VariablesCompartidas.Instance.maximaMotivacion < _motivacion)
+            {
+                VariablesCompartidas.Instance.maximaMotivacion = _motivacion;
             }
             if ((!_terminado) && _motivacion < 1.0)
             {

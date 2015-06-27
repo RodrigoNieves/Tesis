@@ -82,7 +82,50 @@ namespace Simulacion
             mag2 = Math.Sqrt(mag2);
             return suma / (mag1 * mag2);
         }
-
+        public double sim2(int idU1, int idU2)
+        {
+            if(VariablesCompartidas.Instance.usuarios == null) return 0.0;
+            Usuario u1= null;
+            if (VariablesCompartidas.Instance.usuarios.ContainsKey(idU1))
+            {
+                u1 = VariablesCompartidas.Instance.usuarios[idU1];
+            }
+            Usuario u2 = null;
+            if (VariablesCompartidas.Instance.usuarios.ContainsKey(idU2))
+            {
+                u2 = VariablesCompartidas.Instance.usuarios[idU2];
+            }
+            
+            double similitudHabilidades = 0.0;
+            if (u1 != null)
+            {
+                foreach (var habilidad in u1.habilidades)
+                {
+                    if (u2 != null)
+                    {
+                        similitudHabilidades += Math.Abs(habilidad.Value - u2.habilidadEn(habilidad.Key)) / 7.0;
+                    }
+                    else
+                    {
+                        similitudHabilidades += Math.Abs(habilidad.Value + 1) / 7.0;
+                    }
+                }
+                similitudHabilidades /= u1.habilidades.Count;
+                similitudHabilidades = 1 - similitudHabilidades;
+            }
+            double similitudProblemas= 0.0;
+            if (uVector.ContainsKey(idU1) && uVector.ContainsKey(idU2))
+            {
+                similitudProblemas = sim(uVector[idU1], uVector[idU2]);
+            }
+            double similitudMotivacion = 0.0;
+            if(u1 != null && u2 != null){
+                similitudMotivacion = 1.0 - (Math.Abs(u1.motivacion - u2.motivacion) / VariablesCompartidas.Instance.maximaMotivacion);
+            }
+             
+            double similitud = (0.5) * similitudHabilidades + (0.4) * similitudProblemas + (0.1) * similitudMotivacion;
+            return similitud;
+        }
         void Recomendador.realizaAnalisis()
         {
             /// TODO: encontrar Usuarios Similares.
@@ -96,7 +139,8 @@ namespace Simulacion
             {
                 for (int j = 0; j < usuarios.Length; j++)
                 {
-                    similitud[i, j] = sim(uVector[usuarios[i]], uVector[usuarios[j]]);
+                    //similitud[i, j] = sim(uVector[usuarios[i]], uVector[usuarios[j]]);
+                    similitud[i, j] = sim2(usuarios[i], usuarios[j]);
                 }
             }
             db.guardaSimilitudes(usuarios, similitud);
