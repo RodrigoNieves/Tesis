@@ -90,7 +90,7 @@ namespace Simulacion
         }
         public void guardaSimilitudes(int[] usuarios, double[,] similitud)
         {
-            int top = 50;//guarda los mejores top
+            int top = 20;//guarda los mejores top
             double similitudMinima = 0.5;
             limpiaUsuarioRecomendacion();
             for (int i = 0; i < usuarios.Length; i++)
