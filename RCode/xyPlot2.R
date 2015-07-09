@@ -50,6 +50,10 @@ g <- g + geom_line(aes(y = y1, colour = name1))
 g <- g + geom_line(aes(y = y2, colour = name2))
 g <- g + xlab(PNGxlabel)
 g <- g + ylab(PNGylabel)
+if(exists("y_scale"))
+{
+  g <- g + y_scale
+}
 print(g)
 dev.off()
 

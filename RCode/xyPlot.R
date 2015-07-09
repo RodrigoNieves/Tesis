@@ -28,5 +28,9 @@ g <- ggplot(data= df, aes(x = x,y = y))
 g <- g + geom_line()
 g <- g + xlab(PNGxlabel)
 g <- g + ylab(PNGylabel)
+if(exists("y_scale"))
+{
+  g <- g + y_scale
+}
 print(g)
 dev.off()

@@ -41,8 +41,11 @@ namespace Simulacion
                 return instance;
             }
         }
-        public void graficaXY(int[] x, double[] y,int height = 480, int width = 480,string xlabel="", string ylabel = "", string imageName = "xyplot")
+        public void graficaXY(int[] x, double[] y, int height = 480, int width = 480, string xlabel = "", string ylabel = "", string imageName = "xyplot", string y_scale = "")
         {
+            StringBuilder imports = new StringBuilder();
+            imports.Append("library(ggplot2)");
+
             StringBuilder xString = new StringBuilder();
             xString.Append("x <- c(");
             for (int i = 0; i < x.Length; i++)
@@ -70,7 +73,7 @@ namespace Simulacion
             String RWidth = "PNGwidth <- " + width.ToString();
             String RImageName = "imageName <- \"" + imageName + "\"";
 
-            System.IO.File.WriteAllLines(pathR + "/variables.R", new string[] { xString.ToString(), yString.ToString(), Rxlabel, Rylabel, RHeight, RWidth, RImageName }, Encoding.Default);
+            System.IO.File.WriteAllLines(pathR + "/variables.R", new string[] { imports.ToString(), xString.ToString(), yString.ToString(), Rxlabel, Rylabel, RHeight, RWidth, RImageName, y_scale }, Encoding.Default);
 
             runCommand("del .RData");
             runCommand("R < variables.R --save");
@@ -82,10 +85,13 @@ namespace Simulacion
                 args.name = imageName;
                 graphicCreated(this, args);
             }
-            
+
         }
-        public void graficaXY(int[] x1, double[] y1, int[] x2, double[] y2, int height = 480, int width = 480, string xlabel = "", string ylabel = "", string imageName = "xyplot")
+        public void graficaXY(int[] x1, double[] y1, int[] x2, double[] y2, int height = 480, int width = 480, string xlabel = "", string ylabel = "", string imageName = "xyplot", string y_scale = "")
         {
+            StringBuilder imports = new StringBuilder();
+            imports.Append("library(ggplot2)");
+
             StringBuilder x1String = new StringBuilder();
             x1String.Append("x1 <- c(");
             for (int i = 0; i < x1.Length; i++)
@@ -135,7 +141,7 @@ namespace Simulacion
             String RWidth = "PNGwidth <- " + width.ToString();
             String RImageName = "imageName <- \"" + imageName + "\"";
 
-            System.IO.File.WriteAllLines(pathR + "/variables.R", new string[] { x1String.ToString(), y1String.ToString(), x2String.ToString(), y2String.ToString(), Rxlabel, Rylabel, RHeight, RWidth, RImageName }, Encoding.Default);
+            System.IO.File.WriteAllLines(pathR + "/variables.R", new string[] { imports.ToString(), x1String.ToString(), y1String.ToString(), x2String.ToString(), y2String.ToString(), Rxlabel, Rylabel, RHeight, RWidth, RImageName, y_scale }, Encoding.Default);
 
             runCommand("del .RData");
             runCommand("R < variables.R --save");
@@ -148,8 +154,11 @@ namespace Simulacion
                 graphicCreated(this, args);
             }
         }
-        public void graficaXY(int[] x, int[] y, int height = 480, int width = 480, string xlabel = "", string ylabel = "", string imageName = "xyplot")
+        public void graficaXY(int[] x, int[] y, int height = 480, int width = 480, string xlabel = "", string ylabel = "", string imageName = "xyplot", string y_scale = "")
         {
+            StringBuilder imports = new StringBuilder();
+            imports.Append("library(ggplot2)");
+
             StringBuilder xString = new StringBuilder();
             xString.Append("x <- c(");
             for (int i = 0; i < x.Length; i++)
@@ -177,7 +186,7 @@ namespace Simulacion
             String RWidth = "PNGwidth <- " + width.ToString();
             String RImageName = "imageName <- \"" + imageName + "\"";
 
-            System.IO.File.WriteAllLines(pathR + "/variables.R", new string[] { xString.ToString(), yString.ToString(), Rxlabel, Rylabel, RHeight, RWidth, RImageName }, Encoding.Default);
+            System.IO.File.WriteAllLines(pathR + "/variables.R", new string[] { imports.ToString(), xString.ToString(), yString.ToString(), Rxlabel, Rylabel, RHeight, RWidth, RImageName, y_scale }, Encoding.Default);
 
             runCommand("del .RData");
             runCommand("R < variables.R --save");
@@ -191,8 +200,11 @@ namespace Simulacion
             }
 
         }
-        public void graficaXY(int[] x1, int[] y1, int[] x2, int[] y2, int height = 480, int width = 480, string xlabel = "", string ylabel = "", string imageName = "xyplot")
+        public void graficaXY(int[] x1, int[] y1, int[] x2, int[] y2, int height = 480, int width = 480, string xlabel = "", string ylabel = "", string imageName = "xyplot", string y_scale = "")
         {
+            StringBuilder imports = new StringBuilder();
+            imports.Append("library(ggplot2)");
+
             StringBuilder x1String = new StringBuilder();
             x1String.Append("x1 <- c(");
             for (int i = 0; i < x1.Length; i++)
@@ -242,7 +254,7 @@ namespace Simulacion
             String RWidth = "PNGwidth <- " + width.ToString();
             String RImageName = "imageName <- \"" + imageName + "\"";
 
-            System.IO.File.WriteAllLines(pathR + "/variables.R", new string[] { x1String.ToString(), y1String.ToString(), x2String.ToString(), y2String.ToString(), Rxlabel, Rylabel, RHeight, RWidth, RImageName }, Encoding.Default);
+            System.IO.File.WriteAllLines(pathR + "/variables.R", new string[] { imports.ToString(), x1String.ToString(), y1String.ToString(), x2String.ToString(), y2String.ToString(), Rxlabel, Rylabel, RHeight, RWidth, RImageName, y_scale }, Encoding.Default);
 
             runCommand("del .RData");
             runCommand("R < variables.R --save");
@@ -264,10 +276,10 @@ namespace Simulacion
                 iteracion.Add(i + 1);
             }
             graficaXY(iteracion.ToArray(), rmse.ToArray(),
-                xlabel: "Iteracion", 
-                ylabel: "RMSE", 
-                height: 450, 
-                width: 450+iteracion.Count*2, 
+                xlabel: "Iteración",
+                ylabel: "RMSE",
+                height: 450,
+                width: 450 + iteracion.Count * 2,
                 imageName: "RMSE");
         }
         public void graficaRMSE_SVD(int s1, int s2)
@@ -286,10 +298,10 @@ namespace Simulacion
             }
             graficaXY(iteracion1.ToArray(), rmse1.ToArray(),
                 iteracion2.ToArray(), rmse2.ToArray(),
-                xlabel:"Iteracion", 
-                ylabel: "RMSE", 
-                height:450,
-                width: 450+Math.Max(iteracion1.Count,iteracion2.Count)*2, 
+                xlabel: "Iteración",
+                ylabel: "RMSE",
+                height: 450,
+                width: 450 + Math.Max(iteracion1.Count, iteracion2.Count) * 2,
                 imageName: "RMSE");
         }
         public void graficaEntero(string tipoEvento, int idSimulacion)
@@ -301,13 +313,14 @@ namespace Simulacion
                 iteracion.Add(i + 1);
             }
             graficaXY(iteracion.ToArray(), datos.ToArray(),
-                xlabel: "Iteracion",
+                xlabel: "Iteración",
                 ylabel: obtenNombre(tipoEvento),
                 height: 450,
                 width: 450 + iteracion.Count * 2,
-                imageName: "Grafica");
+                imageName: "Grafica",
+                y_scale: y_scale(tipoEvento));
         }
-        public void graficaEntero(string tipoEvento, int idSimulacion1,int idSimulacion2)
+        public void graficaEntero(string tipoEvento, int idSimulacion1, int idSimulacion2)
         {
             List<int> datos1 = db.entero(tipoEvento, idSimulacion1);
             List<int> iteracion1 = new List<int>();
@@ -323,11 +336,12 @@ namespace Simulacion
             }
             graficaXY(iteracion1.ToArray(), datos1.ToArray(),
                 iteracion2.ToArray(), datos2.ToArray(),
-                xlabel: "Iteracion",
+                xlabel: "Iteración",
                 ylabel: obtenNombre(tipoEvento),
                 height: 450,
                 width: 450 + Math.Max(iteracion1.Count, iteracion2.Count) * 2,
-                imageName: "Grafica");
+                imageName: "Grafica",
+                y_scale: y_scale(tipoEvento));
         }
         public void graficaFlotante(string tipoEvento, int idSimulacion)
         {
@@ -338,11 +352,12 @@ namespace Simulacion
                 iteracion.Add(i + 1);
             }
             graficaXY(iteracion.ToArray(), datos.ToArray(),
-                xlabel: "Iteracion",
+                xlabel: "Iteración",
                 ylabel: obtenNombre(tipoEvento),
                 height: 450,
                 width: 450 + iteracion.Count * 2,
-                imageName: "Grafica");
+                imageName: "Grafica",
+                y_scale: y_scale(tipoEvento));
         }
         public void graficaFlotante(string tipoEvento, int idSimulacion1, int idSimulacion2)
         {
@@ -360,11 +375,12 @@ namespace Simulacion
             }
             graficaXY(iteracion1.ToArray(), datos1.ToArray(),
                 iteracion2.ToArray(), datos2.ToArray(),
-                xlabel: "Iteracion",
+                xlabel: "Iteración",
                 ylabel: obtenNombre(tipoEvento),
                 height: 450,
                 width: 450 + Math.Max(iteracion1.Count, iteracion2.Count) * 2,
-                imageName: "Grafica");
+                imageName: "Grafica",
+                y_scale: y_scale(tipoEvento));
         }
         private string obtenNombre(string tipoEvento)
         {
@@ -408,6 +424,15 @@ namespace Simulacion
                     return "Tiempo promedio en dar una recomendacion en mseg";
             }
             return "No asignado";
+        }
+        private string y_scale(string tipoEvento)
+        {
+            switch (tipoEvento)
+            {
+                case "precision":
+                    return "y_scale <- scale_y_continuous(limits = c(0, 1))";
+            }
+            return "";
         }
     }
 }
