@@ -13,6 +13,7 @@ namespace Simulacion
         public event GraphicCreatedHandler graphicCreated;
         private static GeneraGrafica instance;
         private string pathR = "../../../../RCode";
+        private bool graficasRestringidas = true;
         GraficaDB db;
         private GeneraGrafica()
         {
@@ -427,10 +428,40 @@ namespace Simulacion
         }
         private string y_scale(string tipoEvento)
         {
+            if (!graficasRestringidas)
+            {
+                return "";
+            }
             switch (tipoEvento)
             {
+                case "nRecomendaciones":
+                    return "y_scale <- scale_y_continuous(limits = c(0, 800))";
+                case "nFallos":
+                    return "y_scale <- scale_y_continuous(limits = c(0, 6000))";
+                case "nFallosCiclo":
+                    return "y_scale <- scale_y_continuous(limits = c(0, 350))";
+                case "nExitos":
+                    return "y_scale <- scale_y_continuous(limits = c(0, 10000))";
+                case "nExitosCiclo":
+                    return "y_scale <- scale_y_continuous(limits = c(0, 600))";
+                case "nIncNivel":
+                    return "y_scale <- scale_y_continuous(limits = c(0, 2200))";
+                case "nIncNivelCiclo":
+                    return "y_scale <- scale_y_continuous(limits = c(0, 120))";
+                case "nRendidos":
+                    return "y_scale <- scale_y_continuous(limits = c(0, 70))";
+                case "nColdStart":
+                    return "y_scale <- scale_y_continuous(limits = c(0, 9300))";
+                case "nColdStartCiclo":
+                    return "y_scale <- scale_y_continuous(limits = c(0, 600))";
                 case "precision":
                     return "y_scale <- scale_y_continuous(limits = c(0, 1))";
+                case "precisionRecomendacion2":
+                    return "y_scale <- scale_y_continuous(limits = c(0.0, 5.5))";
+                case "tRealizaAnalisis":
+                    return "y_scale <- scale_y_continuous(limits = c(0, 180000))";
+                case "tPromedioRecomendacion":
+                    return "y_scale <- scale_y_continuous(limits = c(0, 180))";
             }
             return "";
         }

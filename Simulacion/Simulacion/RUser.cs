@@ -111,7 +111,7 @@ namespace Simulacion
                     }
                 }
                 similitudHabilidades /= u1.habilidades.Count;
-                similitudHabilidades = 1 - similitudHabilidades;
+                similitudHabilidades = 1.0 - similitudHabilidades;
             }
             double similitudProblemas= 0.0;
             if (uVector.ContainsKey(idU1) && uVector.ContainsKey(idU2))
