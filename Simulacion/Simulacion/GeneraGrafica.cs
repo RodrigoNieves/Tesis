@@ -13,7 +13,7 @@ namespace Simulacion
         public event GraphicCreatedHandler graphicCreated;
         private static GeneraGrafica instance;
         private string pathR = "../../../../RCode";
-        private bool graficasRestringidas = true;
+        private bool graficasRestringidas = false;
         GraficaDB db;
         private GeneraGrafica()
         {
@@ -437,7 +437,7 @@ namespace Simulacion
                 case "nRecomendaciones":
                     return "y_scale <- scale_y_continuous(limits = c(0, 800))";
                 case "nFallos":
-                    return "y_scale <- scale_y_continuous(limits = c(0, 6000))";
+                    return "y_scale <- scale_y_continuous(limits = c(0, 7000))";
                 case "nFallosCiclo":
                     return "y_scale <- scale_y_continuous(limits = c(0, 350))";
                 case "nExitos":

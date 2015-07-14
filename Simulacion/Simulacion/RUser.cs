@@ -123,7 +123,7 @@ namespace Simulacion
                 similitudMotivacion = 1.0 - (Math.Abs(u1.motivacion - u2.motivacion) / VariablesCompartidas.Instance.maximaMotivacion);
             }
              
-            double similitud = (1.0) * similitudHabilidades + (0.0) * similitudProblemas + (0.0) * similitudMotivacion;
+            double similitud = (0.5) * similitudHabilidades + (0.5) * similitudProblemas + (0.0) * similitudMotivacion;
             return similitud;
         }
         void Recomendador.realizaAnalisis()
@@ -154,7 +154,7 @@ namespace Simulacion
         }
         private Dictionary<int, double> rankingProblema(List<CorrelacionUsuario> similares)
         {
-            int minUsuarios = 3;
+            int minUsuarios = 1;
             Dictionary<int, double> result = new Dictionary<int, double>();
             foreach (var prob in problemas)
             {
