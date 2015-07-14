@@ -19,6 +19,8 @@ namespace Simulacion
         int minimoProblemas = 3;
         double minimaSimilitud = 0.5;
         List<Problema> problemas;
+        Dictionary<int, Problema> dictProblemas;
+        Dictionary<int, Dictionary<int, int>> calificaciones;
         public RProblema(Recomendador rEnColdStart = null)
         {
             db = ProblemDB.Instance;
@@ -31,6 +33,11 @@ namespace Simulacion
             db.limpiaProblemaRecomendacion();
             coldStart.iniciaRecomendador();
             problemas = db.problemas();
+            dictProblemas = new Dictionary<int, Problema>();
+            foreach (var prob in problemas)
+            {
+                dictProblemas[prob.idProblema] = prob;
+            }
         }
         private List<int> interseccion(List<int> a, List<int> b)
         {
@@ -80,6 +87,21 @@ namespace Simulacion
             mag2 = Math.Sqrt(mag2);
             return suma / (mag1 * mag2);
         }
+        public double sim2(int p1, int p2)
+        {
+            double res = 0.0;
+            double similitudCalificaciones = 0.0;
+            similitudCalificaciones = similitud(calificaciones[p1],calificaciones[p2]);
+            double similitudTema = 0.0;
+            if (dictProblemas[p1].idTema == dictProblemas[p2].idTema)
+            {
+                similitudTema = 1.0;
+            }
+            double similitudDificultad = 0.0;
+            similitudDificultad = 1.0 - (Math.Abs(dictProblemas[p1].dificultad - dictProblemas[p2].dificultad) / 7.0);
+            res = 0.8 * similitudCalificaciones + 0.0 * similitudTema + 0.2 * similitudDificultad;
+            return res;
+        }
         void Recomendador.realizaAnalisis()
         {
             coldStart.realizaAnalisis();
@@ -97,12 +119,13 @@ namespace Simulacion
                 invPId[problem.idProblema] = p;
                 p++;
             }
-            var calificaciones = db.calificacionesProblema();
+            calificaciones = db.calificacionesProblema();
             for (int i = 0; i < pId.Length; i++)
             {
                 for (int j = 0; j < pId.Length; j++)
                 {
-                    sim[i, j] = similitud(calificaciones[pId[i]], calificaciones[pId[j]]);
+                    //sim[i, j] = similitud(calificaciones[pId[i]], calificaciones[pId[j]]);
+                    sim[i, j] = sim2(pId[i], pId[j]);
                 }
             }
             db.registraSimilitudes(pId, sim);
