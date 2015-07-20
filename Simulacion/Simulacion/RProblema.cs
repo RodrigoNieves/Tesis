@@ -99,7 +99,7 @@ namespace Simulacion
             }
             double similitudDificultad = 0.0;
             similitudDificultad = 1.0 - (Math.Abs(dictProblemas[p1].dificultad - dictProblemas[p2].dificultad) / 7.0);
-            res = 0.8 * similitudCalificaciones + 0.0 * similitudTema + 0.2 * similitudDificultad;
+            res = 0.8 * similitudCalificaciones + 0.2 * similitudDificultad;
             return res;
         }
         void Recomendador.realizaAnalisis()

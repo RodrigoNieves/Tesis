@@ -14,6 +14,7 @@ namespace Simulacion
         int fueraPor = 10;
         Dictionary<int, Dictionary<int, int>> uVector;
         List<Problema> problemas;
+        Dictionary<int, Problema> dictProblemas;
         int[] usuarios;
         double[,] similitud;
         public RUser(Recomendador rEnColdStart = null)
@@ -27,6 +28,11 @@ namespace Simulacion
             db.limpiaUsuarioRecomendacion();
             coldStart.iniciaRecomendador();
             problemas = db.problemas();
+            dictProblemas = new Dictionary<int, Problema>();
+            foreach (var prob in problemas)
+            {
+                dictProblemas[prob.idProblema] = prob;
+            }
         }
         private List<int> interseccion(List<int> a, List<int> b)
         {
@@ -82,6 +88,40 @@ namespace Simulacion
             mag2 = Math.Sqrt(mag2);
             return suma / (mag1 * mag2);
         }
+        public double simCategorizado(Dictionary<int, int> u1, Dictionary<int, int> u2)
+        {
+            double sim = 0.0;
+            Dictionary<int, double> sumaCategoria = new Dictionary<int, double>();
+            Dictionary<int, double> mag1Categoria = new Dictionary<int, double>();
+            Dictionary<int, double> mag2Categoria = new Dictionary<int, double>();
+            List<int> problemas = interseccion(u1.Keys.ToList(), u2.Keys.ToList());
+            if (problemas.Count <= 0) return 0.0;
+            foreach (var id in problemas)
+            {
+                int tema = dictProblemas[id].idTema;
+                if (!sumaCategoria.ContainsKey(id))
+                {
+                    sumaCategoria[tema] = 0.0;
+                    mag1Categoria[tema] = 0.0;
+                    mag2Categoria[tema] = 0.0;
+                }
+                sumaCategoria[tema] += u1[id] * u2[id];
+                mag1Categoria[tema] += u1[id] * u1[id];
+                mag2Categoria[tema] += u2[id] * u2[id];
+            }
+            double total = 0.0;
+            foreach (var suma in sumaCategoria)
+            {
+                int tema = suma.Key;
+                if (mag1Categoria[tema] != 0.0 || mag2Categoria[tema] != 0.0)
+                {
+                    total += sumaCategoria[tema] / (Math.Sqrt(mag1Categoria[tema]) * Math.Sqrt(mag2Categoria[tema]));
+                }
+            }
+            sim = (total + ProblemaTema.Instance.nTemas()-sumaCategoria.Keys.Count)/ ProblemaTema.Instance.nTemas(); 
+
+            return sim;
+        }
         public double sim2(int idU1, int idU2)
         {
             if(VariablesCompartidas.Instance.usuarios == null) return 0.0;
@@ -116,14 +156,14 @@ namespace Simulacion
             double similitudProblemas= 0.0;
             if (uVector.ContainsKey(idU1) && uVector.ContainsKey(idU2))
             {
-                similitudProblemas = sim(uVector[idU1], uVector[idU2]);
+                similitudProblemas = simCategorizado(uVector[idU1], uVector[idU2]);
             }
             double similitudMotivacion = 0.0;
             if(u1 != null && u2 != null){
                 similitudMotivacion = 1.0 - (Math.Abs(u1.motivacion - u2.motivacion) / VariablesCompartidas.Instance.maximaMotivacion);
             }
              
-            double similitud = (1.0) * similitudHabilidades + (0.0) * similitudProblemas + (0.0) * similitudMotivacion;
+            double similitud = (0.5) * similitudHabilidades + (0.5) * similitudProblemas + (0.0) * similitudMotivacion;
             return similitud;
         }
         void Recomendador.realizaAnalisis()

@@ -49,5 +49,9 @@ namespace Simulacion
         {
             return nombreATema[nombre].idTema;
         }
+        public int nTemas()
+        {
+            return idATema.Keys.Count;
+        }
     }
 }

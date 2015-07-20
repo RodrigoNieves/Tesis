@@ -451,9 +451,9 @@ namespace Simulacion
                 case "nRendidos":
                     return "y_scale <- scale_y_continuous(limits = c(0, 70))";
                 case "nColdStart":
-                    return "y_scale <- scale_y_continuous(limits = c(0, 9300))";
+                    return "y_scale <- scale_y_continuous(limits = c(0, 1300))";
                 case "nColdStartCiclo":
-                    return "y_scale <- scale_y_continuous(limits = c(0, 600))";
+                    return "y_scale <- scale_y_continuous(limits = c(0, 300))";
                 case "precision":
                     return "y_scale <- scale_y_continuous(limits = c(0, 1))";
                 case "precisionRecomendacion2":
