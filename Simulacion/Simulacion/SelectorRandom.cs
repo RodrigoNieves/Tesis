@@ -66,6 +66,7 @@ namespace Simulacion
             if (cantidad[id] == 0) return;
             n--;
             total -= cantidad[id];
+            ids[posicion[id]] = ids[n];
         }
     }
 }
