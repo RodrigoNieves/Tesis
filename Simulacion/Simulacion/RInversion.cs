@@ -143,6 +143,7 @@ namespace Simulacion
             inversiones = new int[usuarios.Length, usuarios.Length];
             iguales = new int[usuarios.Length, usuarios.Length];
             complemento = new int[usuarios.Length, usuarios.Length];
+            GC.Collect();
             score = new double[usuarios.Length, usuarios.Length];
             for (int i = 0; i < usuarios.Length; i++)
             {
@@ -155,6 +156,8 @@ namespace Simulacion
                 }
             }
             db.guardaAnalisis(usuarios, inversiones, iguales, complemento, score);
+            score = null;
+            GC.Collect();
         }
         private int sinRecomendacion(int usuario)
         {

@@ -20,6 +20,11 @@ namespace Simulacion
         Thread inicializaOpcion;
         Simulador simulador= null;
         List<SimulacionData> simulaciones;
+        double inicio=0.0;
+        double fin=2.0;
+        double actual=0.0;
+        double inc=0.2;
+        
         int imgContador = 0;
         int lastIdSimulation = -1;
         int cont;
@@ -322,6 +327,8 @@ namespace Simulacion
             simulador.nUsuarios = nUsuarios;
             simulador.nCiclos = nCiclos;
 
+            simulador.aPositiva = actual;
+
             oThread = new Thread(new ThreadStart(simulador.Simula));
             oThread.Start();
             cont = 0;
@@ -330,6 +337,7 @@ namespace Simulacion
         }
         private void button1_Click(object sender, EventArgs e)
         {
+            actual = inicio;
             realizaSimulacion();
         }
         private void graficaRMSE_SVD(int idSimulacion)
@@ -460,6 +468,13 @@ namespace Simulacion
                 oThread = null;
                 progressBar.Visible = false;
                 inicializaGraficaOpcion();
+
+                //Extra para hacer analisis de variables
+                actual += inc;
+                if (actual <= fin)
+                {
+                    realizaSimulacion();
+                }
             }
             actualizaGrafica();
         }

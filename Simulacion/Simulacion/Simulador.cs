@@ -67,6 +67,11 @@ namespace Simulacion
                 _nCiclos = value;
             }
         }
+        public double motivacionInicial = 2.0; //2.0
+        public double aPositiva = 0.5; //0.5
+        public double aNegativa = 0.25; //0.25
+        public double fFacilidad = 1.25; //1.25
+        public double sinRecomendacion = 1.0; //1.0
         public bool termino = false;
 
         public int totalRResueltas;
@@ -460,7 +465,7 @@ namespace Simulacion
             usuarios = new Dictionary<int, Usuario>();
             for (int i = 0; i < nUsuarios; i++)
             {
-                Usuario nuevo = new Usuario(rsimulacion.id, 2.0, 0.5, 0.25, 1.25, 1.0);
+                Usuario nuevo = new Usuario(rsimulacion.id, motivacionInicial, aPositiva,aNegativa , fFacilidad,sinRecomendacion);
                 usuarios[nuevo.idUsuario] = nuevo;
                 usuarios[nuevo.idUsuario].temas = temas;
             }
